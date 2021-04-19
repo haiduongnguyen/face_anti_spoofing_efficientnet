@@ -13,7 +13,6 @@ protoPath = os.path.join(detector, "deploy.prototxt")
 modelPath = os.path.join(detector, "res10_300x300_ssd_iter_140000.caffemodel")
 net = cv2.dnn.readNetFromCaffe(protoPath, modelPath)
 
-os.remove('broke_image.txt')
 
 def detect_face_and_crop(dictionary_from_json, mode , folder_output):
     saved = 0
@@ -92,6 +91,6 @@ number_train_sample = detect_face_and_crop(helper_train_json, 'train', crop_fold
 with open('number_sample.txt','w') as f:
     f.write('%d' %number_train_sample)
     f.write('\n%d' % number_valid_sample)
-    f.write('\n%d' % number_valid_sample)
+
 
 print('complete make croped data for training')
