@@ -25,18 +25,21 @@ install needed packages
 if you want to change backbone, model compile or image config, change:       
 - model config: image_size, image_depth, batch_size, optimizer   
 - model_name          
-- run **python3 config.py**   
+- run **python3 config.py**     
+then these folder will be create: folder_save_json, data/crop, log
       
 ## step 3: make helper json 
 helper json will modify from original json to right path data   
 come to make_helper_json and change the path to work_place in **line 5**. Then run        
-**python3 make_json/make_helper_json.py**   
+**python3 make_json/make_helper_json.py**    
+then helper_json will be saved in folder_save_json, open helper_json to check if the path is correct or not      
   
 ## step 4: make data    
 from raw data we must cut face from image & save them to another directory
 careful that here I use valid set and test set same, if have different valid set and test set, need to init new json and make data again       
 run    
 **python3 make_data.py**      
+then croped data will be saved in /data/crop     
   
 ## step 5: train model  
 can modify model in **model_zoo.py** or create new model  
@@ -48,7 +51,8 @@ run
 **python3 train_celeb.py**     
 to use gpu, add this command before python3 train_celeb.py      
 **CUDA_VISIBLE_DEVICES=0**       
-after training, result training will be saved in result_training_output.txt
+after training, result training will be saved in result_training_output.txt       
+the last model will be saved in work_place      
   
 ## step 6: evaluate model  
 evaluate model on test set  
