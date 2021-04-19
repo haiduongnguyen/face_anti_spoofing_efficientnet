@@ -15,8 +15,7 @@ from eer_calculation import cal_metric
 start = datetime.datetime.now()
 
 train_datagen = ImageDataGenerator(
-#       rescale = 1./255,
-#       , rotation_range=40,
+#       rotation_range=40,
 #       width_shift_range=0.2,
 #       height_shift_range=0.2,
 #       shear_range=0.2,
@@ -26,7 +25,7 @@ train_datagen = ImageDataGenerator(
 )
 
 # Note that the validation data should not be augmented!
-valid_datagen = ImageDataGenerator()     # (rescale=1./255)
+valid_datagen = ImageDataGenerator()   
 
 train_dir = crop_data_train
 train_generator = train_datagen.flow_from_directory(
@@ -58,7 +57,7 @@ validation_generator = valid_datagen.flow_from_directory(
 
 model = build_efficient_net_b4(224, 2)
 
-model.compile(loss="categorical_crossentropy", optimizer=opt_adam, metrics=["accuracy"])
+model.compile(loss="categorical_crossentropy", optimizer=opt_sgd, metrics=["accuracy"])
 
 log_dir = folder_save_log + '/' +  model_name
 if not os.path.exists(log_dir):
@@ -67,10 +66,11 @@ if not os.path.exists(log_dir):
 checkpoint_dir = os.path.join(work_place , "training_checkpoint", model_name)
 if not os.path.exists(checkpoint_dir):
     os.makedirs(checkpoint_dir)
-checkpoint_path = checkpoint_dir + "/cp-{epoch:02d}.ckpt"
+checkpoint_path = checkpoint_dir + "/cp_{epoch:02d}.hdf5"
 
 call_back = [tf.keras.callbacks.TensorBoard(log_dir=log_dir, write_graph=True), 
-             tf.keras.callbacks.ModelCheckpoint( filepath=checkpoint_path ,  save_weights_only=True)]
+             tf.keras.callbacks.ModelCheckpoint( filepath=checkpoint_path ),
+             tf.keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=2, mode='auto', restore_best_weights=False)   ]
 
 history = model.fit(train_generator,
       epochs=EPOCHS, validation_data=validation_generator, 
@@ -99,11 +99,11 @@ with open('result_training_output.txt', 'a') as f:
     print("============================================")
     print("\n Time taken (h/m/s): %s" %delta[:7], file=f)
     print("============================================")
-    print("\n Loss       " + ''.join(str(e) for e in loss) , file=f)
-    print("\n Val. Loss  " + ''.join(str(e) for e in val_loss) , file=f)
+    print("\n Loss       " + ' '.join(str(e) for e in loss) , file=f)
+    print("\n Val. Loss  " + ' '.join(str(e) for e in val_loss) , file=f)
     print("--------------------------------------------")
-    print("\n Acc.       " + ''.join(str(e) for e in acc) , file=f)
-    print("\n Val. Acc.  " + ''.join(str(e) for e in val_acc) , file=f)
+    print("\n Acc.       " + ' '.join(str(e) for e in acc) , file=f)
+    print("\n Val. Acc.  " + ' '.join(str(e) for e in val_acc) , file=f)
     print("============================================")
 
 

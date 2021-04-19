@@ -21,8 +21,8 @@ crop_folder = work_place + '/data/crop'
 make_dir(crop_folder)
 crop_data_train = crop_folder + '/train'
 make_dir(crop_data_train)
-crop_data_valid = crop_folder + '/valid'
-make_dir(crop_data_valid)
+# crop_data_valid = crop_folder + '/valid'
+# make_dir(crop_data_valid)
 crop_data_test = crop_folder + '/test'
 make_dir(crop_data_test)
 
@@ -49,7 +49,7 @@ image_depth = 3
 # config parameter to train
 INIT_LR = 1e-4
 batch_size = 8
-EPOCHS = 20
+EPOCHS = 10
 
 opt_adam = keras.optimizers.Adam(lr=INIT_LR)
 opt_sgd = keras.optimizers.SGD(learning_rate=0.0001, momentum=0.9)
