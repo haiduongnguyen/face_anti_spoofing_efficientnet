@@ -15,11 +15,10 @@ from keras.layers import AveragePooling2D
 from keras.layers import ZeroPadding2D
 from keras.layers import Input
 from keras.layers import add
-from keras.models import Model
+from tensorflow.keras.models import Model
 from keras import backend as K
 from keras.applications.resnet50 import ResNet50
 from tensorflow.keras.applications import EfficientNetB7, EfficientNetB4
-from config import image_size, image_depth
 from tensorflow.keras import layers
 
 
@@ -70,8 +69,8 @@ def build_efficient_net_b4(IMG_SIZE, num_classes):
     x = layers.GlobalAveragePooling2D(name="avg_pool")(model.output)
     x = layers.BatchNormalization()(x)
 
-    top_dropout_rate = 0.2
-    x = layers.Dropout(top_dropout_rate, name="top_dropout")(x)
+    # top_dropout_rate = 0.2
+    # x = layers.Dropout(top_dropout_rate, name="top_dropout")(x)
     outputs = layers.Dense(num_classes , activation="softmax", name="pred")(x)
 
     # Compile
