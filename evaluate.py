@@ -55,9 +55,9 @@ print("labels have shape: ", labels.shape)
 
 live_score = np.array(scores[:,0,0])
 result_live = cal_metric(labels, live_score)
-print('eer live is : ', result_live[0] , file=open('result_test.txt', 'a'))
-print('tpr live is : ', result_live[1] , file=open('result_test.txt', 'a'))
-print('auc live is : ', result_live[2] , file=open('result_test.txt', 'a'))
+# print('eer live is : ', result_live[0] , file=open('result_test.txt', 'a'))
+# print('tpr live is : ', result_live[1] , file=open('result_test.txt', 'a'))
+# print('auc live is : ', result_live[2] , file=open('result_test.txt', 'a'))
 
 spoof_score = np.array(scores[:,0,1])
 result_spoof = cal_metric(labels, spoof_score)
@@ -81,14 +81,14 @@ if predict_score.shape[0] == labels.shape[0]:
   for i in range(test_len):
     if prediction[i][0] == 1:
       predict_live += 1
-      if labels[i] == 0 :
+      if labels[i] == 1 :
         wrong_spoof += 1
       # wrong_list.append(i)
   if predict_live == 0:
     print('No prediction is live', file=open('result_test.txt', 'a'))
     wrong_rate = 0
   else:
-    print(f"number of live samples is predicted as spoof is {wrong_spoof}", file=open('result_test.txt', 'a'))
+    print(f"number of spoof samples is predicted as live is {wrong_spoof}", file=open('result_test.txt', 'a'))
     wrong_rate = round(wrong_spoof/predict_live, 4)
   print(f"model predict number of sample as live : {predict_live}", file=open('result_test.txt', 'a'))
   print(f"model has wrong live rate (BPCER) = {wrong_rate} ", file=open('result_test.txt', 'a'))
@@ -99,14 +99,14 @@ if predict_score.shape[0] == labels.shape[0]:
   for i in range(test_len):
     if prediction[i][0] == 0:
       predict_spoof += 1
-      if labels[i] == 1 :
+      if labels[i] == 0 :
         wrong_live += 1
       # wrong_list.append(i)
   if predict_spoof == 0:
     print('No prediction is spoof')
     wrong_rate = 0
   else:
-    print(f"number of spoof samples is predicted as live is {wrong_live}", file=open('result_test.txt', 'a'))
+    print(f"number of live samples is predicted as spoof is {wrong_live}", file=open('result_test.txt', 'a'))
     wrong_rate = round(wrong_live/predict_spoof, 4)
   print(f"model predict number of sample as spoof : {predict_spoof}", file=open('result_test.txt', 'a'))
   print(f"model has wrong spoof rate (APCER) = {wrong_rate}", file=open('result_test.txt', 'a'))
