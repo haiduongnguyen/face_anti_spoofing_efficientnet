@@ -12,10 +12,20 @@ from model_zoo import *
 from eer_calculation import cal_metric
 from keras.models import load_model
 from tqdm import tqdm
+from model_zoo import *
 
-# model_name = '/home/duong/project/pyimage_research/version2_change_data/result_test_1_2204/training_checkpoint/resnet50/cp_05.hdf5'
-model_name = '/home/duong/project/pyimage_research/version2_change_data/result_test_1_2204/resnet50'
-model = load_model(model_name)
+# # load full model (.h5 file)
+# model_name = ''
+# model = load_model(model_name)
+
+
+# load weight from checkpoint 
+model = build_efficient_net_b4(224, 2)
+
+path_to_weight = '/home/duong/project/pyimage_research/version2_change_data/b4_result_200k_celebphoto/checkpoint/cp-01.ckpt'
+
+model.load_weights(path_to_weight)
+
 scores = []
 
 path_live = os.path.join(crop_data_test, 'live')
