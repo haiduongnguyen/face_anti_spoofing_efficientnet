@@ -11,7 +11,10 @@ from config import *
 from model_zoo import *
 from eer_calculation import cal_metric
 from keras.models import load_model
+from tqdm import tqdm
 
+# model_name = '/home/duong/project/pyimage_research/version2_change_data/result_test_1_2204/training_checkpoint/resnet50/cp_05.hdf5'
+model_name = '/home/duong/project/pyimage_research/version2_change_data/result_test_1_2204/resnet50'
 model = load_model(model_name)
 scores = []
 
@@ -21,24 +24,26 @@ print(path_live, file=open('result_test.txt', 'a'))
 print(path_spoof, file=open('result_test.txt', 'a'))
 
 count_live = 0
-for image_path in os.listdir(path_live):
-  image = cv2. imread(os.path.join(path_live, image_path))
-  image = np.array(image, 'float32')/255
+for image_name in os.listdir(path_live):
+  image = cv2.imread(os.path.join(path_live, image_name))
+  image = np.array(image, 'float32')
   image = np.expand_dims(image, 0)
   score = model.predict(image)
   scores.append(score)
   count_live += 1
+  print(count_live)
 
 
 
 count_spoof = 0
-for image_path in os.listdir(path_spoof):
-  image = cv2.imread(os.path.join(path_spoof, image_path))
-  image = np.array(image, 'float32')/255
+for image_name in tqdm(os.listdir(path_spoof)):
+  image = cv2.imread(os.path.join(path_spoof, image_name))
+  image = np.array(image, 'float32')
   image = np.expand_dims(image, 0)
   score = model.predict(image)
   scores.append(score)
   count_spoof += 1
+  # print(count_spoof)
 
 scores = np.array(scores)
 print("prediction scores have shape: ", scores.shape)
@@ -66,6 +71,8 @@ print('tpr spoof is : ', result_spoof[1] , file=open('result_test.txt', 'a'))
 print('auc spoof is : ', result_spoof[2] , file=open('result_test.txt', 'a'))
 
 
+with open('result_test.txt', 'w') as f:
+  f.close()
 print('test set has number live sample : ' + str(count_live), file=open('result_test.txt', 'a'))
 print('test set has number spoof sample : ' + str(count_spoof), file=open('result_test.txt', 'a'))
 # calculate apcer, bpcer

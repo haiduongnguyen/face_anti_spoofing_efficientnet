@@ -44,20 +44,23 @@ validation_generator = valid_datagen.flow_from_directory(
         batch_size=batch_size,
         class_mode='categorical')
 
-#with open('number_sample.txt', 'r') as f:
-#    a = f.readlines()
-#    number_train_sample = int(a[0])
-#    number_valid_sample = int(a[1])
 
-# compile model
+
 # resnet 50
-# model = build_resnet50(width=image_size, height=image_size, depth=image_depth, classes=2)
-# efficent net b4
+model = build_resnet50(width=image_size, height=image_size, depth=image_depth, classes=2)
+
+## efficent net b7
 # model = build_efficient_b7(width=image_size, height=image_size, depth=image_depth, classes=2)
 
-model = build_efficient_net_b4(224, 2)
+## efficent net b4
+# model = build_efficient_net_b4(224, 2)
 
-model.compile(loss="categorical_crossentropy", optimizer=opt_sgd, metrics=["accuracy"])
+
+
+opt_adam = keras.optimizers.Adam(lr=INIT_LR)
+opt_sgd = keras.optimizers.SGD(learning_rate=0.0001, momentum=0.9)
+
+model.compile(loss="categorical_crossentropy", optimizer=opt_adam, metrics=["accuracy"])
 
 log_dir = folder_save_log + '/' +  model_name
 if not os.path.exists(log_dir):
@@ -69,13 +72,18 @@ if not os.path.exists(checkpoint_dir):
 checkpoint_path = checkpoint_dir + "/cp_{epoch:02d}.hdf5"
 
 call_back = [tf.keras.callbacks.TensorBoard(log_dir=log_dir, write_graph=True), 
-             tf.keras.callbacks.ModelCheckpoint( filepath=checkpoint_path ),
-             tf.keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=2, mode='auto', restore_best_weights=False)   ]
+            #  tf.keras.callbacks.ModelCheckpoint( filepath=checkpoint_path ),
+            #  tf.keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=2, mode='auto', restore_best_weights=False)  
+              ]
 
-history = model.fit(train_generator,
-      epochs=EPOCHS, validation_data=validation_generator, 
-      verbose=2,
-      callbacks=call_back)
+# history = model.fit(train_generator,
+#       epochs=EPOCHS, validation_data=validation_generator, 
+#       verbose=2,
+#       callbacks=call_back)
+
+
+history = model.fit(validation_generator,
+      epochs=EPOCHS, validation_data=train_generator, verbose=2, callbacks=call_back)
 
 # save the network to disk
 print("[INFO] serializing network to drive ... ", file=open('result_training_output.txt', 'w'))
