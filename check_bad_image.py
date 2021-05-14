@@ -2,7 +2,7 @@ import os
 from PIL import Image
 from config import work_place
 import cv2
-
+from tqdm import tqdm
 
 dir = work_place + '/data/crop'
 
@@ -20,7 +20,7 @@ for d in subdir_list:                           # iterate through the sub direct
         class_path=os.path.join(dpath, klass)   # path to class directory
 
         file_list=os.listdir(class_path)        # create list of files in class directory
-        for f in file_list:                     # iterate through the files
+        for f in tqdm(file_list):                     # iterate through the files
             fpath=os.path.join (class_path,f)
             index=f.rfind('.')                  
             ext=f[index+1:]                        # get the files extension
