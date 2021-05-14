@@ -4,7 +4,7 @@ from config import work_place
 import cv2
 
 
-dir = work_place + '\data\crop'
+dir = work_place + '/data/crop'
 
 bad_list=[]
 
