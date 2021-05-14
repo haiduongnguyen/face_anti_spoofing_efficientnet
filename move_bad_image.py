@@ -2,7 +2,7 @@ import os
 import shutil
 from tqdm import tqdm
 
-file1 = open('bad_image.txt', 'r')
+file1 = open('bad_images.txt', 'r')
 Lines = file1.readlines()
  
 count = 0
@@ -11,7 +11,7 @@ for line in tqdm(Lines):
     count += 1
     # print("Line{}: {}".format(count, line.strip()))
     partitions = line.split("/")
-    new_destination = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/bad_images/' + partitions[-1]
+    new_destination = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/bad_image/' + partitions[-1]
     shutil.move(line, new_destination)
 
 print(count)
