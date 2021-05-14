@@ -17,7 +17,7 @@ data_train_path = raw_data + '/train'
 data_test_path  = raw_data + '/test'
 
 
-crop_folder = work_place + '/small_data_to_test/crop_data'
+crop_folder = work_place + '/data/crop'
 make_dir(crop_folder)
 crop_data_train = crop_folder + '/train'
 make_dir(crop_data_train)
@@ -53,7 +53,7 @@ image_depth = 3
 # config parameter to train
 INIT_LR = 1e-4
 batch_size = 4
-EPOCHS = 5
+EPOCHS = 10
 
 # folder save log 
 folder_save_log =  work_place + '/log'
@@ -63,10 +63,7 @@ make_dir(folder_save_log)
 folder_save_model = work_place
 
 
-model_name = 'resnet50'
+# model_name = 'resnet50'
 #model_name = 'efficient_net_b7'
-# model_name = 'efficient_net_b4'
 
-
-
-print('complete make needed directories!')
+model_name = 'efficient_net_b4'
