@@ -9,15 +9,15 @@ def make_dir(path):
     if not os.path.isdir(path):
         os.makedirs(path)
 
-work_place = '/home/duongnh/face_anti_spoofing_use_resnet50_backbone'
+work_place = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet'
 
-raw_data = '/mnt/DATA/photo/photo_celeb/CelebA_Spoof/Data'
+raw_data = '/home/duong/project/pyimage_research/version2_change_data/small_data_to_test/raw_data'
 
 data_train_path = raw_data + '/train'
 data_test_path  = raw_data + '/test'
 
 
-crop_folder = work_place + '/data/crop'
+crop_folder = work_place + '/small_data_to_test/crop_data'
 make_dir(crop_folder)
 crop_data_train = crop_folder + '/train'
 make_dir(crop_data_train)
@@ -25,6 +25,10 @@ make_dir(crop_data_train)
 # make_dir(crop_data_valid)
 crop_data_test = crop_folder + '/test'
 make_dir(crop_data_test)
+for mode in ['train', 'test']:
+    make_dir(os.path.join(crop_folder, mode, 'live'))
+    make_dir(os.path.join(crop_folder, mode, 'spoof'))
+
 
 original_metas = work_place + '/make_json/metas' 
 
@@ -48,11 +52,8 @@ image_depth = 3
 
 # config parameter to train
 INIT_LR = 1e-4
-batch_size = 8
-EPOCHS = 10
-
-opt_adam = keras.optimizers.Adam(lr=INIT_LR)
-opt_sgd = keras.optimizers.SGD(learning_rate=0.0001, momentum=0.9)
+batch_size = 4
+EPOCHS = 5
 
 # folder save log 
 folder_save_log =  work_place + '/log'
@@ -62,6 +63,10 @@ make_dir(folder_save_log)
 folder_save_model = work_place
 
 
-#model_name = 'resnet50'
+model_name = 'resnet50'
 #model_name = 'efficient_net_b7'
-model_name = 'efficient_net_b4'
+# model_name = 'efficient_net_b4'
+
+
+
+print('complete make needed directories!')
