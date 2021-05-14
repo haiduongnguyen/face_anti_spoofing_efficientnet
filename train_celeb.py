@@ -12,6 +12,9 @@ from config import *
 from model_zoo import *
 from eer_calculation import cal_metric
 
+from PIL import Image, ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
+
 start = datetime.datetime.now()
 
 train_datagen = ImageDataGenerator(
