@@ -37,7 +37,7 @@ count_live = 0
 for image_name in tqdm(os.listdir(path_live)):
   image = cv2.imread(os.path.join(path_live, image_name))
   image = cv2.resize(image, (224,224))
-  image = np.array(image, 'float32')
+  # image = np.array(image, 'float32')
   image = np.expand_dims(image, 0)
   score = model.predict(image)
   scores.append(score)
@@ -50,7 +50,7 @@ count_spoof = 0
 for image_name in tqdm(os.listdir(path_spoof)):
   image = cv2.imread(os.path.join(path_spoof, image_name))
   image = cv2.resize(image, (224,224))
-  image = np.array(image, 'float32')
+  # image = np.array(image, 'float32')
   image = np.expand_dims(image, 0)
   score = model.predict(image)
   scores.append(score)
@@ -78,9 +78,9 @@ result_live = cal_metric(labels, live_score)
 
 spoof_score = np.array(scores[:,0,1])
 result_spoof = cal_metric(labels, spoof_score)
-print('eer spoof is : ', result_spoof[0] , file=open('result_test.txt', 'a'))
-print('tpr spoof is : ', result_spoof[1] , file=open('result_test.txt', 'a'))
-print('auc spoof is : ', result_spoof[2] , file=open('result_test.txt', 'a'))
+print('eer spoof is : ' + str(result_spoof[0]) , file=open('result_test.txt', 'a'))
+print('tpr spoof is : ' + str(result_spoof[1]) , file=open('result_test.txt', 'a'))
+print('auc spoof is : ' + str(result_spoof[2]) , file=open('result_test.txt', 'a'))
 
 
 with open('result_test.txt', 'w') as f:
