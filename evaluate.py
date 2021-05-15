@@ -14,24 +14,24 @@ from keras.models import load_model
 from tqdm import tqdm
 from model_zoo import *
 
-# # load full model (.h5 file)
-# model_name = ''
-# model = load_model(model_name)
+# load full model (.h5 file)
+model_name = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_20210515/training_checkpoint/efficient_net_b4/cp_02.hdf5'
+model = load_model(model_name)
 
 
-# load weight from checkpoint 
-model = build_efficient_net_b4(224, 2)
+# # load weight from checkpoint 
+# model = build_efficient_net_b4(224, 2)
 
-path_to_weight = '/home/duong/project/pyimage_research/version2_change_data/b4_result_200k_celebphoto/checkpoint/cp-01.ckpt'
+# path_to_weight = '/home/duong/project/pyimage_research/version2_change_data/b4_result_200k_celebphoto/checkpoint/cp-01.ckpt'
 
-model.load_weights(path_to_weight)
+# model.load_weights(path_to_weight)
 
 scores = []
 
 path_live = os.path.join(crop_data_test, 'live')
 path_spoof = os.path.join(crop_data_test, 'spoof')
-print(path_live, file=open('result_test.txt', 'a'))
-print(path_spoof, file=open('result_test.txt', 'a'))
+print("live test folder at: " + path_live, file=open('result_test.txt', 'a'))
+print("spoof test folder at: " + path_spoof, file=open('result_test.txt', 'a'))
 
 count_live = 0
 for image_name in os.listdir(path_live):
