@@ -27,7 +27,7 @@ validation_dir = crop_data_test
 validation_generator = valid_datagen.flow_from_directory(
         validation_dir,
         target_size=(224, 224),
-        batch_size=batch_size,
+        batch_size=1,
         class_mode='categorical')
 
 
