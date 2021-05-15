@@ -1,3 +1,4 @@
+from matplotlib.pyplot import axis
 import numpy as np
 import keras
 import tensorflow as tf
@@ -28,6 +29,10 @@ model = load_model(model_name)
 
 scores = []
 
+
+
+with open('result_test.txt', 'w') as f:
+  f.close()
 path_live = os.path.join(crop_data_test, 'live')
 path_spoof = os.path.join(crop_data_test, 'spoof')
 print("live test folder at: " + path_live, file=open('result_test.txt', 'a'))
@@ -69,7 +74,6 @@ print("labels have shape: ", labels.shape)
 # labels = tf.keras.utils.to_categorical( labels, num_classes=2, dtype='float32')
 # labels = np.array(labels)
 
-
 live_score = np.array(scores[:,0,0])
 result_live = cal_metric(labels, live_score)
 # print('eer live is : ', result_live[0] , file=open('result_test.txt', 'a'))
@@ -83,26 +87,26 @@ print('tpr spoof is : ' + str(result_spoof[1]) , file=open('result_test.txt', 'a
 print('auc spoof is : ' + str(result_spoof[2]) , file=open('result_test.txt', 'a'))
 
 
-with open('result_test.txt', 'w') as f:
-  f.close()
+
 print('test set has number live sample : ' + str(count_live), file=open('result_test.txt', 'a'))
 print('test set has number spoof sample : ' + str(count_spoof), file=open('result_test.txt', 'a'))
 # calculate apcer, bpcer
 predict_score = np.stack([live_score, spoof_score], axis=1)
 
-prediction = np.round(predict_score)
+prediction = np.argmax(predict_score, axis=1)
 
 test_len = len(prediction)
 
+wrong_live_list = []
 if predict_score.shape[0] == labels.shape[0]:
   predict_live = 0
   wrong_spoof = 0
   for i in range(test_len):
-    if prediction[i][0] == 1:
+    if prediction[i] == 0:
       predict_live += 1
       if labels[i] == 1 :
         wrong_spoof += 1
-      # wrong_list.append(i)
+        wrong_live_list.append(i)
   if predict_live == 0:
     print('No prediction is live', file=open('result_test.txt', 'a'))
     wrong_rate = 0
@@ -112,15 +116,19 @@ if predict_score.shape[0] == labels.shape[0]:
   print(f"model predict number of sample as live : {predict_live}", file=open('result_test.txt', 'a'))
   print(f"model has wrong live rate (BPCER) = {wrong_rate} ", file=open('result_test.txt', 'a'))
 
+  with open('wrong_live_sample.txt', 'w') as f:
+    for item in wrong_live_list:
+        f.write("%s\n" % item)
 
   predict_spoof = 0
   wrong_live = 0
+  wrong_spoof_list = []
   for i in range(test_len):
-    if prediction[i][0] == 0:
+    if prediction[i] == 1:
       predict_spoof += 1
       if labels[i] == 0 :
         wrong_live += 1
-      # wrong_list.append(i)
+        wrong_spoof_list.append(i)
   if predict_spoof == 0:
     print('No prediction is spoof')
     wrong_rate = 0
@@ -130,8 +138,8 @@ if predict_score.shape[0] == labels.shape[0]:
   print(f"model predict number of sample as spoof : {predict_spoof}", file=open('result_test.txt', 'a'))
   print(f"model has wrong spoof rate (APCER) = {wrong_rate}", file=open('result_test.txt', 'a'))
 
-  # with open(folder_save_model + '/' + model_name + '_wrong_sample.txt', 'w') as f:
-  #     for item in wrong_list:
-  #         f.write("%s\n" % item)
+  with open('wrong_spoof_sample.txt', 'w') as f:
+      for item in wrong_spoof_list:
+          f.write("%s\n" % item)
 else:
   print('something went wrong, check again')
