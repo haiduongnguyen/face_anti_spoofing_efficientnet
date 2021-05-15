@@ -24,7 +24,7 @@ for d in subdir_list:                           # iterate through the sub direct
             fpath=os.path.join (class_path,f)
             index=f.rfind('.')                  
             ext=f[index+1:]                        # get the files extension
-            if ext  not in ['jpg', 'png', 'bmp']:
+            if ext  not in ['jpg', 'png', 'bmp', 'jpeg', 'JPG']:
                 print(f'file {fpath}  has an invalid extension {ext}')
                 bad_list.append(fpath)                    
             else:
