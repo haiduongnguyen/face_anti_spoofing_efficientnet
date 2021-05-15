@@ -92,12 +92,15 @@ print('test set has number live sample : ' + str(count_live), file=open('result_
 print('test set has number spoof sample : ' + str(count_spoof), file=open('result_test.txt', 'a'))
 # calculate apcer, bpcer
 predict_score = np.stack([live_score, spoof_score], axis=1)
+with open('score_prediction.txt', 'w') as f:
+    for item in predict_score:
+        f.write("%s\n" % item)
 
 prediction = np.argmax(predict_score, axis=1)
 
 test_len = len(prediction)
 
-wrong_live_list = []
+wrong_spoof_list = []
 if predict_score.shape[0] == labels.shape[0]:
   predict_live = 0
   wrong_spoof = 0
@@ -106,7 +109,7 @@ if predict_score.shape[0] == labels.shape[0]:
       predict_live += 1
       if labels[i] == 1 :
         wrong_spoof += 1
-        wrong_live_list.append(i)
+        wrong_spoof_list.append(i)
   if predict_live == 0:
     print('No prediction is live', file=open('result_test.txt', 'a'))
     wrong_rate = 0
@@ -116,19 +119,19 @@ if predict_score.shape[0] == labels.shape[0]:
   print(f"model predict number of sample as live : {predict_live}", file=open('result_test.txt', 'a'))
   print(f"model has wrong live rate (BPCER) = {wrong_rate} ", file=open('result_test.txt', 'a'))
 
-  with open('wrong_live_sample.txt', 'w') as f:
-    for item in wrong_live_list:
+  with open('wrong_spoof_sample.txt', 'w') as f:
+    for item in wrong_spoof_list:
         f.write("%s\n" % item)
 
   predict_spoof = 0
   wrong_live = 0
-  wrong_spoof_list = []
+  wrong_live_list = []
   for i in range(test_len):
     if prediction[i] == 1:
       predict_spoof += 1
       if labels[i] == 0 :
         wrong_live += 1
-        wrong_spoof_list.append(i)
+        wrong_live_list.append(i)
   if predict_spoof == 0:
     print('No prediction is spoof')
     wrong_rate = 0
@@ -138,8 +141,8 @@ if predict_score.shape[0] == labels.shape[0]:
   print(f"model predict number of sample as spoof : {predict_spoof}", file=open('result_test.txt', 'a'))
   print(f"model has wrong spoof rate (APCER) = {wrong_rate}", file=open('result_test.txt', 'a'))
 
-  with open('wrong_spoof_sample.txt', 'w') as f:
-      for item in wrong_spoof_list:
+  with open('wrong_live_sample.txt', 'w') as f:
+      for item in wrong_live_list:
           f.write("%s\n" % item)
 else:
   print('something went wrong, check again')
