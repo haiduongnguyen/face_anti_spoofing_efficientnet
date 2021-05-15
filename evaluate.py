@@ -34,8 +34,9 @@ print("live test folder at: " + path_live, file=open('result_test.txt', 'a'))
 print("spoof test folder at: " + path_spoof, file=open('result_test.txt', 'a'))
 
 count_live = 0
-for image_name in os.listdir(path_live):
+for image_name in tqdm(os.listdir(path_live)):
   image = cv2.imread(os.path.join(path_live, image_name))
+  image = cv2.resize(image, (224,224))
   image = np.array(image, 'float32')
   image = np.expand_dims(image, 0)
   score = model.predict(image)
@@ -48,12 +49,13 @@ for image_name in os.listdir(path_live):
 count_spoof = 0
 for image_name in tqdm(os.listdir(path_spoof)):
   image = cv2.imread(os.path.join(path_spoof, image_name))
+  image = cv2.resize(image, (224,224))
   image = np.array(image, 'float32')
   image = np.expand_dims(image, 0)
   score = model.predict(image)
   scores.append(score)
   count_spoof += 1
-  # print(count_spoof)
+  print(count_spoof)
 
 scores = np.array(scores)
 print("prediction scores have shape: ", scores.shape)
