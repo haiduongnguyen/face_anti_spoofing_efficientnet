@@ -1,4 +1,5 @@
 import os
+from os.path import isfile
 import shutil
 from tqdm import tqdm
 
@@ -19,7 +20,8 @@ for line in tqdm(list_of_paths):
     # print("Line{}: {}".format(count, line.strip()))
     partitions = line.split("/")
     new_destination = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/bad_image/' + partitions[-1]
-    os.rename(new_destination, line)
+    if os.path.isfile(new_destination):
+      os.rename(new_destination, line)
 
     
 print(count)
