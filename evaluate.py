@@ -42,7 +42,7 @@ for image_name in tqdm(os.listdir(path_live)):
   score = model.predict(image)
   scores.append(score)
   count_live += 1
-  print(count_live)
+print(count_live)
 
 
 
@@ -55,7 +55,7 @@ for image_name in tqdm(os.listdir(path_spoof)):
   score = model.predict(image)
   scores.append(score)
   count_spoof += 1
-  print(count_spoof)
+print(count_spoof)
 
 scores = np.array(scores)
 print("prediction scores have shape: ", scores.shape)
