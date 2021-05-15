@@ -27,9 +27,6 @@ train_datagen = ImageDataGenerator(
 #       fill_mode='nearest'
 )
 
-# Note that the validation data should not be augmented!
-valid_datagen = ImageDataGenerator()   
-
 train_dir = crop_data_train
 train_generator = train_datagen.flow_from_directory(
         # This is the target directory
@@ -40,6 +37,8 @@ train_generator = train_datagen.flow_from_directory(
         # Since we use categorical_crossentropy loss, we need binary labels
         class_mode='categorical')
 
+# Note that the validation data should not be augmented!
+valid_datagen = ImageDataGenerator()   
 validation_dir = crop_data_test
 validation_generator = valid_datagen.flow_from_directory(
         validation_dir,
@@ -120,7 +119,7 @@ with open('result_training_output.txt', 'a') as f:
 
 
 # keras evaluate on validation data
-model.evaluate(validation_generator, batch_size=1)
+# model.evaluate(validation_generator, batch_size=1)
 
 
 
