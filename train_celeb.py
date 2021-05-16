@@ -63,7 +63,7 @@ model = build_efficient_net_b4(224, 2)
 opt_adam = keras.optimizers.Adam(lr=INIT_LR)
 opt_sgd = keras.optimizers.SGD(learning_rate=0.0001, momentum=0.9)
 
-model.compile(loss="categorical_crossentropy", optimizer=opt_sgd, metrics=["accuracy"])
+model.compile(loss="categorical_crossentropy", optimizer=opt_adam, metrics=["accuracy"])
 
 log_dir = folder_save_log + '/' +  model_name
 if not os.path.exists(log_dir):
