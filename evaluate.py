@@ -16,7 +16,7 @@ from tqdm import tqdm
 from model_zoo import *
 
 # load full model (.h5 file)
-model_name = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_20210516_ver03/training_checkpoint/efficient_net_b4/cp_03.hdf5'
+model_name = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_20210516_ver03/training_checkpoint/efficient_net_b4/cp_01.hdf5'
 model = load_model(model_name)
 
 
@@ -63,13 +63,13 @@ for image_name in tqdm(os.listdir(path_spoof)):
 print(count_spoof)
 
 scores = np.array(scores)
-print("prediction scores have shape: ", scores.shape)
+print("prediction scores have shape: " + str(scores.shape), file=open('result_test.txt', 'a'))
 
 list_live = [0]*count_live
 list_spoof = [1]*count_spoof
 labels = list_live + list_spoof
 labels = np.array(labels)
-print("labels have shape: ", labels.shape)
+print("labels have shape: " + str(labels.shape), file=open('result_test.txt', 'a'))
 # labels = np.array(labels)
 # labels = tf.keras.utils.to_categorical( labels, num_classes=2, dtype='float32')
 # labels = np.array(labels)
