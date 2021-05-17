@@ -56,11 +56,13 @@ validation_generator = valid_datagen.flow_from_directory(
 
 
 ## efficent net b4
-model = build_efficient_net_b4(224, 2)
+# model = build_efficient_net_b4(224, 2)
+
+model = build_efficient_net_b5(224, 2)
 
 
 
-opt_adam = keras.optimizers.Adam(lr=INIT_LR)
+opt_adam = keras.optimizers.Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
 opt_sgd = keras.optimizers.SGD(learning_rate=0.0001, momentum=0.9)
 
 model.compile(loss="categorical_crossentropy", optimizer=opt_adam, metrics=["accuracy"])

@@ -18,7 +18,7 @@ from keras.layers import add
 from tensorflow.keras.models import Model
 from keras import backend as K
 from keras.applications.resnet50 import ResNet50
-from tensorflow.keras.applications import EfficientNetB7, EfficientNetB4
+from tensorflow.keras.applications import EfficientNetB7, EfficientNetB4, EfficientNetB5
 from tensorflow.keras import layers
 
 
@@ -34,7 +34,6 @@ def build_resnet50(width, height, depth, classes):
                 input_shape=(width, height, depth))
     res = net.output
     res = Flatten()(res)
-    res = Dropout(0.5)(res)
     fc = Dense(classes, activation='softmax', name='fc2')(res)
     model = Model(inputs=net.input, outputs=fc)
     # global model_name 
@@ -87,3 +86,24 @@ def unfreeze_model_some_layers(model):
 
     
 
+def build_efficient_net_b5(IMG_SIZE, num_classes):
+    inputs = layers.Input(shape=(IMG_SIZE, IMG_SIZE, 3))
+    model = EfficientNetB5(include_top=False, input_tensor=inputs, weights="imagenet")
+
+    # Freeze the pretrained weights or not
+    model.trainable = True
+
+    # Rebuild top
+    x = layers.GlobalAveragePooling2D(name="avg_pool")(model.output)
+    bn_layer = layers.BatchNormalization()
+    bn_layer.training = False
+    x = bn_layer(x)
+
+    # top_dropout_rate = 0.2
+    # x = layers.Dropout(top_dropout_rate, name="top_dropout")(x)
+    outputs = layers.Dense(num_classes , activation="softmax", name="pred")(x)
+
+    # Compile
+    model = Model(inputs, outputs, name="EfficientNet")
+
+    return model
