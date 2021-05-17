@@ -55,10 +55,6 @@ INIT_LR = 1e-4
 batch_size = 4
 EPOCHS = 10
 
-# folder save log 
-folder_save_log =  work_place + '/log'
-make_dir(folder_save_log)
-
 # folder save model after trained
 folder_save_model = work_place
 
