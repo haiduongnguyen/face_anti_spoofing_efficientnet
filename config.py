@@ -63,7 +63,7 @@ folder_save_model = work_place
 # model_name = 'resnet50'
 #model_name = 'efficient_net_b7'
 
-# model_name = 'efficient_net_b4'
+model_name = 'efficient_net_b4_input336'
 
 
-model_name = 'efficient_net_b5'
+# model_name = 'efficient_net_b5'
