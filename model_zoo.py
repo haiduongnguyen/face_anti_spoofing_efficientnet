@@ -57,8 +57,8 @@ def build_efficient_b7(width, height, depth, classes):
 from tensorflow.keras.layers.experimental import preprocessing
 
 
-def build_efficient_net_b4(IMG_SIZE, num_classes):
-    inputs = layers.Input(shape=(IMG_SIZE, IMG_SIZE, 3))
+def build_efficient_net_b4(IMG_SIZE, IMG_DEPTH, num_classes):
+    inputs = layers.Input(shape=(IMG_SIZE, IMG_SIZE, IMG_DEPTH))
     model = EfficientNetB4(include_top=False, input_tensor=inputs, weights="imagenet")
 
     # Freeze the pretrained weights or not

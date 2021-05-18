@@ -56,9 +56,9 @@ validation_generator = valid_datagen.flow_from_directory(
 
 
 ## efficent net b4
-# model = build_efficient_net_b4(224, 2)
+model = build_efficient_net_b4(image_size, image_depth, 2)
 
-model = build_efficient_net_b5(image_size, 2)
+# model = build_efficient_net_b5(image_size, 2)
 
 
 
