@@ -47,7 +47,7 @@ helper_test_json_path =  folder_save_json + '/helper_test_json.json'
 detector =  work_place + '/face_detector'
 
 # image parameter
-image_size = 224
+image_size = 336
 image_depth = 3
 
 # config parameter to train
@@ -55,9 +55,6 @@ INIT_LR = 1e-4
 batch_size = 4
 EPOCHS = 10
 
-# folder save log 
-folder_save_log =  work_place + '/log'
-make_dir(folder_save_log)
 
 # folder save model after trained
 folder_save_model = work_place

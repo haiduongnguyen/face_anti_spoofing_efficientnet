@@ -66,7 +66,9 @@ def build_efficient_net_b4(IMG_SIZE, num_classes):
 
     # Rebuild top
     x = layers.GlobalAveragePooling2D(name="avg_pool")(model.output)
-    x = layers.BatchNormalization()(x)
+    bn_layer = layers.BatchNormalization()
+    bn_layer.training = False
+    x = bn_layer(x)
 
     # top_dropout_rate = 0.2
     # x = layers.Dropout(top_dropout_rate, name="top_dropout")(x)

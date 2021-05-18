@@ -32,7 +32,7 @@ train_generator = train_datagen.flow_from_directory(
         # This is the target directory
         train_dir,
         # All images will be resized to 224x224
-        target_size=(224, 224),
+        target_size=(image_size, image_size),
         batch_size=batch_size,
         # Since we use categorical_crossentropy loss, we need binary labels
         class_mode='categorical')
@@ -42,7 +42,7 @@ valid_datagen = ImageDataGenerator()
 validation_dir = crop_data_test
 validation_generator = valid_datagen.flow_from_directory(
         validation_dir,
-        target_size=(224, 224),
+        target_size=(image_size, image_size),
         batch_size=batch_size,
         class_mode='categorical')
 
@@ -58,16 +58,16 @@ validation_generator = valid_datagen.flow_from_directory(
 ## efficent net b4
 # model = build_efficient_net_b4(224, 2)
 
-model = build_efficient_net_b5(224, 2)
+model = build_efficient_net_b5(image_size, 2)
 
 
 
-opt_adam = keras.optimizers.Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
+opt_adam = keras.optimizers.Adam(lr=INIT_LR)
 opt_sgd = keras.optimizers.SGD(learning_rate=0.0001, momentum=0.9)
 
 model.compile(loss="categorical_crossentropy", optimizer=opt_adam, metrics=["accuracy"])
 
-log_dir = folder_save_log + '/' +  model_name
+log_dir = work_place + '/' + 'log' + '_' +  model_name
 if not os.path.exists(log_dir):
     os.makedirs(log_dir)
 
@@ -91,9 +91,8 @@ history = model.fit(train_generator,
       epochs=EPOCHS, validation_data=validation_generator, verbose=2, callbacks=call_back)
 
 # save the network to disk
-print("[INFO] serializing network to drive ... ", file=open('result_training_output.txt', 'w'))
-model.save(folder_save_model + '/' + model_name, save_format="h5")
-print("complete save model", file=open('result_training_output.txt', 'a'))
+print("[INFO] serializing network to drive ... ", file=open('result_training.txt', 'w'))
+
 
 end = datetime.datetime.now()
 delta = str(end-start)
@@ -118,11 +117,3 @@ with open('result_training_output.txt', 'a') as f:
     print("\n Acc.       " + ' '.join(str(e) for e in acc) , file=f)
     print("\n Val. Acc.  " + ' '.join(str(e) for e in val_acc) , file=f)
     print("============================================")
-
-
-# keras evaluate on validation data
-# model.evaluate(validation_generator, batch_size=1)
-
-
-
-
