@@ -16,7 +16,7 @@ from tqdm import tqdm
 from model_zoo import *
 
 # load full model (.h5 file)
-model_name = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_ver04/cp_04.hdf5'
+model_name = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_b4_336_input/cp_03.hdf5'
 
 model = load_model(model_name)
 
@@ -141,6 +141,9 @@ if predict_score.shape[0] == labels.shape[0]:
     wrong_rate = round(wrong_live/predict_spoof, 4)
   print(f"model predict number of sample as spoof : {predict_spoof}", file=open('result_test.txt', 'a'))
   print(f"model has wrong spoof rate (APCER) = {wrong_rate}", file=open('result_test.txt', 'a'))
+
+  avg_wrong_rate = round((wrong_live + wrong_spoof)/(count_live + count_spoof), 4)
+  print(f"the average wrong rate of model is: {avg_wrong_rate}", file=open('result_test.txt', 'a'))
 
   with open('wrong_live_sample.txt', 'w') as f:
       for item in wrong_live_list:
