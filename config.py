@@ -68,4 +68,4 @@ folder_save_model = work_place
 
 # model_name = 'efficient_net_b5'
 
-model_name = 'efficient_net_b1'
+# model_name = 'efficient_net_b1'
