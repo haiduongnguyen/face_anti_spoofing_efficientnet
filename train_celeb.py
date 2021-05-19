@@ -49,16 +49,25 @@ validation_generator = valid_datagen.flow_from_directory(
 
 
 # resnet 50
+# model_name = 'resnet50'
 # model = build_resnet50(width=image_size, height=image_size, depth=image_depth, classes=2)
 
 ## efficent net b7
+# model_name = 'efficient_net_b7'
 # model = build_efficient_b7(width=image_size, height=image_size, depth=image_depth, classes=2)
 
 
 ## efficent net b4
-model = build_efficient_net_b4(image_size, image_depth, 2)
 
+# model_name = 'efficient_net_b4'
+# model = build_efficient_net_b4(image_size, image_depth, 2)
+
+# model_name = 'efficient_net_b5'
 # model = build_efficient_net_b5(image_size, 2)
+
+
+model_name = 'efficient_net_b1'
+model = build_efficient_net_b1(image_size, image_depth, 2)
 
 
 

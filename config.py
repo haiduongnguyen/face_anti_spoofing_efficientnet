@@ -47,13 +47,13 @@ helper_test_json_path =  folder_save_json + '/helper_test_json.json'
 detector =  work_place + '/face_detector'
 
 # image parameter
-image_size = 336
+image_size = 224
 image_depth = 3
 
 # config parameter to train
 INIT_LR = 1e-4
 batch_size = 4
-EPOCHS = 10
+EPOCHS = 8
 
 
 # folder save model after trained
@@ -63,7 +63,9 @@ folder_save_model = work_place
 # model_name = 'resnet50'
 #model_name = 'efficient_net_b7'
 
-model_name = 'efficient_net_b4_input336'
+# model_name = 'efficient_net_b4_input336'
 
 
 # model_name = 'efficient_net_b5'
+
+model_name = 'efficient_net_b1'
