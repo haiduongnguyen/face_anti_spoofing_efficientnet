@@ -90,8 +90,6 @@ call_back = [tf.keras.callbacks.TensorBoard(log_dir=log_dir, write_graph=True),
 history = model.fit(train_generator,
       epochs=EPOCHS, validation_data=validation_generator, verbose=2, callbacks=call_back)
 
-# save the network to disk
-print("[INFO] serializing network to drive ... ", file=open('result_training.txt', 'w'))
 
 
 end = datetime.datetime.now()

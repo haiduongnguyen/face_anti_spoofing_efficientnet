@@ -16,7 +16,8 @@ from tqdm import tqdm
 from model_zoo import *
 
 # load full model (.h5 file)
-model_name = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_20210516_ver03/training_checkpoint/efficient_net_b4/cp_01.hdf5'
+model_name = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_ver04/cp_04.hdf5'
+
 model = load_model(model_name)
 
 
@@ -41,7 +42,7 @@ print("spoof test folder at: " + path_spoof, file=open('result_test.txt', 'a'))
 count_live = 0
 for image_name in tqdm(os.listdir(path_live)):
   image = cv2.imread(os.path.join(path_live, image_name))
-  image = cv2.resize(image, (224,224))
+  image = cv2.resize(image, (image_size,image_size))
   # image = np.array(image, 'float32')
   image = np.expand_dims(image, 0)
   score = model.predict(image)
@@ -54,7 +55,7 @@ print(count_live)
 count_spoof = 0
 for image_name in tqdm(os.listdir(path_spoof)):
   image = cv2.imread(os.path.join(path_spoof, image_name))
-  image = cv2.resize(image, (224,224))
+  image = cv2.resize(image, (image_size,image_size))
   # image = np.array(image, 'float32')
   image = np.expand_dims(image, 0)
   score = model.predict(image)
