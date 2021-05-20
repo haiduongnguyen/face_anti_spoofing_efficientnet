@@ -17,6 +17,14 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 start = datetime.datetime.now()
 
+result_train_folder = work_place + '/result_train'
+if not os.path.isdir(result_train_folder):
+    os.makedirs(result_train_folder)
+
+training_output_txt = result_train_folder + '/result_training_output.txt'
+
+
+
 train_datagen = ImageDataGenerator(
 #       rotation_range=40,
 #       width_shift_range=0.2,
@@ -66,29 +74,31 @@ validation_generator = valid_datagen.flow_from_directory(
 # model = build_efficient_net_b5(image_size, 2)
 
 
-model_name = 'efficient_net_b1'
-model = build_efficient_net_b1(image_size, image_depth, 2)
+# model_name = 'efficient_net_b1'
+# model = build_efficient_net_b1(image_size, image_depth, 2)
 
 
+model_name = 'efficient_net_b0'
+model = build_efficient_net_b0(image_size, image_depth, 2)
 
 opt_adam = keras.optimizers.Adam(lr=INIT_LR)
 opt_sgd = keras.optimizers.SGD(learning_rate=0.0001, momentum=0.9)
 
 model.compile(loss="categorical_crossentropy", optimizer=opt_adam, metrics=["accuracy"])
 
-log_dir = work_place + '/' + 'log' + '_' +  model_name
+log_dir = result_train_folder + '/' + 'log' + '_' +  model_name
 if not os.path.exists(log_dir):
     os.makedirs(log_dir)
 
-checkpoint_dir = os.path.join(work_place , "training_checkpoint", model_name)
-if not os.path.exists(checkpoint_dir):
-    os.makedirs(checkpoint_dir)
-checkpoint_path = checkpoint_dir + "/cp_{epoch:02d}.hdf5"
+# checkpoint_dir = os.path.join(result_train_folder , "training_checkpoint", model_name)
+# if not os.path.exists(checkpoint_dir):
+#     os.makedirs(checkpoint_dir)
+# checkpoint_path = checkpoint_dir + "/cp_{epoch:02d}.hdf5"
 
 call_back = [tf.keras.callbacks.TensorBoard(log_dir=log_dir, write_graph=True), 
-             tf.keras.callbacks.ModelCheckpoint( filepath=checkpoint_path ),
-             tf.keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=2, mode='auto', restore_best_weights=False)  
-              ]
+            #  tf.keras.callbacks.ModelCheckpoint( filepath=checkpoint_path ),
+             tf.keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=2, mode='auto', restore_best_weights=True)  
+            ]
 
 # history = model.fit(train_generator,
 #       epochs=EPOCHS, validation_data=validation_generator, 
@@ -99,6 +109,7 @@ call_back = [tf.keras.callbacks.TensorBoard(log_dir=log_dir, write_graph=True),
 history = model.fit(train_generator,
       epochs=EPOCHS, validation_data=validation_generator, verbose=2, callbacks=call_back)
 
+model.save(result_train_folder + '/' + model_name + '.h5')
 
 
 end = datetime.datetime.now()
@@ -114,7 +125,7 @@ val_loss = history.history['val_loss']
 val_loss = val_loss[-5:]
 
 # End statement
-with open('result_training_output.txt', 'a') as f:
+with open(training_output_txt, 'w') as f:
     print("============================================")
     print("\n Time taken (h/m/s): %s" %delta[:7], file=f)
     print("============================================")
