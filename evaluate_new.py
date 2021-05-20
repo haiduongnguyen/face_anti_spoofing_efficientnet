@@ -35,7 +35,7 @@ if not os.path.isdir(result_test_folder):
 
 result_txt = result_test_folder + '/result_test.txt'
 score_txt = result_test_folder + '/score_prediction.txt'
-wrong_live_txt = result_test_folder + 'wrong_live_sample.txt'
+wrong_live_txt = result_test_folder + '/wrong_live_sample.txt'
 wrong_spoof_txt = result_test_folder + '/wrong_spoof_sample.txt'
 
 scores = []
