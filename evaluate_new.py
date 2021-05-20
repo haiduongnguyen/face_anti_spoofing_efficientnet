@@ -16,7 +16,7 @@ from tqdm import tqdm
 from model_zoo import *
 
 # load full model (.h5 file)
-model_name = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_b5_ver01/cp_05.hdf5'
+model_name = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_ver04/cp_04.hdf5'
 
 model = load_model(model_name)
 
