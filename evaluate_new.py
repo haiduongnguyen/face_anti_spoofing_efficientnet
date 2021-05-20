@@ -108,10 +108,10 @@ with open(score_txt, 'w') as f:
         f.write("%s\n" % item)
 
 # prediction = np.argmax(predict_score, axis=1)
-prediction = [0]*(spoof_score.shape[0])
+prediction = [1]*(spoof_score.shape[0])
 for i in range(spoof_score.shape[0]):
-    if spoof_score[i] > result_spoof[0]:
-        prediction[i] = 1
+    if spoof_score[i] < result_spoof[0]:
+        prediction[i] = 0
 
 
 test_len = len(prediction)
