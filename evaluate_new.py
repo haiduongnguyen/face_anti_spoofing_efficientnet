@@ -16,7 +16,7 @@ from tqdm import tqdm
 from model_zoo import *
 
 # load full model (.h5 file)
-model_name = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_b5_ver01/cp_05.hdf5'
+model_name = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_b1_ver01/b1_result/training_checkpoint/efficient_net_b1/cp_06.hdf5'
 
 model = load_model(model_name)
 
@@ -28,7 +28,8 @@ model = load_model(model_name)
 
 # model.load_weights(path_to_weight)
 
-result_test_folder = work_place + '/result_test'
+result_test_folder = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_b1_ver01/b1_result/result_test'
+
 if not os.path.isdir(result_test_folder):
     os.makedirs(result_test_folder)
 
