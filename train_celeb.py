@@ -17,7 +17,11 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 start = datetime.datetime.now()
 
-result_train_folder = work_place + '/result_train'
+
+model_name = 'efficient_net_b4_ver05'
+model = build_efficient_net_b4(image_size, image_depth, 2)
+
+result_train_folder = work_place + '/result_train' + model_name
 if not os.path.isdir(result_train_folder):
     os.makedirs(result_train_folder)
 
@@ -26,13 +30,13 @@ training_output_txt = result_train_folder + '/result_training_output.txt'
 
 
 train_datagen = ImageDataGenerator(
-#       rotation_range=40,
-#       width_shift_range=0.2,
-#       height_shift_range=0.2,
-#       shear_range=0.2,
-#       zoom_range=0.2,
-#       horizontal_flip=True,
-#       fill_mode='nearest'
+      rotation_range=40,
+      width_shift_range=0.2,
+      height_shift_range=0.2,
+      shear_range=0.2,
+      zoom_range=0.2,
+      horizontal_flip=True,
+      fill_mode='nearest'
 )
 
 train_dir = crop_data_train
@@ -78,8 +82,6 @@ validation_generator = valid_datagen.flow_from_directory(
 # model = build_efficient_net_b1(image_size, image_depth, 2)
 
 
-model_name = 'efficient_net_b0'
-model = build_efficient_net_b0(image_size, image_depth, 2)
 
 opt_adam = keras.optimizers.Adam(lr=INIT_LR)
 opt_sgd = keras.optimizers.SGD(learning_rate=0.0001, momentum=0.9)
