@@ -15,23 +15,19 @@ from keras.models import load_model
 from tqdm import tqdm
 from model_zoo import *
 
+
 # load full model (.h5 file)
-model_name = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_b1_ver01/b1_result/training_checkpoint/efficient_net_b1/cp_06.hdf5'
+model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_trainefficient_net_b4_ver05/efficient_net_b4_ver05.h5'
+model = load_model(model_path)
 
-model = load_model(model_name)
 
 
-# # load weight from checkpoint 
-# model = build_efficient_net_b4(224, 2)
+result_test_folder = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_trainefficient_net_b4_ver05/result_test' 
 
-# path_to_weight = '/home/duong/project/pyimage_research/version2_change_data/b4_result_200k_celebphoto/checkpoint/cp-01.ckpt'
-
-# model.load_weights(path_to_weight)
-
-result_test_folder = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_b1_ver01/b1_result/result_test'
 
 if not os.path.isdir(result_test_folder):
     os.makedirs(result_test_folder)
+
 
 
 result_txt = result_test_folder + '/result_test.txt'
@@ -47,8 +43,10 @@ with open(result_txt, 'w') as f:
   f.close()
 path_live = os.path.join(crop_data_test, 'live')
 path_spoof = os.path.join(crop_data_test, 'spoof')
+print("model name and version is: " + model_name, file=open(result_txt, 'a'))
 print("live test folder at: " + path_live, file=open(result_txt, 'a'))
 print("spoof test folder at: " + path_spoof, file=open(result_txt, 'a'))
+
 
 count_live = 0
 for image_name in tqdm(os.listdir(path_live)):
