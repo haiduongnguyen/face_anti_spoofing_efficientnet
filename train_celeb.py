@@ -92,7 +92,7 @@ log_dir = result_train_folder + '/' + 'log' + '_' +  model_name
 if not os.path.exists(log_dir):
     os.makedirs(log_dir)
 
-checkpoint_dir = os.path.join(result_train_folder , "checkpoint", model_name)
+checkpoint_dir = os.path.join(result_train_folder , "checkpoint")
 if not os.path.exists(checkpoint_dir):
     os.makedirs(checkpoint_dir)
 checkpoint_path = checkpoint_dir + "/cp_{epoch:02d}.hdf5"
