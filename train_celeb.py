@@ -21,7 +21,7 @@ start = datetime.datetime.now()
 model_name = 'efficient_net_b1_ver02'
 model = build_efficient_net_b1(image_size, image_depth, 2)
 
-result_train_folder = work_place + '/result_train' + model_name
+result_train_folder = work_place + '/result_train_' + model_name
 if not os.path.isdir(result_train_folder):
     os.makedirs(result_train_folder)
 
