@@ -43,7 +43,7 @@ with open(result_txt, 'w') as f:
   f.close()
 path_live = os.path.join(crop_data_test, 'live')
 path_spoof = os.path.join(crop_data_test, 'spoof')
-print("model name and version is: " + model_name, file=open(result_txt, 'a'))
+print("model name and version is: " + model_path, file=open(result_txt, 'a'))
 print("live test folder at: " + path_live, file=open(result_txt, 'a'))
 print("spoof test folder at: " + path_spoof, file=open(result_txt, 'a'))
 
