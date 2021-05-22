@@ -18,8 +18,8 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 start = datetime.datetime.now()
 
 
-model_name = 'efficient_net_b4_ver05'
-model = build_efficient_net_b4(image_size, image_depth, 2)
+model_name = 'efficient_net_b1_ver02'
+model = build_efficient_net_b1(image_size, image_depth, 2)
 
 result_train_folder = work_place + '/result_train' + model_name
 if not os.path.isdir(result_train_folder):
@@ -92,14 +92,14 @@ log_dir = result_train_folder + '/' + 'log' + '_' +  model_name
 if not os.path.exists(log_dir):
     os.makedirs(log_dir)
 
-# checkpoint_dir = os.path.join(result_train_folder , "training_checkpoint", model_name)
-# if not os.path.exists(checkpoint_dir):
-#     os.makedirs(checkpoint_dir)
-# checkpoint_path = checkpoint_dir + "/cp_{epoch:02d}.hdf5"
+checkpoint_dir = os.path.join(result_train_folder , "checkpoint", model_name)
+if not os.path.exists(checkpoint_dir):
+    os.makedirs(checkpoint_dir)
+checkpoint_path = checkpoint_dir + "/cp_{epoch:02d}.hdf5"
 
 call_back = [tf.keras.callbacks.TensorBoard(log_dir=log_dir, write_graph=True), 
-            #  tf.keras.callbacks.ModelCheckpoint( filepath=checkpoint_path ),
-             tf.keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=2, mode='auto', restore_best_weights=True)  
+             tf.keras.callbacks.ModelCheckpoint( filepath=checkpoint_path ),
+             tf.keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=2, mode='auto', restore_best_weights=False)  
             ]
 
 # history = model.fit(train_generator,
@@ -111,7 +111,7 @@ call_back = [tf.keras.callbacks.TensorBoard(log_dir=log_dir, write_graph=True),
 history = model.fit(train_generator,
       epochs=EPOCHS, validation_data=validation_generator, verbose=2, callbacks=call_back)
 
-model.save(result_train_folder + '/' + model_name + '.h5')
+# model.save(result_train_folder + '/' + model_name + '.h5')
 
 
 end = datetime.datetime.now()
