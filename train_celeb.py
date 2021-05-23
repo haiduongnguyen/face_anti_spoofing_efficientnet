@@ -18,15 +18,11 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 start = datetime.datetime.now()
 
 
-model_name = 'efficient_net_b1_ver02'
-model = build_efficient_net_b1(image_size, image_depth, 2)
-
 result_train_folder = work_place + '/result_train_' + model_name
 if not os.path.isdir(result_train_folder):
     os.makedirs(result_train_folder)
 
 training_output_txt = result_train_folder + '/result_training_output.txt'
-
 
 
 train_datagen = ImageDataGenerator(
@@ -82,13 +78,16 @@ validation_generator = valid_datagen.flow_from_directory(
 # model = build_efficient_net_b1(image_size, image_depth, 2)
 
 
+model_name = 'efficient_net_b1_ver03'
+model = build_efficient_net_b1(image_size, image_depth, 2)
+
 
 opt_adam = keras.optimizers.Adam(lr=INIT_LR)
 opt_sgd = keras.optimizers.SGD(learning_rate=0.0001, momentum=0.9)
 
 model.compile(loss="categorical_crossentropy", optimizer=opt_adam, metrics=["accuracy"])
 
-log_dir = result_train_folder + '/' + 'log' + '_' +  model_name
+log_dir = result_train_folder + '/' + 'log_'  +  model_name
 if not os.path.exists(log_dir):
     os.makedirs(log_dir)
 

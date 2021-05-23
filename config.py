@@ -17,17 +17,17 @@ data_train_path = raw_data + '/train'
 data_test_path  = raw_data + '/test'
 
 
-crop_folder = work_place + '/data/crop'
-make_dir(crop_folder)
+crop_folder = work_place + '/data_crop'
+# make_dir(crop_folder)
 crop_data_train = crop_folder + '/train'
-make_dir(crop_data_train)
+# make_dir(crop_data_train)
 # crop_data_valid = crop_folder + '/valid'
 # make_dir(crop_data_valid)
 crop_data_test = crop_folder + '/test'
-make_dir(crop_data_test)
-for mode in ['train', 'test']:
-    make_dir(os.path.join(crop_folder, mode, 'live'))
-    make_dir(os.path.join(crop_folder, mode, 'spoof'))
+# make_dir(crop_data_test)
+# for mode in ['train', 'test']:
+#     make_dir(os.path.join(crop_folder, mode, 'live'))
+#     make_dir(os.path.join(crop_folder, mode, 'spoof'))
 
 
 original_metas = work_place + '/make_json/metas' 
