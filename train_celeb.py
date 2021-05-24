@@ -23,10 +23,16 @@ start = datetime.datetime.now()
 # model_name = 'efficient_net_b1_ver03'
 # model = build_efficient_net_b1(image_size, image_depth, 2)
 
-model_name = 'efficient_net_b4_ver06'
-model = build_efficient_net_b4(image_size, image_depth, 2)
+# model_name = 'efficient_net_b4_ver06'
+# model = build_efficient_net_b4(image_size, image_depth, 2)
 
-result_train_folder = work_place + '/result_train_' + model_name
+model_name = 'densenet121_ver01'
+model = build_dense_net121(image_size, image_size, image_depth, 2)
+
+result_folder = work_place + '/result_' + model_name
+if not os.path.isdir(result_folder):
+    os.makedirs(result_folder)
+result_train_folder = result_folder + '/train'
 if not os.path.isdir(result_train_folder):
     os.makedirs(result_train_folder)
 

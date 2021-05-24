@@ -14,6 +14,7 @@ from eer_calculation import cal_metric
 from keras.models import load_model
 from tqdm import tqdm
 from model_zoo import *
+from train_celeb import result_folder
 
 
 # load full model (.h5 file)
@@ -21,10 +22,7 @@ model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_
 model = load_model(model_path)
 
 
-
-result_test_folder = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_trainefficient_net_b4_ver05/result_test' 
-
-
+result_test_folder = result_folder + '/test' 
 if not os.path.isdir(result_test_folder):
     os.makedirs(result_test_folder)
 
