@@ -72,7 +72,7 @@ if check_folder(folder_path):
 
 
 def copy_dir_to_dir(source, destination):
-    for file_name in os.listdir(source):
+    for file_name in tqdm(os.listdir(source)):
         s = os.path.join(source, file_name)
         d = os.path.join(destination, file_name)
         shutil.copy2(s, d)
