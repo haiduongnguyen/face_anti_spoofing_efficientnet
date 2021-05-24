@@ -18,6 +18,11 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 start = datetime.datetime.now()
 
 
+
+
+model_name = 'efficient_net_b1_ver03'
+model = build_efficient_net_b1(image_size, image_depth, 2)
+
 result_train_folder = work_place + '/result_train_' + model_name
 if not os.path.isdir(result_train_folder):
     os.makedirs(result_train_folder)
@@ -77,9 +82,6 @@ validation_generator = valid_datagen.flow_from_directory(
 # model_name = 'efficient_net_b1'
 # model = build_efficient_net_b1(image_size, image_depth, 2)
 
-
-model_name = 'efficient_net_b1_ver03'
-model = build_efficient_net_b1(image_size, image_depth, 2)
 
 
 opt_adam = keras.optimizers.Adam(lr=INIT_LR)
