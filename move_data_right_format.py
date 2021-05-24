@@ -77,7 +77,7 @@ def copy_dir_to_dir(source, destination):
         d = os.path.join(destination, file_name)
         shutil.copy2(s, d)
 
-for folder_path in list_folder:
+for folder_path in tqdm(list_folder):
     if 'train' in folder_path:
         if '/live/' in folder_path:
             copy_dir_to_dir(folder_path, train_live_folder)
