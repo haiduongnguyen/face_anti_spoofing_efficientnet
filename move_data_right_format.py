@@ -9,7 +9,7 @@ def make_dir(path):
 
 base_folder = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet'
 
-origin_data = base_folder + '/Data'
+origin_data = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/photo_crop'
 
 target_folder = base_folder + '/data_crop'
 make_dir(target_folder)
