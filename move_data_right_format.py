@@ -7,9 +7,10 @@ def make_dir(path):
         os.makedirs(path)
 
 
+origin_data = '/home/duongnh/photo_crop'
+
 base_folder = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet'
 
-origin_data = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/photo_crop'
 
 target_folder = base_folder + '/data_crop'
 make_dir(target_folder)
@@ -81,7 +82,7 @@ for folder_path in tqdm(list_folder):
     if 'train' in folder_path:
         if 'spoof' in folder_path:
             copy_dir_to_dir(folder_path, train_spoof_folder)
-        elif 'live' in folder_path[30:-1] :
+        elif 'live' in folder_path:
             copy_dir_to_dir(folder_path, train_live_folder)
         else:
             print("the path is error format: " + folder_path )
@@ -89,7 +90,7 @@ for folder_path in tqdm(list_folder):
     elif 'test' in folder_path:
         if 'spoof' in folder_path:
             copy_dir_to_dir(folder_path, test_spoof_folder)
-        elif 'live' in folder_path[30:-1] :
+        elif 'live' in folder_path :
             copy_dir_to_dir(folder_path, test_live_folder)
         else:
             print("the path is error format: " + folder_path )
