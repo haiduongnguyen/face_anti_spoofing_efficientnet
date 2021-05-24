@@ -68,28 +68,28 @@ if check_folder(folder_path):
                                                 print("hoi bi nhieu thu muc qua r day !!!")                                  
 
 
-# print(list_folder)
+print(len(list_folder))
 
 
 def copy_dir_to_dir(source, destination):
-    for file_name in tqdm(os.listdir(source)):
+    for file_name in os.listdir(source):
         s = os.path.join(source, file_name)
         d = os.path.join(destination, file_name)
         shutil.copy2(s, d)
 
 for folder_path in list_folder:
     if 'train' in folder_path:
-        if 'live' in folder_path and 'spoof' not in folder_path:
+        if 'live' in folder_path:
             copy_dir_to_dir(folder_path, train_live_folder)
-        elif 'live' not in folder_path and 'spoof' in folder_path:
+        elif 'spoof' in folder_path:
             copy_dir_to_dir(folder_path, train_spoof_folder)
         else:
             print("the path is error format: " + folder_path )
 
     elif 'test' in folder_path:
-        if 'live' in folder_path and 'spoof' not in folder_path:
+        if 'live' in folder_path :
             copy_dir_to_dir(folder_path, test_live_folder)
-        elif 'live' not in folder_path and 'spoof' in folder_path:
+        elif 'spoof' in folder_path:
             copy_dir_to_dir(folder_path, test_spoof_folder)
         else:
             print("the path is error format: " + folder_path )
