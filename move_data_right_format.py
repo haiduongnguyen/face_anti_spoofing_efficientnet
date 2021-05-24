@@ -79,17 +79,17 @@ def copy_dir_to_dir(source, destination):
 
 for folder_path in tqdm(list_folder):
     if 'train' in folder_path:
-        if '/live/' in folder_path:
+        if '/live' in folder_path and 'spoof' not in folder_path:
             copy_dir_to_dir(folder_path, train_live_folder)
-        elif '/spoof/' in folder_path:
+        elif 'spoof' in folder_path:
             copy_dir_to_dir(folder_path, train_spoof_folder)
         else:
             print("the path is error format: " + folder_path )
 
     elif 'test' in folder_path:
-        if '/live/' in folder_path :
+        if '/live' in folder_path and 'spoof' not in folder_path:
             copy_dir_to_dir(folder_path, test_live_folder)
-        elif '/spoof/' in folder_path:
+        elif 'spoof' in folder_path:
             copy_dir_to_dir(folder_path, test_spoof_folder)
         else:
             print("the path is error format: " + folder_path )
