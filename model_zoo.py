@@ -16,10 +16,62 @@ from keras.layers import ZeroPadding2D
 from keras.layers import Input
 from keras.layers import add
 from tensorflow.keras.models import Model
-from keras import backend as K
+# from keras import backend as K
 from keras.applications.resnet50 import ResNet50
 from tensorflow.keras.applications import EfficientNetB7, EfficientNetB4, EfficientNetB5, EfficientNetB1, EfficientNetB0
 from tensorflow.keras import layers
+import tensorflow.keras as K
+
+
+def build_dense_net121(width, height, depth, classes):
+    input_shape_densenet = (width, height, depth)
+
+    densenet_model = K.applications.DenseNet121(
+        include_top=False,
+        weights="imagenet",
+        input_tensor=None,
+        input_shape=input_shape_densenet,
+        pooling=None
+    )
+
+
+    densenet_model.trainable = True
+
+    # for layer in densenet_model.layers:
+    #     if 'conv5' in layer.name:
+    #         layer.trainable = True
+    #     else:
+    #         layer.trainable = False
+
+    # densenet_model.summary()
+
+    # input = K.Input(shape=(32, 32, 3))
+    # preprocess = K.layers.Lambda(lambda x: tf.image.resize_images(x, (224, 224)), name='lamb')(input)
+
+    layer = densenet_model.output
+
+    layer = K.layers.Flatten()(layer)
+
+    layer = K.layers.BatchNormalization()(layer)
+
+    layer = K.layers.Dense(units=256, activation='relu')(layer)
+
+    layer = K.layers.Dropout(0.2)(layer)
+
+    layer = K.layers.BatchNormalization()(layer)
+
+    layer = K.layers.Dense(units=128, activation='relu')(layer)
+
+    layer = K.layers.Dropout(0.2)(layer)
+
+    comeon = K.layers.Dense(units=classes, activation='softmax')(layer)
+
+    model = K.models.Model(inputs=densenet_model.input, outputs=comeon)
+
+    model.summary()
+
+    return model
+
 
 
 def build_resnet50(width, height, depth, classes):
