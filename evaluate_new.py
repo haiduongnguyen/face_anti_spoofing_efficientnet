@@ -17,7 +17,7 @@ from model_zoo import *
 
 
 # load full model (.h5 file)
-model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_trainefficient_net_b4_ver05/efficient_net_b4_ver05.h5'
+model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_train_efficient_net_b1_ver03/checkpoint/cp_03.hdf5'
 model = load_model(model_path)
 
 
