@@ -218,7 +218,7 @@ def build_lamresnet50(width, height, depth, classes):
     x = Dropout(0.5)(x)
     x = tfa.layers.AdaptiveAveragePooling2D((1,1))(x)
     x = Flatten()(x)
-    x = Dense(classes, activation=None)(x)
+    x = Dense(classes, activation='softmax')(x)
 
     # self.conv1_lay = nn.Conv2d(2048, 512, kernel_size = (1,1),stride=(1,1))
     # self.relu1_lay = nn.ReLU(inplace = True)
