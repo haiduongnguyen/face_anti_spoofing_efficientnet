@@ -22,7 +22,55 @@ from tensorflow.keras.applications import EfficientNetB7, EfficientNetB4, Effici
 from tensorflow.keras import layers
 import tensorflow.keras as K
 from tensorflow.keras.layers.experimental import preprocessing
+import tensorflow_addons as tfa
+import tensorflow_lattice as tfl
 
+
+
+def build_efficient_net_b4(IMG_SIZE, IMG_DEPTH, num_classes):
+    inputs = layers.Input(shape=(IMG_SIZE, IMG_SIZE, IMG_DEPTH))
+    model = EfficientNetB4(include_top=False, input_tensor=inputs, weights="imagenet")
+
+    # Freeze the pretrained weights or not
+    model.trainable = True
+
+    # Rebuild top
+    x = layers.GlobalAveragePooling2D(name="avg_pool")(model.output)
+    # x = layers.BatchNormalization()(x)
+    bn_layer = layers.BatchNormalization()
+    bn_layer.training = False
+    x = bn_layer(x)
+
+    # top_dropout_rate = 0.2
+    # x = layers.Dropout(top_dropout_rate, name="top_dropout")(x)
+    outputs = layers.Dense(num_classes , activation="softmax", name="pred")(x)
+
+    # Compile
+    model = Model(inputs, outputs, name="EfficientNet")
+
+    return model
+
+
+def build_new_efficient_net_b4(height, width, depth, num_classes):
+    inputs = layers.Input(shape=(height, width, depth))
+    model = EfficientNetB4(include_top=False, input_tensor=inputs, weights="imagenet")
+
+    # Freeze the pretrained weights or not
+    model.trainable = True
+
+    # Rebuild top
+    x = layers.GlobalAveragePooling2D(name="avg_pool")(model.output)
+
+    top_dropout_rate = 0.2
+    x = layers.Dropout(top_dropout_rate, name="top_dropout")(x)
+    x = layers.BatchNormalization()(x)
+    x = layers.Dense(256)(x)
+    outputs = layers.Dense(num_classes , activation="softmax", name="pred")(x)
+
+    # Compile
+    model = Model(inputs, outputs, name="EfficientNet")
+
+    return model
 
 def build_dense_net121(width, height, depth, classes):
     input_shape_densenet = (width, height, depth)
@@ -108,32 +156,6 @@ def build_efficient_b7(width, height, depth, classes):
 
 
 
-
-
-def build_efficient_net_b4(IMG_SIZE, IMG_DEPTH, num_classes):
-    inputs = layers.Input(shape=(IMG_SIZE, IMG_SIZE, IMG_DEPTH))
-    model = EfficientNetB4(include_top=False, input_tensor=inputs, weights="imagenet")
-
-    # Freeze the pretrained weights or not
-    model.trainable = True
-
-    # Rebuild top
-    x = layers.GlobalAveragePooling2D(name="avg_pool")(model.output)
-    # x = layers.BatchNormalization()(x)
-    bn_layer = layers.BatchNormalization()
-    bn_layer.training = False
-    x = bn_layer(x)
-
-    # top_dropout_rate = 0.2
-    # x = layers.Dropout(top_dropout_rate, name="top_dropout")(x)
-    outputs = layers.Dense(num_classes , activation="softmax", name="pred")(x)
-
-    # Compile
-    model = Model(inputs, outputs, name="EfficientNet")
-
-    return model
-
-
 def unfreeze_model_some_layers(model):
     # We unfreeze the top 20 layers while leaving BatchNorm layers frozen
     for layer in model.layers[-25:]:
@@ -203,10 +225,6 @@ def build_efficient_net_b0(IMG_SIZE, IMG_DEPTH, num_classes):
     model = Model(inputs, outputs, name="EfficientNet")
 
     return model
-
-
-import tensorflow_addons as tfa
-import tensorflow_lattice as tfl
 
 def build_lamresnet50(width, height, depth, classes):
 
