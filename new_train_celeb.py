@@ -34,8 +34,8 @@ start = datetime.datetime.now()
 # model = build_lamresnet50(image_size, image_size, image_depth, 2)
 
 
-model_name = 'lam_resnet_ver02'
-model = build_lamresnet50(image_size, image_size, image_depth, 2)
+model_name = 'new_efficient_netb4'
+model = build_new_efficient_net_b4(image_size, image_size, image_depth, 2)
 
 result_folder = work_place + '/result_' + model_name
 if not os.path.isdir(result_folder):
@@ -127,7 +127,7 @@ call_back = [tf.keras.callbacks.TensorBoard(log_dir=log_dir, write_graph=True),
 
 
 history = model.fit(train_generator,
-      epochs=EPOCHS, validation_data=validation_generator, verbose=2, callbacks=call_back)
+      epochs=EPOCHS, validation_data=validation_generator, verbose=1, callbacks=call_back)
 
 # model.save(result_train_folder + '/' + model_name + '.h5')
 
