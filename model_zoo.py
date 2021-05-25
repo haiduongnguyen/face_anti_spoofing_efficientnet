@@ -21,6 +21,7 @@ from keras.applications.resnet50 import ResNet50
 from tensorflow.keras.applications import EfficientNetB7, EfficientNetB4, EfficientNetB5, EfficientNetB1, EfficientNetB0
 from tensorflow.keras import layers
 import tensorflow.keras as K
+from tensorflow.keras.layers.experimental import preprocessing
 
 
 def build_dense_net121(width, height, depth, classes):
@@ -106,7 +107,7 @@ def build_efficient_b7(width, height, depth, classes):
     return model
 
 
-from tensorflow.keras.layers.experimental import preprocessing
+
 
 
 def build_efficient_net_b4(IMG_SIZE, IMG_DEPTH, num_classes):
@@ -201,4 +202,40 @@ def build_efficient_net_b0(IMG_SIZE, IMG_DEPTH, num_classes):
     # Compile
     model = Model(inputs, outputs, name="EfficientNet")
 
+    return model
+
+
+import tensorflow_addons as tfa
+import tensorflow_lattice as tfl
+
+def build_lamresnet50(width, height, depth, classes):
+
+    net = ResNet50(include_top=False, weights='imagenet', input_tensor=None,
+                input_shape=(width, height, depth))
+    res = net.layers[-2].output
+
+    x = Conv2D(filters = 512, kernel_size = (1,1), strides=(1,1), activation = 'relu')(res)
+    x = Dropout(0.5)(x)
+    x = tfa.layers.AdaptiveAveragePooling2D((1,1))(x)
+    x = Flatten()(x)
+    x = Dense(classes, activation=None)(x)
+
+    # self.conv1_lay = nn.Conv2d(2048, 512, kernel_size = (1,1),stride=(1,1))
+    # self.relu1_lay = nn.ReLU(inplace = True)
+    # self.drop_lay = nn.Dropout2d(0.5)
+    # self.global_average = nn.AdaptiveAvgPool2d((1,1))
+    # self.fc_Linear_lay2 = nn.Linear(512,classes)
+        
+
+
+    # x= self.resnet_lay(x)
+    # x = self.conv1_lay(x)
+    # x = self.relu1_lay(x)
+    # x = self.drop_lay(x)
+    # x= self.global_average(x)
+    # x = x.view(x.size(0),-1)
+    # x = self.fc_Linear_lay2 (x)
+    
+    model = Model(inputs=net.input, outputs= x)
+    print(model.summary())
     return model

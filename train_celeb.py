@@ -26,8 +26,11 @@ start = datetime.datetime.now()
 # model_name = 'efficient_net_b4_ver06'
 # model = build_efficient_net_b4(image_size, image_depth, 2)
 
-model_name = 'densenet121_ver01'
-model = build_dense_net121(image_size, image_size, image_depth, 2)
+# model_name = 'densenet121_ver01'
+# model = build_dense_net121(image_size, image_size, image_depth, 2)
+
+model_name = 'lam_resnet_ver02'
+model = build_lamresnet50(image_size, image_size, image_depth, 2)
 
 result_folder = work_place + '/result_' + model_name
 if not os.path.isdir(result_folder):
