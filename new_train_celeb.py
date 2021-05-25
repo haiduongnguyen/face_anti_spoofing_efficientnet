@@ -12,11 +12,12 @@ import statistics
 from config import *
 from model_zoo import *
 from eer_calculation import cal_metric
-from focal_loss import BinaryFocalLoss, SparseCategoricalFocalLoss
+# from focal_loss import BinaryFocalLoss, SparseCategoricalFocalLoss
 from PIL import Image, ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 start = datetime.datetime.now()
+from losses import categorical_focal_loss
 
 
 
@@ -104,7 +105,7 @@ my_loss = tfa.losses.SigmoidFocalCrossEntropy()
 opt_adam = keras.optimizers.Adam(lr=INIT_LR)
 opt_sgd = keras.optimizers.SGD(learning_rate=0.01, momentum=0.9)
 
-model.compile(loss=SparseCategoricalFocalLoss(gamma=2), optimizer=opt_adam, metrics=["accuracy"])
+model.compile(loss=[categorical_focal_loss(alpha=[[.25,.25]], gamma=2)], optimizer=opt_adam, metrics=["accuracy"])
 
 log_dir = result_train_folder + '/' + 'log_'  +  model_name
 if not os.path.exists(log_dir):
