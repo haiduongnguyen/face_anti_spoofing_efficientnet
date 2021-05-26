@@ -53,22 +53,23 @@ def build_efficient_net_b4(IMG_SIZE, IMG_DEPTH, num_classes):
 
 def build_new_efficient_net_b4(height, width, depth, num_classes):
     inputs = layers.Input(shape=(height, width, depth))
-    model = EfficientNetB4(include_top=False, input_tensor=inputs, weights="imagenet")
-
+    base_model = EfficientNetB4(include_top=False, input_tensor=inputs, weights="imagenet")
     # Freeze the pretrained weights or not
-    model.trainable = True
-
+    # model.trainable = True
+    for layer in base_model.layers[10:]:
+        if not isinstance(layer, layers.BatchNormalization):
+            layer.trainable = True
     # Rebuild top
-    x = layers.GlobalAveragePooling2D(name="avg_pool")(model.output)
-
+    x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
     top_dropout_rate = 0.2
-    x = layers.Dropout(top_dropout_rate, name="top_dropout")(x)
-    x = layers.BatchNormalization()(x)
-    x = layers.Dense(256)(x)
-    outputs = layers.Dense(num_classes , activation="softmax", name="pred")(x)
-
+    x = Dropout(top_dropout_rate, name="top_dropout")(x)
+    x = BatchNormalization()(x)
+    x = Dense(512, activation='relu')(x)
+    x = Dense(128, activation='relu')(x)
+    outputs = Dense(num_classes , activation="softmax", name="pred")(x)
     # Compile
     model = Model(inputs, outputs, name="EfficientNet")
+    print(model.summary())
 
     return model
 

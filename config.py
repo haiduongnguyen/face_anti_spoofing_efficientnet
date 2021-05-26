@@ -11,7 +11,7 @@ def make_dir(path):
 
 work_place = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet'
 
-raw_data = '/home/duong/project/pyimage_research/version2_change_data/small_data_to_test/raw_data'
+raw_data = ''
 
 data_train_path = raw_data + '/train'
 data_test_path  = raw_data + '/test'
@@ -52,20 +52,10 @@ image_depth = 3
 
 # config parameter to train
 INIT_LR = 1e-4
-batch_size = 4
-EPOCHS = 8
+batch_size = 8
+EPOCHS = 10
 
 
 # folder save model after trained
 folder_save_model = work_place
 
-
-# model_name = 'resnet50'
-#model_name = 'efficient_net_b7'
-
-# model_name = 'efficient_net_b4_input336'
-
-
-# model_name = 'efficient_net_b5'
-
-# model_name = 'efficient_net_b1'

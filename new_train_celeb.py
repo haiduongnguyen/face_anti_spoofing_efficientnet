@@ -35,7 +35,7 @@ from losses import categorical_focal_loss
 # model = build_lamresnet50(image_size, image_size, image_depth, 2)
 
 
-model_name = 'new_efficient_netb4'
+model_name = 'new_efficient_b4_ver02'
 model = build_new_efficient_net_b4(image_size, image_size, image_depth, 2)
 
 result_folder = work_place + '/result_' + model_name
@@ -49,7 +49,7 @@ training_output_txt = result_train_folder + '/result_training_output.txt'
 
 
 train_datagen = ImageDataGenerator(
-      rotation_range=40,
+      rotation_range=45,
       width_shift_range=0.2,
       height_shift_range=0.2,
       shear_range=0.2,
@@ -105,7 +105,7 @@ my_loss = tfa.losses.SigmoidFocalCrossEntropy()
 opt_adam = keras.optimizers.Adam(lr=INIT_LR)
 opt_sgd = keras.optimizers.SGD(learning_rate=0.01, momentum=0.9)
 
-model.compile(loss=[categorical_focal_loss(alpha=[[.25,.25]], gamma=2)], optimizer=opt_adam, metrics=["accuracy"])
+model.compile(loss="categorical_crossentropy", optimizer=opt_sgd, metrics=["accuracy"])
 
 log_dir = result_train_folder + '/' + 'log_'  +  model_name
 if not os.path.exists(log_dir):
