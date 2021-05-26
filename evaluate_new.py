@@ -14,6 +14,7 @@ from eer_calculation import cal_metric
 from keras.models import load_model
 from tqdm import tqdm
 from model_zoo import *
+from losses import categorical_focal_loss
 
 
 # load full model (.h5 file)
