@@ -24,9 +24,9 @@ model = load_model(model_path)
 
 index_checkpoint = model_path.split("/")
 
-result_folder = work_place + '/result_' + model_name + '_' + index_checkpoint[-1][:-5]
+result_folder = work_place + '/result_' + model_name 
 
-result_test_folder = result_folder + '/test' 
+result_test_folder = result_folder + '/test' + '_' + index_checkpoint[-1][:-5]
 if not os.path.isdir(result_test_folder):
     os.makedirs(result_test_folder)
 
