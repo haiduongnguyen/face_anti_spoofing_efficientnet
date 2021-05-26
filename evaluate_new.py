@@ -14,19 +14,21 @@ from eer_calculation import cal_metric
 from keras.models import load_model
 from tqdm import tqdm
 from model_zoo import *
-from train_celeb import result_folder
 
 
 # load full model (.h5 file)
-model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_train_efficient_net_b1_ver03/checkpoint/cp_03.hdf5'
+model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_new_efficient_netb4/train/checkpoint/cp_03.hdf5'
+model_name = 'new_efficient_netb4'
+
 model = load_model(model_path)
 
+index_checkpoint = model_path.split("/")
+
+result_folder = work_place + '/result_' + model_name + '_' + index_checkpoint[-1][:-5]
 
 result_test_folder = result_folder + '/test' 
 if not os.path.isdir(result_test_folder):
     os.makedirs(result_test_folder)
-
-
 
 result_txt = result_test_folder + '/result_test.txt'
 score_txt = result_test_folder + '/score_prediction.txt'
