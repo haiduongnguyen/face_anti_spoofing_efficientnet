@@ -14,14 +14,20 @@ from eer_calculation import cal_metric
 from keras.models import load_model
 from tqdm import tqdm
 from model_zoo import *
-from losses import categorical_focal_loss
+from losses import binary_focal_loss, categorical_focal_loss
+
+import dill
+custom_object = {'binary_focal_loss_fixed': dill.loads(dill.dumps(binary_focal_loss(gamma=2., alpha=.25))),
+                 'categorical_focal_loss_fixed': dill.loads(dill.dumps(categorical_focal_loss(gamma=2., alpha=[[.25, .25, .25]]))),
+                 'categorical_focal_loss': categorical_focal_loss,
+                 'binary_focal_loss': binary_focal_loss}
 
 
 # load full model (.h5 file)
 model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_new_efficient_netb4/train/checkpoint/cp_03.hdf5'
 model_name = 'new_efficient_netb4'
 
-model = load_model(model_path)
+model = load_model(model_path, custom_objects=custom_object)
 
 index_checkpoint = model_path.split("/")
 
