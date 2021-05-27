@@ -83,8 +83,8 @@ def build_new_efficient_net_b0(height, width, depth, num_classes):
             layer.trainable = True
     # Rebuild top
     x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
-    top_dropout_rate = 0.2
-    x = Dropout(top_dropout_rate, name="top_dropout")(x)
+    # top_dropout_rate = 0.2
+    # x = Dropout(top_dropout_rate, name="top_dropout")(x)
     x = BatchNormalization()(x)
     x = Dense(256, activation='relu')(x)
     x = BatchNormalization()(x)
