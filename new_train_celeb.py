@@ -105,7 +105,7 @@ my_loss = tfa.losses.SigmoidFocalCrossEntropy()
 opt_adam = keras.optimizers.Adam(lr=INIT_LR)
 opt_sgd = keras.optimizers.SGD(learning_rate=0.01, momentum=0.9)
 
-model.compile(loss="categorical_crossentropy", optimizer=opt_sgd, metrics=["accuracy"])
+model.compile(loss="categorical_crossentropy", optimizer=opt_adam, metrics=["accuracy"])
 
 log_dir = result_train_folder + '/' + 'log_'  +  model_name
 if not os.path.exists(log_dir):
