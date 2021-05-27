@@ -111,10 +111,12 @@ def eval(model_name, model_path, index):
               f.write("%s\n" % item)
 
       # prediction = np.argmax(predict_score, axis=1)
-      prediction = [1]*(spoof_score.shape[0])
-      for i in range(spoof_score.shape[0]):
-          if spoof_score[i] < result_spoof[0]:
-              prediction[i] = 0
+      # prediction = [1]*(spoof_score.shape[0])
+      # for i in range(spoof_score.shape[0]):
+      #     if spoof_score[i] < result_spoof[0]:
+      #         prediction[i] = 0
+
+      prediction = np.argmax(predict_score, axis=1)
 
 
       test_len = len(prediction)
@@ -134,7 +136,7 @@ def eval(model_name, model_path, index):
           wrong_rate = 0
         else:
           print(f"number of spoof samples is predicted as live is {wrong_spoof}", file=open(result_txt, 'a'))
-          wrong_rate = round(wrong_spoof/predict_live, 4)
+          wrong_rate = round(wrong_spoof/count_live, 4)
         print(f"model predict number of sample as live : {predict_live}", file=open(result_txt, 'a'))
         print(f"model has wrong live rate (BPCER) = {wrong_rate} ", file=open(result_txt, 'a'))
 
@@ -156,7 +158,7 @@ def eval(model_name, model_path, index):
           wrong_rate = 0
         else:
           print(f"number of live samples is predicted as spoof is {wrong_live}", file=open(result_txt, 'a'))
-          wrong_rate = round(wrong_live/predict_spoof, 4)
+          wrong_rate = round(wrong_live/count_spoof, 4)
         print(f"model predict number of sample as spoof : {predict_spoof}", file=open(result_txt, 'a'))
         print(f"model has wrong spoof rate (APCER) = {wrong_rate}", file=open(result_txt, 'a'))
 
@@ -173,9 +175,9 @@ def eval(model_name, model_path, index):
 
 
 def main():
-  model_name = 'new_efficient_b4_ver02'
-  model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_new_efficient_b4_ver02/train/checkpoint'
-  index_checkpoint = ['cp_01.hdf5' , 'cp_03.hdf5']
+  model_name = 'new_efficient_b0_ver01'
+  model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_new_efficient_b0_ver01/train/checkpoint'
+  index_checkpoint = ['cp_02.hdf5' , 'cp_03.hdf5']
   for index in index_checkpoint:
     eval(model_name, model_path, index)
 
