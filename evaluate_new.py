@@ -24,8 +24,8 @@ custom_object = {'binary_focal_loss_fixed': dill.loads(dill.dumps(binary_focal_l
 
 
 # load full model (.h5 file)
-model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_new_efficient_netb4/train/checkpoint/cp_03.hdf5'
-model_name = 'new_efficient_netb4'
+model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_new_efficient_b4_ver02/train/checkpoint/cp_01.hdf5'
+model_name = 'new_efficient_b4_ver02'
 
 model = load_model(model_path, custom_objects=custom_object)
 
@@ -92,7 +92,7 @@ print("labels have shape: " + str(labels.shape), file=open(result_txt, 'a'))
 # labels = np.array(labels)
 
 live_score = np.array(scores[:,0,0])
-result_live = cal_metric(labels, live_score)
+# result_live = cal_metric(labels, live_score)
 # print('eer live is : ', result_live[0] , file=open('result_test.txt', 'a'))
 # print('tpr live is : ', result_live[1] , file=open('result_test.txt', 'a'))
 # print('auc live is : ', result_live[2] , file=open('result_test.txt', 'a'))
