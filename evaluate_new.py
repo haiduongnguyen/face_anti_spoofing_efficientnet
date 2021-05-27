@@ -8,6 +8,7 @@ import cv2
 # if read image from matolotlib, what will happen
 #from matplotlib.image import imread
 # my packages
+from keras.preprocessing.image import ImageDataGenerator
 from config import *
 from model_zoo import *
 from eer_calculation import cal_metric
@@ -172,15 +173,30 @@ def eval(model_name, model_path, index):
 
         avg_wrong_rate = round((wrong_live + wrong_spoof)/(count_live + count_spoof), 4)
         print(f"the average wrong rate of model is: {avg_wrong_rate}", file=open(result_txt, 'a'))
+        try:
+          valid_datagen = ImageDataGenerator()   
+          validation_dir = crop_data_test
+          validation_generator = valid_datagen.flow_from_directory(
+                  validation_dir,
+                  target_size=(image_size, image_size),
+                  batch_size=1,
+                  class_mode='categorical')
+          # print(model.evaluate())
+          a = model.evaluate(validation_generator, batch_size=1)
+          print(a,file=open(result_txt, 'a'))
+        except:
+          pass
+
       else:
         print('something went wrong, check again')
     else:
       print("No checkpoint at the path, check again!")
 
 
+
 def main():
-  model_name = 'new_efficient_b0_ver03'
-  model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_new_efficient_b0_ver03/train/checkpoint'
+  model_name = 'new_b0_ver0'
+  model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet' + '/result_' + model_name + '/train/checkpoint'
   index_checkpoint = ['cp_02.hdf5' , 'cp_03.hdf5']
   for index in index_checkpoint:
     eval(model_name, model_path, index)

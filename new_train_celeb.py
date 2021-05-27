@@ -40,7 +40,7 @@ manual_variable_initialization(True)
 # model_name = 'new_efficient_b0_ver01'
 # model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
 
-model_name = 'new_efficient_b0_ver03'
+model_name = 'new_b0_ver0'
 model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
 
 result_folder = work_place + '/result_' + model_name
