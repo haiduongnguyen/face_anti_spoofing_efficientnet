@@ -18,6 +18,8 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 start = datetime.datetime.now()
 from losses import categorical_focal_loss
+from keras.backend import manual_variable_initialization 
+manual_variable_initialization(True)
 
 
 
@@ -38,8 +40,8 @@ from losses import categorical_focal_loss
 # model_name = 'new_efficient_b0_ver01'
 # model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
 
-model_name = 'new_efficient_b1_ver01'
-model = build_new_efficient_net_b1(image_size, image_size, image_depth, 2)
+model_name = 'new_efficient_b0_ver03'
+model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
 
 result_folder = work_place + '/result_' + model_name
 if not os.path.isdir(result_folder):
@@ -117,11 +119,11 @@ if not os.path.exists(log_dir):
 checkpoint_dir = os.path.join(result_train_folder , "checkpoint")
 if not os.path.exists(checkpoint_dir):
     os.makedirs(checkpoint_dir)
-checkpoint_path = checkpoint_dir + "/cp_{epoch:02d}.hdf5"
+checkpoint_path = checkpoint_dir + "/cp_{epoch:02d}.h5"
 
 call_back = [tf.keras.callbacks.TensorBoard(log_dir=log_dir, write_graph=True), 
              tf.keras.callbacks.ModelCheckpoint( filepath=checkpoint_path ),
-             tf.keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=2, mode='auto', restore_best_weights=False)  
+             tf.keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=2, mode='auto', restore_best_weights=True)  
             ]
 
 # history = model.fit(train_generator,
@@ -133,7 +135,12 @@ call_back = [tf.keras.callbacks.TensorBoard(log_dir=log_dir, write_graph=True),
 history = model.fit(train_generator,
       epochs=EPOCHS, validation_data=validation_generator, verbose=1, callbacks=call_back)
 
-# model.save(result_train_folder + '/' + model_name + '.h5')
+
+saver = tf.train.Saver()
+sess = keras.backend.get_session()
+saver.save(sess, result_folder + '/keras_session')
+
+model.save(result_train_folder + '/' + model_name + '.h5')
 
 
 end = datetime.datetime.now()

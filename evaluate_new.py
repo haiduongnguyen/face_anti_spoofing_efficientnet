@@ -29,6 +29,9 @@ def eval(model_name, model_path, index):
       model = load_model(checkpoint_path, custom_objects=custom_object)
 
       result_folder = work_place + '/result_' + model_name 
+      saver = tf.train.Saver()
+      sess = keras.backend.get_session()
+      saver.restore(sess, result_folder + '/keras_session')
 
       result_test_folder = result_folder + '/test' + '_' + index[:-5]
       if not os.path.isdir(result_test_folder):
@@ -82,19 +85,19 @@ def eval(model_name, model_path, index):
       list_live = [0]*count_live
       list_spoof = [1]*count_spoof
       labels = list_live + list_spoof
-      labels = np.array(labels)
+      labels = np.array(labels, dtype=np.float32)
       print("labels have shape: " + str(labels.shape), file=open(result_txt, 'a'))
       # labels = np.array(labels)
       # labels = tf.keras.utils.to_categorical( labels, num_classes=2, dtype='float32')
       # labels = np.array(labels)
 
-      live_score = np.array(scores[:,0,0])
+      live_score = np.array(scores[:,0,0], dtype=np.float32)
       # result_live = cal_metric(labels, live_score)
       # print('eer live is : ', result_live[0] , file=open('result_test.txt', 'a'))
       # print('tpr live is : ', result_live[1] , file=open('result_test.txt', 'a'))
       # print('auc live is : ', result_live[2] , file=open('result_test.txt', 'a'))
 
-      spoof_score = np.array(scores[:,0,1])
+      spoof_score = np.array(scores[:,0,1], dtype=np.float32)
       result_spoof = cal_metric(labels, spoof_score)
       print('eer spoof is : ' + str(result_spoof[0]) , file=open(result_txt, 'a'))
       print('tpr spoof is : ' + str(result_spoof[1]) , file=open(result_txt, 'a'))
@@ -175,8 +178,8 @@ def eval(model_name, model_path, index):
 
 
 def main():
-  model_name = 'new_efficient_b0_ver01'
-  model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_new_efficient_b0_ver01/train/checkpoint'
+  model_name = 'new_efficient_b0_ver03'
+  model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_new_efficient_b0_ver03/train/checkpoint'
   index_checkpoint = ['cp_02.hdf5' , 'cp_03.hdf5']
   for index in index_checkpoint:
     eval(model_name, model_path, index)

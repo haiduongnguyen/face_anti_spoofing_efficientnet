@@ -1,7 +1,8 @@
 import numpy as np
 import keras
 import tensorflow as tf
-from keras.applications import VGG16
+import tensorflow_addons as tfa
+import tensorflow_lattice as tfl
 import os, datetime
 import numpy as np
 from keras.preprocessing.image import ImageDataGenerator
