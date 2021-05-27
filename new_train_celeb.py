@@ -35,8 +35,11 @@ from losses import categorical_focal_loss
 # model = build_lamresnet50(image_size, image_size, image_depth, 2)
 
 
-model_name = 'new_efficient_b0_ver01'
-model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
+# model_name = 'new_efficient_b0_ver01'
+# model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
+
+model_name = 'new_efficient_b1_ver01'
+model = build_new_efficient_net_b1(image_size, image_size, image_depth, 2)
 
 result_folder = work_place + '/result_' + model_name
 if not os.path.isdir(result_folder):
