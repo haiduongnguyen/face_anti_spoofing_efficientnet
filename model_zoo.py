@@ -78,7 +78,7 @@ def build_new_efficient_net_b0(height, width, depth, num_classes):
     base_model = EfficientNetB0(include_top=False, input_tensor=inputs, weights="imagenet")
     # Freeze the pretrained weights or not
     # model.trainable = True
-    for layer in base_model.layers[10:]:
+    for layer in base_model.layers:
         if not isinstance(layer, layers.BatchNormalization):
             layer.trainable = True
     # Rebuild top
