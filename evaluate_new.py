@@ -29,7 +29,8 @@ def eval(model_name, model_path, index):
       model = load_model(checkpoint_path, custom_objects=custom_object)
 
       result_folder = work_place + '/result_' + model_name 
-      saver = tf.train.Saver()
+      # saver = tf.train.Saver()
+      saver = tf.compat.v1.train.Saver()
       sess = keras.backend.get_session()
       saver.restore(sess, result_folder + '/keras_session')
 

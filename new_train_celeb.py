@@ -136,7 +136,8 @@ history = model.fit(train_generator,
       epochs=EPOCHS, validation_data=validation_generator, verbose=1, callbacks=call_back)
 
 
-saver = tf.train.Saver()
+# saver = tf.train.Saver()
+saver = tf.compat.v1.train.Saver()
 sess = keras.backend.get_session()
 saver.save(sess, result_folder + '/keras_session')
 
