@@ -73,6 +73,28 @@ def build_new_efficient_net_b4(height, width, depth, num_classes):
 
     return model
 
+def build_new_efficient_net_b0(height, width, depth, num_classes):
+    inputs = layers.Input(shape=(height, width, depth))
+    base_model = EfficientNetB0(include_top=False, input_tensor=inputs, weights="imagenet")
+    # Freeze the pretrained weights or not
+    # model.trainable = True
+    for layer in base_model.layers[10:]:
+        if not isinstance(layer, layers.BatchNormalization):
+            layer.trainable = True
+    # Rebuild top
+    x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
+    top_dropout_rate = 0.2
+    x = Dropout(top_dropout_rate, name="top_dropout")(x)
+    x = BatchNormalization()(x)
+    x = Dense(256, activation='relu')(x)
+    x = BatchNormalization()(x)
+    outputs = Dense(num_classes , activation="softmax", name="pred")(x)
+    # Compile
+    model = Model(inputs, outputs, name="EfficientNet")
+    print(model.summary())
+
+    return model
+
 def build_dense_net121(width, height, depth, classes):
     input_shape_densenet = (width, height, depth)
 
