@@ -9,7 +9,7 @@ import cv2
 #from matplotlib.image import imread
 # my packages
 from keras.preprocessing.image import ImageDataGenerator
-# from config import *
+from config import *
 from model_zoo import *
 from eer_calculation import cal_metric
 from keras.models import load_model
