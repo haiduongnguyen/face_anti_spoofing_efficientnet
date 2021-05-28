@@ -39,7 +39,7 @@ def build_new_efficient_net_b0(height, width, depth, num_classes):
     # top_dropout_rate = 0.2
     # x = Dropout(top_dropout_rate, name="top_dropout")(x)
     x = BatchNormalization()(x)
-    x = Dense(256, activation='relu')(x)
+    x = Dense(512, activation='relu')(x)
     x = BatchNormalization()(x)
     outputs = Dense(num_classes , activation="softmax", name="pred")(x)
     # Compile

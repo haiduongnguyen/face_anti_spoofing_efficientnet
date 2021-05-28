@@ -43,8 +43,11 @@ manual_variable_initialization(True)
 # model_name = 'new_b0_ver0'
 # model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
 
-model_name = 'new_b0_add_convolutional_layer'
-model = build_new_b0_add_convolutional_layer(224,224,3,2)
+# model_name = 'new_b0_add_convolutional_layer'
+# model = build_new_b0_add_convolutional_layer(224,224,3,2)
+
+model_name = 'new_b0_ver1'
+model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
 
 result_folder = work_place + '/result_' + model_name
 if not os.path.isdir(result_folder):
@@ -110,10 +113,10 @@ validation_generator = valid_datagen.flow_from_directory(
 
 my_loss = tfa.losses.SigmoidFocalCrossEntropy()
 
-opt_adam = keras.optimizers.Adam(lr=INIT_LR)
+opt_adam = keras.optimizers.Adam(lr=2e-4)
 opt_sgd = keras.optimizers.SGD(learning_rate=0.01, momentum=0.9)
 
-model.compile(loss="categorical_crossentropy", optimizer=opt_sgd, metrics=['categorical_accuracy'])
+model.compile(loss="categorical_crossentropy", optimizer=opt_adam, metrics=['categorical_accuracy', 'binary_accuracy'])
 
 log_dir = result_train_folder + '/' + 'log_'  +  model_name
 if not os.path.exists(log_dir):
@@ -150,7 +153,7 @@ history = model.fit(train_generator,
 end = datetime.datetime.now()
 delta = str(end-start)
 
-acc = history.history['accuracy']
+acc = history.history['categorical_accuracy']
 acc = acc[-5:]
 val_acc = history.history['val_accuracy']
 val_acc = val_acc[-5:]
