@@ -31,9 +31,9 @@ def eval(model_name, model_path, index):
 
       result_folder = work_place + '/result_' + model_name 
       # saver = tf.train.Saver()
-      saver = tf.compat.v1.train.Saver()
-      sess = keras.backend.get_session()
-      saver.restore(sess, result_folder + '/keras_session')
+      # saver = tf.compat.v1.train.Saver()
+      # sess = keras.backend.get_session()
+      # saver.restore(sess, result_folder + '/keras_session')
 
       result_test_folder = result_folder + '/test' + '_' + index[:-3]
       if not os.path.isdir(result_test_folder):
