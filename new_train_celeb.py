@@ -46,7 +46,7 @@ manual_variable_initialization(True)
 # model_name = 'new_b0_add_convolutional_layer'
 # model = build_new_b0_add_convolutional_layer(224,224,3,2)
 
-model_name = 'new_b0_ver2'
+model_name = 'new_b0_ver3'
 model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
 
 result_folder = work_place + '/result_' + model_name
@@ -89,34 +89,12 @@ validation_generator = valid_datagen.flow_from_directory(
         class_mode='categorical')
 
 
-
-# resnet 50
-# model_name = 'resnet50'
-# model = build_resnet50(width=image_size, height=image_size, depth=image_depth, classes=2)
-
-## efficent net b7
-# model_name = 'efficient_net_b7'
-# model = build_efficient_b7(width=image_size, height=image_size, depth=image_depth, classes=2)
-
-
-## efficent net b4
-
-# model_name = 'efficient_net_b4'
-# model = build_efficient_net_b4(image_size, image_depth, 2)
-
-# model_name = 'efficient_net_b5'
-# model = build_efficient_net_b5(image_size, 2)
-
-
-# model_name = 'efficient_net_b1'
-# model = build_efficient_net_b1(image_size, image_depth, 2)
-
 my_loss = tfa.losses.SigmoidFocalCrossEntropy()
 
 opt_adam = keras.optimizers.Adam(lr=3e-4)
 opt_sgd = keras.optimizers.SGD(learning_rate=0.01, momentum=0.9)
 
-model.compile(loss="categorical_crossentropy", optimizer=opt_adam, metrics=['categorical_accuracy'])
+model.compile(loss="categorical_crossentropy", optimizer=opt_adam, metrics=['accuracy'])
 
 log_dir = result_train_folder + '/' + 'log_'  +  model_name
 if not os.path.exists(log_dir):
@@ -152,7 +130,7 @@ history = model.fit(train_generator, epochs=EPOCHS, validation_data=validation_g
 end = datetime.datetime.now()
 delta = str(end-start)
 
-acc = history.history['categorical_accuracy']
+acc = history.history['accuracy']
 acc = acc
 val_acc = history.history['val_accuracy']
 val_acc = val_acc

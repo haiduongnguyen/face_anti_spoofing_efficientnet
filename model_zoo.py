@@ -35,12 +35,13 @@ def build_new_efficient_net_b0(height, width, depth, num_classes):
         if not isinstance(layer, layers.BatchNormalization):
             layer.trainable = True
     # Rebuild top
-    x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
-    # top_dropout_rate = 0.2
-    # x = Dropout(top_dropout_rate, name="top_dropout")(x)
-    x = BatchNormalization()(x)
+    # x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
+    x = Flatten()
+    # x = BatchNormalization()(x)
     x = Dense(512, activation='relu')(x)
     x = BatchNormalization()(x)
+    top_dropout_rate = 0.3
+    x = Dropout(top_dropout_rate, name="top_dropout")(x)
     outputs = Dense(num_classes , activation="softmax", name="pred")(x)
     # Compile
     model = Model(inputs, outputs, name="EfficientNet")
