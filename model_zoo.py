@@ -36,7 +36,7 @@ def build_new_efficient_net_b0(height, width, depth, num_classes):
             layer.trainable = True
     # Rebuild top
     # x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
-    x = Flatten()
+    x = Flatten()(base_model.output)
     # x = BatchNormalization()(x)
     x = Dense(512, activation='relu')(x)
     x = BatchNormalization()(x)
