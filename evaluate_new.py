@@ -9,7 +9,7 @@ import cv2
 #from matplotlib.image import imread
 # my packages
 from keras.preprocessing.image import ImageDataGenerator
-from config import *
+# from config import *
 from model_zoo import *
 from eer_calculation import cal_metric
 from keras.models import load_model
@@ -35,7 +35,7 @@ def eval(model_name, model_path, index):
       sess = keras.backend.get_session()
       saver.restore(sess, result_folder + '/keras_session')
 
-      result_test_folder = result_folder + '/test' + '_' + index[:-5]
+      result_test_folder = result_folder + '/test' + '_' + index[:-3]
       if not os.path.isdir(result_test_folder):
           os.makedirs(result_test_folder)
 
@@ -182,6 +182,8 @@ def eval(model_name, model_path, index):
                   batch_size=1,
                   class_mode='categorical')
           # print(model.evaluate())
+          opt_adam = keras.optimizers.Adam(lr=INIT_LR)
+          model.compile(loss="categorical_crossentropy", optimizer=opt_adam, metrics=['binary_accuracy', 'categorical_accuracy'])
           a = model.evaluate(validation_generator, batch_size=1)
           print(a,file=open(result_txt, 'a'))
         except:
@@ -193,14 +195,10 @@ def eval(model_name, model_path, index):
       print("No checkpoint at the path, check again!")
 
 
-
-def main():
+if __name__ == '__main__':
   model_name = 'new_b0_ver0'
   model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet' + '/result_' + model_name + '/train/checkpoint'
-  index_checkpoint = ['cp_02.hdf5' , 'cp_03.hdf5']
+  index_checkpoint = ['cp_02.h5' , 'cp_03.h5']
   for index in index_checkpoint:
-    eval(model_name, model_path, index)
-
-if __name__ == '__main__':
-    main()
+    eval(model_name, model_path, index)    
 
