@@ -46,7 +46,7 @@ manual_variable_initialization(True)
 # model_name = 'new_b0_add_convolutional_layer'
 # model = build_new_b0_add_convolutional_layer(224,224,3,2)
 
-model_name = 'new_b0_ver1'
+model_name = 'new_b0_ver2'
 model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
 
 result_folder = work_place + '/result_' + model_name
@@ -113,10 +113,10 @@ validation_generator = valid_datagen.flow_from_directory(
 
 my_loss = tfa.losses.SigmoidFocalCrossEntropy()
 
-opt_adam = keras.optimizers.Adam(lr=2e-4)
+opt_adam = keras.optimizers.Adam(lr=3e-4)
 opt_sgd = keras.optimizers.SGD(learning_rate=0.01, momentum=0.9)
 
-model.compile(loss="categorical_crossentropy", optimizer=opt_adam, metrics=['categorical_accuracy', 'binary_accuracy'])
+model.compile(loss="categorical_crossentropy", optimizer=opt_adam, metrics=['categorical_accuracy'])
 
 log_dir = result_train_folder + '/' + 'log_'  +  model_name
 if not os.path.exists(log_dir):
@@ -129,7 +129,7 @@ checkpoint_path = checkpoint_dir + "/cp_{epoch:02d}.h5"
 
 call_back = [tf.keras.callbacks.TensorBoard(log_dir=log_dir, write_graph=True), 
              tf.keras.callbacks.ModelCheckpoint( filepath=checkpoint_path ),
-             tf.keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=2, mode='auto', restore_best_weights=False)  
+             tf.keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=patience, mode='auto', restore_best_weights=False)  
             ]
 
 # history = model.fit(train_generator,
@@ -138,8 +138,7 @@ call_back = [tf.keras.callbacks.TensorBoard(log_dir=log_dir, write_graph=True),
 #       callbacks=call_back)
 
 
-history = model.fit(train_generator,
-      epochs=EPOCHS, validation_data=validation_generator, verbose=1, callbacks=call_back)
+history = model.fit(train_generator, epochs=EPOCHS, validation_data=validation_generator, verbose=1, callbacks=call_back)
 
 
 # # saver = tf.train.Saver()
@@ -154,13 +153,13 @@ end = datetime.datetime.now()
 delta = str(end-start)
 
 acc = history.history['categorical_accuracy']
-acc = acc[-5:]
+acc = acc
 val_acc = history.history['val_accuracy']
-val_acc = val_acc[-5:]
+val_acc = val_acc
 loss = history.history['loss']
-loss = loss[-5:]
+loss = loss
 val_loss = history.history['val_loss']
-val_loss = val_loss[-5:]
+val_loss = val_loss
 
 # End statement
 with open(training_output_txt, 'w') as f:

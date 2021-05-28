@@ -53,7 +53,8 @@ image_depth = 3
 # config parameter to train
 INIT_LR = 1e-4
 batch_size = 8
-EPOCHS = 8
+EPOCHS = 15
+patience = 5
 
 
 # folder save model after trained
