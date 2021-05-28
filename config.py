@@ -34,7 +34,7 @@ original_metas = work_place + '/make_json/metas'
 
 # json here is original label 43 attribute
 folder_save_json =  work_place + '/folder_save_json'
-make_dir(folder_save_json)
+# make_dir(folder_save_json)
 helper_train_json_path = folder_save_json + '/helper_train_json.json'
 helper_test_json_path =  folder_save_json + '/helper_test_json.json'
 
@@ -53,7 +53,7 @@ image_depth = 3
 # config parameter to train
 INIT_LR = 1e-4
 batch_size = 8
-EPOCHS = 5
+EPOCHS = 8
 
 
 # folder save model after trained

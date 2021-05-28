@@ -40,8 +40,11 @@ manual_variable_initialization(True)
 # model_name = 'new_efficient_b0_ver01'
 # model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
 
-model_name = 'new_b0_ver0'
-model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
+# model_name = 'new_b0_ver0'
+# model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
+
+model_name = 'new_b0_add_convolutional_layer'
+model = build_new_b0_add_convolutional_layer(224,224,3,2)
 
 result_folder = work_place + '/result_' + model_name
 if not os.path.isdir(result_folder):
@@ -110,7 +113,7 @@ my_loss = tfa.losses.SigmoidFocalCrossEntropy()
 opt_adam = keras.optimizers.Adam(lr=INIT_LR)
 opt_sgd = keras.optimizers.SGD(learning_rate=0.01, momentum=0.9)
 
-model.compile(loss="categorical_crossentropy", optimizer=opt_adam, metrics=["accuracy"])
+model.compile(loss="categorical_crossentropy", optimizer=opt_sgd, metrics=['categorical_accuracy'])
 
 log_dir = result_train_folder + '/' + 'log_'  +  model_name
 if not os.path.exists(log_dir):
@@ -123,7 +126,7 @@ checkpoint_path = checkpoint_dir + "/cp_{epoch:02d}.h5"
 
 call_back = [tf.keras.callbacks.TensorBoard(log_dir=log_dir, write_graph=True), 
              tf.keras.callbacks.ModelCheckpoint( filepath=checkpoint_path ),
-             tf.keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=2, mode='auto', restore_best_weights=True)  
+             tf.keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=2, mode='auto', restore_best_weights=False)  
             ]
 
 # history = model.fit(train_generator,
@@ -136,12 +139,12 @@ history = model.fit(train_generator,
       epochs=EPOCHS, validation_data=validation_generator, verbose=1, callbacks=call_back)
 
 
-# saver = tf.train.Saver()
-saver = tf.compat.v1.train.Saver()
-sess = keras.backend.get_session()
-saver.save(sess, result_folder + '/keras_session')
+# # saver = tf.train.Saver()
+# saver = tf.compat.v1.train.Saver()
+# sess = keras.backend.get_session()
+# saver.save(sess, result_folder + '/keras_session')
 
-model.save(result_train_folder + '/' + model_name + '.h5')
+# model.save(result_train_folder + '/' + model_name + '.h5')
 
 
 end = datetime.datetime.now()
