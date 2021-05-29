@@ -209,8 +209,14 @@ if __name__ == '__main__':
   # for index in index_checkpoint:
   #   eval(model_name, model_path, index)  
 
-  model_name = 'new_b0_ver3'
+  # model_name = 'new_b0_ver3'
+  # model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet' + '/result_' + model_name + '/train/checkpoint'
+  # index_checkpoint = ['cp_06.h5' , 'cp_08.h5']
+  # for index in index_checkpoint:
+  #   eval(model_name, model_path, index)  
+
+  model_name = 'new_b0_ver2'
   model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet' + '/result_' + model_name + '/train/checkpoint'
-  index_checkpoint = ['cp_06.h5' , 'cp_08.h5']
+  index_checkpoint = ['cp_03.h5' , 'cp_08.h5']
   for index in index_checkpoint:
     eval(model_name, model_path, index)  
