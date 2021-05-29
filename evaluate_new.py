@@ -104,6 +104,7 @@ def eval(model_name, model_path, index):
       print('eer spoof is : ' + str(result_spoof[0]) , file=open(result_txt, 'a'))
       print('tpr spoof is : ' + str(result_spoof[1]) , file=open(result_txt, 'a'))
       print('auc spoof is : ' + str(result_spoof[2]) , file=open(result_txt, 'a'))
+      print('threshold for eer is : ' + str(result_spoof[4]) , file=open(result_txt, 'a'))
 
 
 
@@ -115,13 +116,13 @@ def eval(model_name, model_path, index):
           for item in spoof_score:
               f.write("%s\n" % item)
 
-      # prediction = np.argmax(predict_score, axis=1)
-      # prediction = [1]*(spoof_score.shape[0])
-      # for i in range(spoof_score.shape[0]):
-      #     if spoof_score[i] < result_spoof[0]:
-      #         prediction[i] = 0
+      
+      prediction = [1]*(spoof_score.shape[0])
+      for i in range(spoof_score.shape[0]):
+          if spoof_score[i] < result_spoof[4]:
+              prediction[i] = 0
 
-      prediction = np.argmax(predict_score, axis=1)
+      # prediction = np.argmax(predict_score, axis=1)
 
 
       test_len = len(prediction)
@@ -202,8 +203,14 @@ if __name__ == '__main__':
   # for index in index_checkpoint:
   #   eval(model_name, model_path, index)    
 
-  model_name = 'new_b0_add_convolutional_layer'
+  # model_name = 'new_b0_add_convolutional_layer'
+  # model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet' + '/result_' + model_name + '/train/checkpoint'
+  # index_checkpoint = ['cp_03.h5' , 'cp_05.h5']
+  # for index in index_checkpoint:
+  #   eval(model_name, model_path, index)  
+
+  model_name = 'new_b0_ver3'
   model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet' + '/result_' + model_name + '/train/checkpoint'
-  index_checkpoint = ['cp_03.h5' , 'cp_05.h5']
+  index_checkpoint = ['cp_06.h5' , 'cp_08.h5']
   for index in index_checkpoint:
     eval(model_name, model_path, index)  

@@ -22,7 +22,12 @@ def cal_metric(groundTruth, predicted):
 
 	znew = abs(xnew + ynew-1)
 
-	eer=xnew[np.argmin(znew)]
+	eer = xnew[np.argmin(znew)]
+
+	h_new = abs(eer - fpr)
+	# print(h_new)
+	# print(thresholds)
+	eer_threshold = thresholds[np.argmin(h_new)]
 
 #	print('EER',eer)
 
@@ -38,9 +43,9 @@ def cal_metric(groundTruth, predicted):
 
 		TPRs[key] = float(np.squeeze(score))
 #	    print(key, score)
-	if 1:
+	if 0:
 		plt.plot(xnew, ynew)
 
 		plt.show()
 	auc = roc_auc_score(groundTruth, predicted)
-	return eer,TPRs, auc, {'x':xnew, 'y':ynew}
+	return eer,TPRs, auc, {'x':xnew, 'y':ynew}, eer_threshold
