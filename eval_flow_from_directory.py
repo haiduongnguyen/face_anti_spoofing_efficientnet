@@ -43,9 +43,17 @@ def eval(model_name, model_path, index):
             os.makedirs(result_test_folder)
 
         result_txt = result_test_folder + '/result_test.txt'
+        with open(result_txt, 'w') as f:
+            f.close()
         spoof_score_txt = result_test_folder + '/score_prediction.txt'
+        with open(spoof_score_txt, 'w') as f:
+            f.close()
         wrong_live_txt = result_test_folder + '/wrong_live_sample.txt'
+        with open(wrong_live_txt, 'w') as f:
+            f.close()
         wrong_spoof_txt = result_test_folder + '/wrong_spoof_sample.txt'
+        with open(wrong_spoof_txt, 'w') as f:
+            f.close()
 
 
         valid_datagen = ImageDataGenerator()   
