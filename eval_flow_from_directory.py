@@ -31,12 +31,10 @@ custom_object = {'binary_focal_loss_fixed': dill.loads(dill.dumps(binary_focal_l
                  'binary_focal_loss': binary_focal_loss}
 
 
-def eval(model_name, model_path, index):
+def eval(model_name, model_path, index, result_folder):
     checkpoint_path = os.path.join(model_path, index)
     if os.path.exists(checkpoint_path):
         model = load_model(checkpoint_path, custom_objects=custom_object)
-
-        result_folder = work_place + '/result_' + model_name 
 
         result_test_folder = result_folder + '/test_flow_from_directory_'  + index[:-3]
         if not os.path.isdir(result_test_folder):
@@ -172,21 +170,36 @@ if __name__ == '__main__':
   # index_checkpoint = ['cp_02.h5' , 'cp_03.h5']
   # for index in index_checkpoint:
   #   eval(model_name, model_path, index)    
+#   eval(model_name, model_path, index, result_folder) 
 
   # model_name = 'new_b0_add_convolutional_layer'
+    # result_folder = work_place + '/result_' + model_name 
   # model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet' + '/result_' + model_name + '/train/checkpoint'
   # index_checkpoint = ['cp_03.h5' , 'cp_05.h5']
   # for index in index_checkpoint:
   #   eval(model_name, model_path, index)  
+#   eval(model_name, model_path, index, result_folder) 
 
-  model_name = 'new_b0_ver3'
-  model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet' + '/result_' + model_name + '/train/checkpoint'
-  index_checkpoint = ['cp_06.h5' , 'cp_08.h5']
-  for index in index_checkpoint:
-    eval(model_name, model_path, index)  
+#   model_name = 'new_b0_ver3'
+#   result_folder = work_place + '/result_' + model_name 
+#   model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet' + '/result_' + model_name + '/train/checkpoint'
+#   index_checkpoint = ['cp_06.h5' , 'cp_08.h5']
+#   for index in index_checkpoint:
+#     eval(model_name, model_path, index)  
+# eval(model_name, model_path, index, result_folder) 
 
 #   model_name = 'new_b0_ver2'
+#   result_folder = work_place + '/result_' + model_name 
 #   model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet' + '/result_' + model_name + '/train/checkpoint'
 #   index_checkpoint = ['cp_03.h5' , 'cp_08.h5']
 #   for index in index_checkpoint:
 #     eval(model_name, model_path, index)  
+# eval(model_name, model_path, index, result_folder) 
+
+    model_name = 'b1_ver01'
+    result_folder = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_b1_ver01'
+    model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02' + '/result_' + model_name + '/train/checkpoint'
+    index_checkpoint = ['cp_05.h5' , 'cp_06.h5']
+
+    for index in index_checkpoint:
+        eval(model_name, model_path, index, result_folder) 
