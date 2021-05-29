@@ -116,12 +116,12 @@ def eval(model_name, model_path, index):
                 if labels[i] == 1 :
                     wrong_spoof += 1
                     wrong_spoof_list.append(i)
-            if predict_live == 0:
-                print('No prediction is live', file=open(result_txt, 'a'))
-                wrong_rate = 0
-            else:
-                print(f"number of spoof samples is predicted as live is {wrong_spoof}", file=open(result_txt, 'a'))
-                wrong_rate = round(wrong_spoof/count_live, 4)
+        if predict_live == 0:
+            print('No prediction is live', file=open(result_txt, 'a'))
+            wrong_rate = 0
+        else:
+            print(f"number of spoof samples is predicted as live is {wrong_spoof}", file=open(result_txt, 'a'))
+            wrong_rate = round(wrong_spoof/count_live, 4)
         print(f"model predict number of sample as live : {predict_live}", file=open(result_txt, 'a'))
         print(f"model has wrong live rate (BPCER) = {wrong_rate} ", file=open(result_txt, 'a'))
 
@@ -138,12 +138,12 @@ def eval(model_name, model_path, index):
                 if labels[i] == 0 :
                     wrong_live += 1
                     wrong_live_list.append(i)
-            if predict_spoof == 0:
-                print('No prediction is spoof')
-                wrong_rate = 0
-            else:
-                print(f"number of live samples is predicted as spoof is {wrong_live}", file=open(result_txt, 'a'))
-                wrong_rate = round(wrong_live/count_spoof, 4)
+        if predict_spoof == 0:
+            print('No prediction is spoof')
+            wrong_rate = 0
+        else:
+            print(f"number of live samples is predicted as spoof is {wrong_live}", file=open(result_txt, 'a'))
+            wrong_rate = round(wrong_live/count_spoof, 4)
         print(f"model predict number of sample as spoof : {predict_spoof}", file=open(result_txt, 'a'))
         print(f"model has wrong spoof rate (APCER) = {wrong_rate}", file=open(result_txt, 'a'))
 
