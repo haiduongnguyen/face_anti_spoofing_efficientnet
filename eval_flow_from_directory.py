@@ -24,6 +24,7 @@ from tqdm import tqdm
 from model_zoo import *
 from losses import binary_focal_loss, categorical_focal_loss
 
+
 import dill
 custom_object = {'binary_focal_loss_fixed': dill.loads(dill.dumps(binary_focal_loss(gamma=2., alpha=.25))),
                  'categorical_focal_loss_fixed': dill.loads(dill.dumps(categorical_focal_loss(gamma=2., alpha=[[.25, .25, .25]]))),
@@ -31,10 +32,10 @@ custom_object = {'binary_focal_loss_fixed': dill.loads(dill.dumps(binary_focal_l
                  'binary_focal_loss': binary_focal_loss}
 
 
-def eval(model_name, model_path, index, result_folder):
+def eval(model_path, index, result_folder):
     checkpoint_path = os.path.join(model_path, index)
     if os.path.exists(checkpoint_path):
-        model = load_model(checkpoint_path, custom_objects=custom_object)
+        model = load_model(checkpoint_path)
 
         result_test_folder = result_folder + '/test_flow_from_directory_'  + index[:-3]
         if not os.path.isdir(result_test_folder):
@@ -198,8 +199,7 @@ if __name__ == '__main__':
 
     model_name = 'b1_ver01'
     result_folder = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_b1_ver01'
-    model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02' + '/result_' + model_name + '/train/checkpoint'
+    model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_b1_ver01/train/checkpoint'
     index_checkpoint = ['cp_05.h5' , 'cp_06.h5']
-
     for index in index_checkpoint:
-        eval(model_name, model_path, index, result_folder) 
+        eval( model_path, index, result_folder) 
