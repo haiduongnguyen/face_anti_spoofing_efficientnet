@@ -33,6 +33,10 @@ custom_object = {'binary_focal_loss_fixed': dill.loads(dill.dumps(binary_focal_l
 
 
 def eval(model_path, index, result_folder):
+
+    # for b4 only
+    image_size = 380
+
     checkpoint_path = os.path.join(model_path, index)
     if os.path.exists(checkpoint_path):
         model = load_model(checkpoint_path)
@@ -64,9 +68,9 @@ def eval(model_path, index, result_folder):
                 shuffle= False,
                 class_mode='categorical')
 
-        model.compile(loss="categorical_crossentropy",  metrics=['binary_accuracy', 'categorical_accuracy'])
-        a = model.evaluate(validation_generator, batch_size=1)
-        print(a,file=open(result_txt, 'a'))
+        # model.compile(loss="categorical_crossentropy",  metrics=['binary_accuracy', 'categorical_accuracy'])
+        # a = model.evaluate(validation_generator, batch_size=1)
+        # print(a,file=open(result_txt, 'a'))
 
         filenames = validation_generator.filenames
         nb_samples = len(filenames)
@@ -197,9 +201,16 @@ if __name__ == '__main__':
 #     eval(model_name, model_path, index)  
 # eval(model_name, model_path, index, result_folder) 
 
-    model_name = 'b1_ver01'
-    result_folder = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_b1_ver01'
-    model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_b1_ver01/train/checkpoint'
-    index_checkpoint = ['cp_05.h5' , 'cp_06.h5']
+    # model_name = 'b1_ver01'
+    # result_folder = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_b1_ver01'
+    # model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_b1_ver01/train/checkpoint'
+    # index_checkpoint = ['cp_05.h5' , 'cp_06.h5']
+    # for index in index_checkpoint:
+    #     eval( model_path, index, result_folder) 
+
+    model_name = 'new_b4_ver01'
+    result_folder = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_new_b4_ver01'
+    model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_new_b4_ver01/train/checkpoint'
+    index_checkpoint = ['cp_02.h5' , 'cp_04.h5', 'cp_05.h5' , 'cp_07.h5']
     for index in index_checkpoint:
         eval( model_path, index, result_folder) 

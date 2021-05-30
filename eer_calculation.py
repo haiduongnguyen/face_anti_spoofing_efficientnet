@@ -43,9 +43,19 @@ def cal_metric(groundTruth, predicted):
 
 		TPRs[key] = float(np.squeeze(score))
 #	    print(key, score)
-	if 0:
-		plt.plot(xnew, ynew)
+	if 1:
+		plt.figure("auc")
+		plt.plot(xnew, ynew, label = "auc")
+		plt.xlabel("spoof_threshold")
+		plt.ylabel(" ")
 
+		plt.figure("fnr and fpr")
+		plt.plot( thresholds, 1 - tpr, label="fnr")
+		plt.plot(thresholds, fpr, label = "fpr")
+		plt.xlabel("spoof_threshold")
+		plt.ylabel(" ")
+
+		plt.legend()
 		plt.show()
 	auc = roc_auc_score(groundTruth, predicted)
 	return eer,TPRs, auc, {'x':xnew, 'y':ynew}, eer_threshold
