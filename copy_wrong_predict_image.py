@@ -72,10 +72,11 @@ def copy_wrong_img(model_name, txt_live_wrong, txt_spoof_wrong):
 
 if __name__ == '__main__':
 
-    model_name = 'efficient_b4_ver04'
+    model_name = 'b1_ver01'
 
-    txt_live_wrong = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_ver04/wrong_live_sample.txt'
-    txt_spoof_wrong = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_ver04/wrong_spoof_sample.txt'
+    result_test_folder = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_b1_ver01/test_flow_from_directory_cp_06'
+    txt_live_wrong =  result_test_folder + '/wrong_live_sample.txt'
+    txt_spoof_wrong = result_test_folder + '/wrong_spoof_sample.txt'
 
     copy_wrong_img(model_name, txt_live_wrong, txt_spoof_wrong)
 
