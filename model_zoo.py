@@ -36,6 +36,9 @@ def build_new_efficient_net_b0(height, width, depth, num_classes):
             layer.trainable = True
     # Rebuild top
     # x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
+
+
+    # ver_03
     base_output = base_model.output
     x = Conv2D(512, kernel_size = (1,1), activation='relu' )(base_output)
     top_dropout_rate = 0.3
@@ -53,29 +56,7 @@ def build_new_efficient_net_b0(height, width, depth, num_classes):
 
     return model
 
-def build_new_b0_add_convolutional_layer(height, width, depth, num_classes):
-    inputs = layers.Input(shape=(height, width, depth))
-    base_model = EfficientNetB0(include_top=False, input_tensor=inputs, weights="imagenet")
-    # Freeze the pretrained weights or not
-    # model.trainable = True
-    for layer in base_model.layers:
-        if not isinstance(layer, layers.BatchNormalization):
-            layer.trainable = True
-    # Rebuild top
-    base_output = base_model.output
-    x = Conv2D(512, kernel_size = (1,1), activation='relu' )(base_output)
-    x = GlobalAveragePooling2D(name="avg_pool")(x)
-    top_dropout_rate = 0.3
-    x = Dropout(top_dropout_rate, name="top_dropout")(x)
-    x = BatchNormalization()(x)
-    x = Dense(512, activation='relu')(x)
-    x = BatchNormalization()(x)
-    outputs = Dense(num_classes , activation="softmax", name="pred")(x)
-    # Compile
-    model = Model(inputs, outputs, name="EfficientNet")
-    print(model.summary())
 
-    return model
 
 def build_new_efficient_net_b1(height, width, depth, num_classes):
     inputs = layers.Input(shape=(height, width, depth))
@@ -106,16 +87,16 @@ def build_new_efficient_net_b4(height, width, depth, num_classes):
     base_model = EfficientNetB4(include_top=False, input_tensor=inputs, weights="imagenet")
     # Freeze the pretrained weights or not
     # model.trainable = True
-    for layer in base_model.layers[10:]:
+    for layer in base_model.layers:
         if not isinstance(layer, layers.BatchNormalization):
             layer.trainable = True
     # Rebuild top
     x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
-    top_dropout_rate = 0.2
-    x = Dropout(top_dropout_rate, name="top_dropout")(x)
+    # top_dropout_rate = 0.2
+    # x = Dropout(top_dropout_rate, name="top_dropout")(x)
     x = BatchNormalization()(x)
     x = Dense(512, activation='relu')(x)
-    x = Dense(128, activation='relu')(x)
+    x = Dense(64, activation='relu')(x)
     outputs = Dense(num_classes , activation="softmax", name="pred")(x)
     # Compile
     model = Model(inputs, outputs, name="EfficientNet")
