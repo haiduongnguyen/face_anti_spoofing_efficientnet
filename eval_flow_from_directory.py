@@ -208,9 +208,16 @@ if __name__ == '__main__':
     # for index in index_checkpoint:
     #     eval( model_path, index, result_folder) 
 
-    model_name = 'new_b4_ver01'
-    result_folder = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_new_b4_ver01'
-    model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_new_b4_ver01/train/checkpoint'
-    index_checkpoint = ['cp_02.h5' , 'cp_04.h5', 'cp_05.h5' , 'cp_07.h5']
+    # model_name = 'new_b4_ver01'
+    # result_folder = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_new_b4_ver01'
+    # model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_new_b4_ver01/train/checkpoint'
+    # index_checkpoint = ['cp_02.h5' , 'cp_04.h5', 'cp_05.h5' , 'cp_07.h5']
+    # for index in index_checkpoint:
+    #     eval( model_path, index, result_folder) 
+
+    model_name = 'b4_ver04'
+    result_folder = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_ver04'
+    model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_ver04/training_checkpoint/efficient_net_b4'
+    index_checkpoint = ['cp_02.h5' , 'cp_04.h5', 'cp_06.h5']
     for index in index_checkpoint:
         eval( model_path, index, result_folder) 
