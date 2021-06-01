@@ -54,6 +54,7 @@ def eval(model_name, model_path, index):
       scores = []
 
 
+      crop_data_test = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/data_test/test'
 
       with open(result_txt, 'w') as f:
         f.close()
