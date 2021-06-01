@@ -55,7 +55,8 @@ def eval(model_path, index, result_folder):
                 target_size=(image_size, image_size),
                 batch_size=1,
                 shuffle= False,
-                class_mode='categorical')
+                class_mode='categorical',
+                interpolation="bilinear")
 
         # model.compile(loss="categorical_crossentropy",  metrics=['binary_accuracy', 'categorical_accuracy'])
         # a = model.evaluate(validation_generator, batch_size=1)

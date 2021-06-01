@@ -81,7 +81,8 @@ train_generator = train_datagen.flow_from_directory(
         target_size=(image_size, image_size),
         batch_size=batch_size,
         # Since we use categorical_crossentropy loss, we need binary labels
-        class_mode='categorical')
+        class_mode='categorical',
+        interpolation="bilinear")
 
 # Note that the validation data should not be augmented!
 valid_datagen = ImageDataGenerator()   
@@ -90,7 +91,8 @@ validation_generator = valid_datagen.flow_from_directory(
         validation_dir,
         target_size=(image_size, image_size),
         batch_size=batch_size,
-        class_mode='categorical')
+        class_mode='categorical',
+        interpolation="bilinear")
 
 
 my_loss = tfa.losses.SigmoidFocalCrossEntropy()
