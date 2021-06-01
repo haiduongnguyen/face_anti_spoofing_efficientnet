@@ -1,3 +1,10 @@
+"""
+The problem is evaluate give different from predict one image
+I found a problem to this evaluate cause of cv2.resize is different from tf.image.resize in flow_from_directory function
+so i have write a new script that use predict from flow_directory function and see the eer again
+I waste 3 weeks to recognize a this :( so hope can be useful for other
+"""
+
 from matplotlib.pyplot import axis
 import numpy as np
 import keras
@@ -60,9 +67,18 @@ def eval(model_name, model_path, index):
       count_live = 0
       for image_name in tqdm(os.listdir(path_live)):
         image = cv2.imread(os.path.join(path_live, image_name))
-        image = cv2.resize(image, (image_size,image_size))
-        # image = np.array(image, 'float32')
-        image = np.expand_dims(image, 0)
+        
+        # use cv2.resize
+        # image = cv2.resize(image, (image_size,image_size))
+        # # image = np.array(image, 'float32')
+        # image = np.expand_dims(image, 0)
+
+        # use tf.resize
+        image = tf.constant(image)
+        image = tf.image.resize(image, (image_size,image_size))
+        image = tf.expand_dims(image, axis=0 )
+
+
         score = model.predict(image)
         scores.append(score)
         count_live += 1
@@ -73,9 +89,19 @@ def eval(model_name, model_path, index):
       count_spoof = 0
       for image_name in tqdm(os.listdir(path_spoof)):
         image = cv2.imread(os.path.join(path_spoof, image_name))
-        image = cv2.resize(image, (image_size,image_size))
-        # image = np.array(image, 'float32')
-        image = np.expand_dims(image, 0)
+        
+        
+        # image = cv2.resize(image, (image_size,image_size))
+        # # image = np.array(image, 'float32')
+        # image = np.expand_dims(image, 0)
+
+        
+        image = tf.constant(image)
+        image = tf.image.resize(image, (image_size,image_size))
+        image = tf.expand_dims(image, axis=0 )
+        
+        
+        
         score = model.predict(image)
         scores.append(score)
         count_spoof += 1
