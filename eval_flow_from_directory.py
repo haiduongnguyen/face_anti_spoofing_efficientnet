@@ -22,21 +22,10 @@ from eer_calculation import cal_metric
 from keras.models import load_model
 from tqdm import tqdm
 from model_zoo import *
-from losses import binary_focal_loss, categorical_focal_loss
-
-
-import dill
-custom_object = {'binary_focal_loss_fixed': dill.loads(dill.dumps(binary_focal_loss(gamma=2., alpha=.25))),
-                 'categorical_focal_loss_fixed': dill.loads(dill.dumps(categorical_focal_loss(gamma=2., alpha=[[.25, .25, .25]]))),
-                 'categorical_focal_loss': categorical_focal_loss,
-                 'binary_focal_loss': binary_focal_loss}
 
 
 def eval(model_path, index, result_folder):
-
-    # for b4 only
-    image_size = 380
-
+    image_size = 224
     checkpoint_path = os.path.join(model_path, index)
     if os.path.exists(checkpoint_path):
         model = load_model(checkpoint_path)
