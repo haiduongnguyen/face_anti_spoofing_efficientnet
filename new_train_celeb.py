@@ -46,12 +46,12 @@ manual_variable_initialization(True)
 # model_name = 'new_b0_add_convolutional_layer'
 # model = build_new_b0_add_convolutional_layer(224,224,3,2)
 
-# model_name = 'new_b0_ver3'
-# model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
+model_name = 'new_b0_ver4'
+model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
 
-model_name = 'new_b4_ver01'
-image_size = 380
-model = build_new_efficient_net_b4(380, 380, 3, 2)
+# model_name = 'new_b4_ver01'
+# image_size = 380
+# model = build_new_efficient_net_b4(380, 380, 3, 2)
 
 result_folder = work_place + '/result_' + model_name
 if not os.path.isdir(result_folder):
