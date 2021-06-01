@@ -4,7 +4,7 @@ from config import work_place
 import cv2
 from tqdm import tqdm
 
-dir = work_place + '/data/crop'
+dir = work_place + '/data_crop'
 
 bad_list=[]
 
