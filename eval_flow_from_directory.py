@@ -49,7 +49,7 @@ def eval(model_path, index, result_folder):
 
 
         valid_datagen = ImageDataGenerator()   
-        validation_dir = crop_data_test
+        validation_dir = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/data_test/test'
         validation_generator = valid_datagen.flow_from_directory(
                 validation_dir,
                 target_size=(image_size, image_size),
@@ -187,7 +187,7 @@ if __name__ == '__main__':
     result_folder = work_place + '/result_' + model_name 
     model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet' + '/result_' + model_name + '/train/checkpoint'
 #   index_checkpoint = ['cp_03.h5' , 'cp_08.h5']
-    index_checkpoint = ['cp_01.h5']
+    index_checkpoint = ['cp_01.h5', 'cp_03.h5']
     for index in index_checkpoint:
         eval(model_path, index, result_folder) 
 
