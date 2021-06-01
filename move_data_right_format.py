@@ -72,10 +72,22 @@ if check_folder(folder_path):
 print(len(list_folder))
 
 
+# def copy_dir_to_dir(source, destination):
+#     for file_name in os.listdir(source):
+#         s = os.path.join(source, file_name)
+#         d = os.path.join(destination, file_name)
+#         shutil.copy2(s, d)
+
 def copy_dir_to_dir(source, destination):
     for file_name in os.listdir(source):
         s = os.path.join(source, file_name)
-        d = os.path.join(destination, file_name)
+        # an example of source:
+        # /home/duongnh/photo_celeb/test/952/live
+        # an example of file_name
+        # 5461738_crop.jpg
+        fol_name = source.split("/")[-2]
+        new_name = fol_name + '_' + file_name
+        d = os.path.join(destination, new_name)
         shutil.copy2(s, d)
 
 for folder_path in tqdm(list_folder):
