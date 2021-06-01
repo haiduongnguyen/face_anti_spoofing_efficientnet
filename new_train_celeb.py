@@ -70,7 +70,8 @@ train_datagen = ImageDataGenerator(
       shear_range=0.2,
       zoom_range=0.2,
       horizontal_flip=True,
-      fill_mode='nearest'
+      fill_mode='nearest',
+      brightness_range=[0.5,1.5]
 )
 
 train_dir = crop_data_train
@@ -82,7 +83,8 @@ train_generator = train_datagen.flow_from_directory(
         batch_size=batch_size,
         # Since we use categorical_crossentropy loss, we need binary labels
         class_mode='categorical',
-        interpolation="bilinear")
+        interpolation="bilinear", 
+        seed=2021)
 
 # Note that the validation data should not be augmented!
 valid_datagen = ImageDataGenerator()   
@@ -92,7 +94,8 @@ validation_generator = valid_datagen.flow_from_directory(
         target_size=(image_size, image_size),
         batch_size=batch_size,
         class_mode='categorical',
-        interpolation="bilinear")
+        interpolation="bilinear",
+        seed=2021)
 
 
 my_loss = tfa.losses.SigmoidFocalCrossEntropy()
