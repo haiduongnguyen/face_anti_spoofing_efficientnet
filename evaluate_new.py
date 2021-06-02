@@ -23,6 +23,7 @@ from keras.models import load_model
 from tqdm import tqdm
 from model_zoo import *
 from losses import binary_focal_loss, categorical_focal_loss
+from PIL import Image
 
 import dill
 custom_object = {'binary_focal_loss_fixed': dill.loads(dill.dumps(binary_focal_loss(gamma=2., alpha=.25))),
@@ -67,7 +68,7 @@ def eval(model_name, model_path, index):
 
       count_live = 0
       for image_name in tqdm(os.listdir(path_live)):
-        image = cv2.imread(os.path.join(path_live, image_name))
+        face = cv2.imread(os.path.join(path_live, image_name))
         
         # use cv2.resize
         # image = cv2.resize(image, (image_size,image_size))
@@ -75,12 +76,17 @@ def eval(model_name, model_path, index):
         # image = np.expand_dims(image, 0)
 
         # use tf.resize
-        image = tf.constant(image)
-        image = tf.image.resize(image, (image_size,image_size),  method='nearest')
-        image = tf.expand_dims(image, axis=0 )
+        # image = tf.constant(image)
+        # image = tf.image.resize(image, (image_size,image_size))
+        # image = tf.expand_dims(image, axis=0 )
 
+        face = Image.fromarray(face)
+        face = face.resize( (image_size,image_size), Image.BILINEAR )
+        face = keras.preprocessing.image.img_to_array(face)
+        # expand dim
+        face = np.array([face])
 
-        score = model.predict(image)
+        score = model.predict(face)
         scores.append(score)
         count_live += 1
       print(count_live)
@@ -89,21 +95,24 @@ def eval(model_name, model_path, index):
 
       count_spoof = 0
       for image_name in tqdm(os.listdir(path_spoof)):
-        image = cv2.imread(os.path.join(path_spoof, image_name))
-        
-        
+        face = cv2.imread(os.path.join(path_spoof, image_name))
+      
         # image = cv2.resize(image, (image_size,image_size))
         # # image = np.array(image, 'float32')
         # image = np.expand_dims(image, 0)
 
+        # image = tf.constant(image)
+        # image = tf.image.resize(image, (image_size,image_size))
+        # image = tf.expand_dims(image, axis=0 )
+
+        # load image by cv2, resize by PIL.Image
+        face = Image.fromarray(face)
+        face = face.resize( (image_size,image_size), Image.BILINEAR )
+        face = keras.preprocessing.image.img_to_array(face)
+        # expand dim
+        face = np.array([face])
         
-        image = tf.constant(image)
-        image = tf.image.resize(image, (image_size,image_size),  method='nearest')
-        image = tf.expand_dims(image, axis=0 )
-        
-        
-        
-        score = model.predict(image)
+        score = model.predict(face)
         scores.append(score)
         count_spoof += 1
       print(count_spoof)
@@ -201,21 +210,21 @@ def eval(model_name, model_path, index):
 
         avg_wrong_rate = round((wrong_live + wrong_spoof)/(count_live + count_spoof), 4)
         print(f"the average wrong rate of model is: {avg_wrong_rate}", file=open(result_txt, 'a'))
-        try:
-          valid_datagen = ImageDataGenerator()   
-          validation_dir = crop_data_test
-          validation_generator = valid_datagen.flow_from_directory(
-                  validation_dir,
-                  target_size=(image_size, image_size),
-                  batch_size=1,
-                  class_mode='categorical')
-          # print(model.evaluate())
-          opt_adam = keras.optimizers.Adam(lr=INIT_LR)
-          model.compile(loss="categorical_crossentropy", optimizer=opt_adam, metrics=['binary_accuracy', 'categorical_accuracy'])
-          a = model.evaluate(validation_generator, batch_size=1)
-          print(a,file=open(result_txt, 'a'))
-        except:
-          pass
+        # try:
+        #   valid_datagen = ImageDataGenerator()   
+        #   validation_dir = crop_data_test
+        #   validation_generator = valid_datagen.flow_from_directory(
+        #           validation_dir,
+        #           target_size=(image_size, image_size),
+        #           batch_size=1,
+        #           class_mode='categorical')
+        #   # print(model.evaluate())
+        #   opt_adam = keras.optimizers.Adam(lr=INIT_LR)
+        #   model.compile(loss="categorical_crossentropy", optimizer=opt_adam, metrics=['binary_accuracy', 'categorical_accuracy'])
+        #   a = model.evaluate(validation_generator, batch_size=1)
+        #   print(a,file=open(result_txt, 'a'))
+        # except:
+        #   pass
 
       else:
         print('something went wrong, check again')
@@ -242,8 +251,14 @@ if __name__ == '__main__':
   # for index in index_checkpoint:
   #   eval(model_name, model_path, index)  
 
-  model_name = 'new_b0_ver2'
+  # model_name = 'new_b0_ver2'
+  # model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet' + '/result_' + model_name + '/train/checkpoint'
+  # index_checkpoint = ['cp_01.h5' , 'cp_03.h5']
+  # for index in index_checkpoint:
+  #   eval(model_name, model_path, index)  
+
+  model_name = 'new_b0_ver4'
   model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet' + '/result_' + model_name + '/train/checkpoint'
-  index_checkpoint = ['cp_01.h5' , 'cp_03.h5']
+  index_checkpoint = ['cp_01.h5' , 'cp_02.h5']
   for index in index_checkpoint:
     eval(model_name, model_path, index)  
