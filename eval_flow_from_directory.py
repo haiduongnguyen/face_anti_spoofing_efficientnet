@@ -40,13 +40,14 @@ def eval(model_path, index, result_folder):
         spoof_score_txt = result_test_folder + '/score_prediction.txt'
         with open(spoof_score_txt, 'w') as f:
             f.close()
-        wrong_live_txt = result_test_folder + '/wrong_live_sample.txt'
-        with open(wrong_live_txt, 'w') as f:
-            f.close()
-        wrong_spoof_txt = result_test_folder + '/wrong_spoof_sample.txt'
-        with open(wrong_spoof_txt, 'w') as f:
-            f.close()
+        
+        wrong_sample_index = result_test_folder + '/wrong_sample_index.txt'
+        with open(wrong_sample_index, 'w') as f:
+            f.close()     
 
+        wrong_sample_path = result_test_folder + '/wrong_sample_path.txt'
+        with open(wrong_sample_path, 'w') as f:
+            f.close()      
 
         valid_datagen = ImageDataGenerator()   
         validation_dir = crop_data_test
@@ -56,7 +57,8 @@ def eval(model_path, index, result_folder):
                 batch_size=1,
                 shuffle= False,
                 class_mode='categorical',
-                interpolation="bilinear")
+                interpolation="bilinear",
+                seed=2021)
 
         # model.compile(loss="categorical_crossentropy",  metrics=['binary_accuracy', 'categorical_accuracy'])
         # a = model.evaluate(validation_generator, batch_size=1)
@@ -105,10 +107,9 @@ def eval(model_path, index, result_folder):
 
       # prediction = np.argmax(predict_score, axis=1)
 
-
         test_len = len(prediction)
 
-        wrong_spoof_list = []
+        wrong_list = []
         predict_live = 0
         wrong_spoof = 0
         for i in range(test_len):
@@ -116,7 +117,7 @@ def eval(model_path, index, result_folder):
                 predict_live += 1
                 if labels[i] == 1 :
                     wrong_spoof += 1
-                    wrong_spoof_list.append(i)
+                    wrong_list.append(i)
         if predict_live == 0:
             print('No prediction is live', file=open(result_txt, 'a'))
             wrong_rate = 0
@@ -126,19 +127,15 @@ def eval(model_path, index, result_folder):
         print(f"model predict number of sample as live : {predict_live}", file=open(result_txt, 'a'))
         print(f"model has wrong live rate (BPCER) = {wrong_rate} ", file=open(result_txt, 'a'))
 
-        with open(wrong_spoof_txt, 'w') as f:
-          for item in wrong_spoof_list:
-              f.write("%s\n" % item)
-
         predict_spoof = 0
         wrong_live = 0
-        wrong_live_list = []
+
         for i in range(test_len):
             if prediction_class[i] == 1:
                 predict_spoof += 1
                 if labels[i] == 0 :
                     wrong_live += 1
-                    wrong_live_list.append(i)
+                    wrong_list.append(i)
         if predict_spoof == 0:
             print('No prediction is spoof')
             wrong_rate = 0
@@ -148,12 +145,20 @@ def eval(model_path, index, result_folder):
         print(f"model predict number of sample as spoof : {predict_spoof}", file=open(result_txt, 'a'))
         print(f"model has wrong spoof rate (APCER) = {wrong_rate}", file=open(result_txt, 'a'))
 
-        with open(wrong_live_txt, 'w') as f:
-            for item in wrong_live_list:
-                f.write("%s\n" % item)
 
         avg_wrong_rate = round((wrong_live + wrong_spoof)/(count_live + count_spoof), 4)
         print(f"the average wrong rate of model is: {avg_wrong_rate}", file=open(result_txt, 'a'))
+
+        with open(wrong_sample_index, 'w') as f:
+            for item in wrong_list:
+                f.write("%s\n" % item)
+        
+        wrong_path = []
+        for sample_index in wrong_list:
+            wrong_path.append(filenames[sample_index])
+        with open(wrong_sample_path, 'w') as f:
+            for item in wrong_path:
+                f.write("%s\n" % item)
 
     else:
         print("No checkpoint at the path, check again!")
