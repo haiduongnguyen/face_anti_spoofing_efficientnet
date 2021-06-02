@@ -49,8 +49,9 @@ def eval(model_name, model_path, index):
 
       result_txt = result_test_folder + '/result_test.txt'
       score_txt = result_test_folder + '/score_prediction.txt'
-      wrong_live_txt = result_test_folder + '/wrong_live_sample.txt'
-      wrong_spoof_txt = result_test_folder + '/wrong_spoof_sample.txt'
+      # wrong_live_txt = result_test_folder + '/wrong_live_sample.txt'
+      # wrong_spoof_txt = result_test_folder + '/wrong_spoof_sample.txt'
+      wrong_sample_txt = result_test_folder + '/wrong_sample.txt'
 
       scores = []
 
@@ -67,7 +68,8 @@ def eval(model_name, model_path, index):
 
 
       count_live = 0
-      for image_name in tqdm(os.listdir(path_live)):
+      live_image_list = os.listdir(path_live)
+      for image_name in tqdm(live_image_list):
         face = cv2.imread(os.path.join(path_live, image_name))
         
         # use cv2.resize
@@ -94,7 +96,9 @@ def eval(model_name, model_path, index):
 
 
       count_spoof = 0
-      for image_name in tqdm(os.listdir(path_spoof)):
+      spoof_image_list = os.listdir(path_spoof)
+      image_list = live_image_list + spoof_image_list
+      for image_name in tqdm(spoof_image_list):
         face = cv2.imread(os.path.join(path_spoof, image_name))
       
         # image = cv2.resize(image, (image_size,image_size))
@@ -182,9 +186,13 @@ def eval(model_name, model_path, index):
         print(f"model predict number of sample as live : {predict_live}", file=open(result_txt, 'a'))
         print(f"model has wrong live rate (BPCER) = {wrong_rate} ", file=open(result_txt, 'a'))
 
-        with open(wrong_spoof_txt, 'w') as f:
-          for item in wrong_spoof_list:
-              f.write("%s\n" % item)
+        # with open(wrong_spoof_txt, 'w') as f:
+        #   for item in wrong_spoof_list:
+        #       f.write("%s\n" % item)
+        with open(wrong_sample_txt, 'w') as f:
+          for img_index in wrong_spoof_list:
+            img_path = os.path.join(path_spoof, image_list[img_index])
+            f.write("%s\n" % img_path)
 
         predict_spoof = 0
         wrong_live = 0
@@ -204,9 +212,12 @@ def eval(model_name, model_path, index):
         print(f"model predict number of sample as spoof : {predict_spoof}", file=open(result_txt, 'a'))
         print(f"model has wrong spoof rate (APCER) = {wrong_rate}", file=open(result_txt, 'a'))
 
-        with open(wrong_live_txt, 'w') as f:
-            for item in wrong_live_list:
-                f.write("%s\n" % item)
+        with open(wrong_sample_txt, 'a') as f:
+            for img_index in wrong_live_list:
+              img_path = os.path.join(path_live, image_list[img_index])
+              f.write("%s\n" % img_path)
+        
+
 
         avg_wrong_rate = round((wrong_live + wrong_spoof)/(count_live + count_spoof), 4)
         print(f"the average wrong rate of model is: {avg_wrong_rate}", file=open(result_txt, 'a'))
