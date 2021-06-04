@@ -1,61 +1,35 @@
-# description
-model: efficient net b4     
-data: celeb - photo      
-- train: 195k images (live + spoof)      
-- test == valid: 28k images (live + spoof)      
-framework: tensorflow + keras
-python: 3.6.9
+# Topic
+Using Efficient Net to solve problem:      
+Face anti spoofing
+
+# Description
+- Based on better result in computer vision tasks, Efficient net will be used in this code. Paper about EfficientNet [here](https://arxiv.org/pdf/1905.11946.pdf)
+- Face anti spoofing is a hot topic recently. A very detail survey about this topic [here](https://arxiv.org/pdf/2010.04145.pdf)
+- The code may be not clean, I am learning to improve in future.
+
+# Installation     
+- Use pip to install all needed library      
+```bash
+pip install -r requirements.txt
+```
+# Usage
+1. Config and train models
+ - Go to model_zoo.py to see my initial models or add some
+ - Go to config.py to see initial config, you can change to match with your model
+ - Go to train.py to see training process
+ - Note that all of the code using tensorflow and keras
+2. Evaluate models
+ - There are two file can evaluate the model: evaluate_opencv.py and evaluate_tf.py, the biggest difference between them is read image from directory: one read image by opencv, the other read by tensorflow, and then image will be resized to match model input. Both read function and resize function affect the performance of model, so notice that.
+ - After run file to evaluate, the result will saved in / result_ \[model_name] / test_ \[cv or tf] . Result will include eer calculation, wrong sample path, and score prediction of test samples.    
+ 3. Demo
+ In demo folder, you can see some files:
+  - demo_face_detector.py: read an image and show image with face detection only
+  - demo_image.py: read an image, then detect face in image and predict that face is real or spoof 
+  - demo_video.py: read a video, show result of each frame in video, you can choose save video result or not
+  - demo_camera.py: read from camera of computer, this will show result of each frame
+  - gui.py: a simple GUI with tkinter to test on image
+ All the files, you can change model_path to change model. The default will use a efficient net b0 which i trained before.
+# Note
+These are important notes about the code
 
 
-
-# Run code
-## step 1: create virtual environment    
-run        
-**python3 -m venv venv**      
-**python3 source venv/bin/activate**     
-**cd face_anti_spoofing_efficientnet**      
-
-install needed packages      
-**pip install -r 'requirement.txt'**  
-
-## step 2: modify parameter in config.py and make needed folder
-- work_place : the current directory that we use to work       
-- raw_data : path to celeb - photo data     
-
-if you want to change backbone, model compile or image config, change:       
-- model config: image_size, image_depth, batch_size, optimizer   
-- model_name          
-- run **python3 config.py**     
-then these folder will be create: folder_save_json, data/crop, log
-      
-## step 3: make helper json 
-helper json will modify from original json to right path data   
-come to make_helper_json and change the path to work_place in **line 5**. Then run        
-**python3 make_json/make_helper_json.py**    
-then helper_json will be saved in folder_save_json, open helper_json to check if the path is correct or not      
-  
-## step 4: make data    
-from raw data we must cut face from image & save them to another directory
-careful that here I use valid set and test set same, if have different valid set and test set, need to init new json and make data again       
-run    
-**python3 make_data.py**      
-then croped data will be saved in /data/crop     
-  
-## step 5: train model  
-can modify model in **model_zoo.py** or create new model  
-if change model, careful to  size of model input, function call model in train_celeb.py, model_name in config.py  
-if you want to use data augmentation, uncomment from line 18 - 24       
-if you want to change model complie, change from line 58 - 60
-if you want to change compile, callback configuration, change from line 66 - 74
-run              
-**python3 train_celeb.py**     
-to use gpu, add this command before python3 train_celeb.py      
-**CUDA_VISIBLE_DEVICES=0**       
-after training, result training will be saved in result_training_output.txt       
-the last model will be saved in work_place      
-  
-## step 6: evaluate model  
-evaluate model on test set  
-run   
-**python3 evaluate.py**     
-the result will be saved in result_test.txt
