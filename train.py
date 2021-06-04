@@ -4,7 +4,6 @@ import tensorflow as tf
 import tensorflow_addons as tfa
 import tensorflow_lattice as tfl
 import os, datetime
-import numpy as np
 from keras.preprocessing.image import ImageDataGenerator
 from keras.utils import to_categorical
 import statistics
@@ -17,18 +16,23 @@ from PIL import Image, ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 start = datetime.datetime.now()
-from losses import categorical_focal_loss
-from keras.backend import manual_variable_initialization 
-manual_variable_initialization(True)
+from focal_losses import categorical_focal_loss
 
 
-
+INIT_LR = 1e-4
+batch_size = 8
+EPOCHS = 15
+patience = 5
 
 # model_name = 'efficient_net_b1_ver03'
 # model = build_efficient_net_b1(image_size, image_depth, 2)
 
 # model_name = 'efficient_net_b4_ver06'
 # model = build_efficient_net_b4(image_size, image_depth, 2)
+
+# model_name = 'new_b4_ver01'
+# image_size = 380
+# model = build_new_efficient_net_b4(380, 380, 3, 2)
 
 # model_name = 'densenet121_ver01'
 # model = build_dense_net121(image_size, image_size, image_depth, 2)
@@ -49,9 +53,6 @@ manual_variable_initialization(True)
 model_name = 'new_b0_ver4'
 model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
 
-# model_name = 'new_b4_ver01'
-# image_size = 380
-# model = build_new_efficient_net_b4(380, 380, 3, 2)
 
 result_folder = work_place + '/result_' + model_name
 if not os.path.isdir(result_folder):
@@ -97,8 +98,7 @@ validation_generator = valid_datagen.flow_from_directory(
         interpolation="bilinear",
         seed=2021)
 
-
-my_loss = tfa.losses.SigmoidFocalCrossEntropy()
+focal_loss = tfa.losses.SigmoidFocalCrossEntropy()
 
 opt_adam = keras.optimizers.Adam(lr=3e-4)
 opt_sgd = keras.optimizers.SGD(learning_rate=0.01, momentum=0.9)
@@ -119,22 +119,9 @@ call_back = [tf.keras.callbacks.TensorBoard(log_dir=log_dir, write_graph=True),
              tf.keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=patience, mode='auto', restore_best_weights=False)  
             ]
 
-# history = model.fit(train_generator,
-#       epochs=EPOCHS, validation_data=validation_generator, 
-#       verbose=2,
-#       callbacks=call_back)
-
-
 history = model.fit(train_generator, epochs=EPOCHS, validation_data=validation_generator, verbose=1, callbacks=call_back)
 
-
-# # saver = tf.train.Saver()
-# saver = tf.compat.v1.train.Saver()
-# sess = keras.backend.get_session()
-# saver.save(sess, result_folder + '/keras_session')
-
 # model.save(result_train_folder + '/' + model_name + '.h5')
-
 
 end = datetime.datetime.now()
 delta = str(end-start)

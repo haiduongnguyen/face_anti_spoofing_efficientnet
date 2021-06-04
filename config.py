@@ -2,7 +2,6 @@
 the file contain all path use in code
 just need to change the parameter to run
 """
-import keras
 import os
 
 def make_dir(path):
@@ -13,8 +12,8 @@ work_place = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_
 
 raw_data = ''
 
-data_train_path = raw_data + '/train'
-data_test_path  = raw_data + '/test'
+data_raw_train_path = raw_data + '/train'
+data_raw_test_path  = raw_data + '/test'
 
 
 crop_folder = work_place + '/data_crop'
@@ -49,14 +48,3 @@ detector =  work_place + '/face_detector'
 # image parameter
 image_size = 224
 image_depth = 3
-
-# config parameter to train
-INIT_LR = 1e-4
-batch_size = 8
-EPOCHS = 15
-patience = 5
-
-
-# folder save model after trained
-folder_save_model = work_place
-

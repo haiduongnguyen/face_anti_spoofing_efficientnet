@@ -1,6 +1,8 @@
 """
 The problem is evaluate give different from predict one image
-I found a problem to this evaluate cause of cv2.resize is different from tf.image.resize in flow_from_directory function
+I found a problem to this evaluate cause of 
+    cv2 read image differ from tensorflow read image
+    cv2.resize is different from tf.image.resize in flow_from_directory function
 so i have write a new script that use predict from flow_directory function and see the eer again
 I waste 3 weeks to recognize a this :( so hope can be useful for other
 """
@@ -12,8 +14,6 @@ import tensorflow as tf
 import os, datetime
 import numpy as np
 import cv2
-# if read image from matolotlib, what will happen
-#from matplotlib.image import imread
 # my packages
 from keras.preprocessing.image import ImageDataGenerator
 from config import *
@@ -165,59 +165,6 @@ def eval(model_path, index, result_folder):
 
 
 if __name__ == '__main__':
-  # model_name = 'new_b0_ver0'
-  # model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet' + '/result_' + model_name + '/train/checkpoint'
-  # index_checkpoint = ['cp_02.h5' , 'cp_03.h5']
-  # for index in index_checkpoint:
-  #   eval(model_name, model_path, index)    
-#   eval(model_name, model_path, index, result_folder) 
-
-  # model_name = 'new_b0_add_convolutional_layer'
-    # result_folder = work_place + '/result_' + model_name 
-  # model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet' + '/result_' + model_name + '/train/checkpoint'
-  # index_checkpoint = ['cp_03.h5' , 'cp_05.h5']
-  # for index in index_checkpoint:
-  #   eval(model_name, model_path, index)  
-#   eval(model_name, model_path, index, result_folder) 
-
-    # model_name = 'new_b0_ver3'
-    # result_folder = work_place + '/result_' + model_name 
-    # model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet' + '/result_' + model_name + '/train/checkpoint'
-    # # index_checkpoint = ['cp_06.h5' , 'cp_08.h5']
-    # index_checkpoint = ['cp_01.h5']
-    # for index in index_checkpoint:
-    #     # eval(model_name, model_path, index)  
-    #     eval(model_path, index, result_folder) 
-
-#     model_name = 'new_b0_ver2'
-#     result_folder = work_place + '/result_' + model_name 
-#     model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet' + '/result_' + model_name + '/train/checkpoint'
-# #   index_checkpoint = ['cp_03.h5' , 'cp_08.h5']
-#     index_checkpoint = ['cp_01.h5', 'cp_03.h5']
-#     for index in index_checkpoint:
-#         eval(model_path, index, result_folder) 
-
-    # model_name = 'b1_ver01'
-    # result_folder = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_b1_ver01'
-    # model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_b1_ver01/train/checkpoint'
-    # index_checkpoint = ['cp_05.h5' , 'cp_06.h5']
-    # for index in index_checkpoint:
-    #     eval( model_path, index, result_folder) 
-
-    # model_name = 'new_b4_ver01'
-    # result_folder = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_new_b4_ver01'
-    # model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet/result_new_b4_ver01/train/checkpoint'
-    # # index_checkpoint = ['cp_02.h5' , 'cp_04.h5', 'cp_05.h5' , 'cp_07.h5']
-    # index_checkpoint = ['cp_01.h5' ]
-    # for index in index_checkpoint:
-    #     eval( model_path, index, result_folder) 
-
-    # model_name = 'b4_ver04'
-    # result_folder = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_ver04'
-    # model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/result_ver04/training_checkpoint/efficient_net_b4'
-    # index_checkpoint = ['cp_02.h5' , 'cp_04.h5', 'cp_06.h5']
-    # for index in index_checkpoint:
-    #     eval( model_path, index, result_folder) 
 
     model_name = 'new_b0_ver4'
     result_folder = work_place + '/result_' + model_name 
