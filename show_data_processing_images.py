@@ -18,13 +18,7 @@ from tqdm import tqdm
 from model_zoo import *
 from PIL import Image
 
-
-
-
-
-
-
-validation_dir = '/home/duong/project/pyimage_research/version2_change_data/small_data_to_test/crop_data/test'
+validation_dir = crop_data_test
 valid_datagen = ImageDataGenerator()   
 
 validation_generator = valid_datagen.flow_from_directory(

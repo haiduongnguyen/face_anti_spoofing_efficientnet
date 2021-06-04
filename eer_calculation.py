@@ -31,10 +31,10 @@ def cal_metric(groundTruth, predicted):
 
 #	print('EER',eer)
 
-	FPR = {"TPR(1.%)": 0.01, "TPR(.5%)": 0.005}
+	FPR = {"TPR(1.%)": 0.01, "TPR(.5%)": 0.005, "TPR(5%)" : 0.05, "TPR(10%)" : 0.1}
 
 
-	TPRs = {"TPR(1.%)": 0.01, "TPR(.5%)": 0.005}
+	TPRs = {"TPR(1.%)": 0, "TPR(.5%)": 0, "TPR(5%)" : 0, "TPR(10%)" : 0}
 	for i, (key, value) in enumerate(FPR.items()):
 
 		index = np.argwhere(xnew == value)
