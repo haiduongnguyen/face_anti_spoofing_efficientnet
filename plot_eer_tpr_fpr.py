@@ -32,5 +32,6 @@ def graph_show(spoof_score_txt):
 
 if __name__ == '__main__':
     # spoof_score_txt = '/home/duong/project/pyimage_research/version2_change_data/result_b1_ver01/test_flow_from_directory_cp_06/score_prediction.txt'
-    spoof_score_txt = '/home/duong/project/pyimage_research/version2_change_data/result_new_b4_ver01/test_flow_from_directory_cp_04/score_prediction.txt'
+    # spoof_score_txt = '/home/duong/project/pyimage_research/version2_change_data/result_new_b4_ver01/test_flow_from_directory_cp_04/score_prediction.txt'
+    spoof_score_txt = '/home/duong/project/pyimage_research/version2_change_data/result_new_b0_ver3/test_flow_from_directory_cp_06/score_prediction.txt'
     graph_show(spoof_score_txt)
