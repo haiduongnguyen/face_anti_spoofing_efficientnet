@@ -13,7 +13,8 @@ import os
 import cv2
 import matplotlib.pyplot as plt
 from tqdm import tqdm
-
+import sys
+sys.path.insert(1, '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet')
 from config import crop_data_train, crop_data_test
 
 
