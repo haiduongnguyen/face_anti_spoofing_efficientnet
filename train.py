@@ -84,6 +84,7 @@ train_generator = train_datagen.flow_from_directory(
         batch_size=batch_size,
         # Since we use categorical_crossentropy loss, we need binary labels
         class_mode='categorical',
+        # interpolation="bilinear", 
         interpolation="bilinear", 
         seed=2021)
 

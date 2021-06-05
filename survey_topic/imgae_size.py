@@ -62,6 +62,7 @@ def show_graph(d:dict):
         y.append(value)
 
     x_pos = [i for i, _ in enumerate(x)]
+    plt.figure()
     plt.bar(x_pos, y, color='green')
     plt.xlabel("Size")
     plt.ylabel("Number of images")
@@ -81,4 +82,8 @@ show_graph(d2)
 plt.show()
 
 
+# this is the result after run:
+# size_train= {100: 1077, 200: 17298, 300: 36400, 400: 42121, 500: 39558, 600: 34338, 700: 19799, 800: 33470}
+# size_test = {100: 219, 200: 3483, 300: 6772, 400: 6289, 500: 7343, 600: 5800, 700: 4109, 800: 10378}
+#
 

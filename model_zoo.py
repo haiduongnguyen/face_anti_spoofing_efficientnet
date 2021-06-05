@@ -117,111 +117,111 @@ def build_new_efficient_net_b4(height, width, depth, num_classes):
 #             layer.trainable = True
 
 # def build_efficient_net_b4(IMG_SIZE, IMG_DEPTH, num_classes):
-#     inputs = layers.Input(shape=(IMG_SIZE, IMG_SIZE, IMG_DEPTH))
-#     model = EfficientNetB4(include_top=False, input_tensor=inputs, weights="imagenet")
+    inputs = layers.Input(shape=(IMG_SIZE, IMG_SIZE, IMG_DEPTH))
+    model = EfficientNetB4(include_top=False, input_tensor=inputs, weights="imagenet")
 
-#     # Freeze the pretrained weights or not
-#     model.trainable = True
+    # Freeze the pretrained weights or not
+    model.trainable = True
 
-#     # Rebuild top
-#     x = layers.GlobalAveragePooling2D(name="avg_pool")(model.output)
-#     # x = layers.BatchNormalization()(x)
-#     bn_layer = layers.BatchNormalization()
-#     bn_layer.training = False
-#     x = bn_layer(x)
+    # Rebuild top
+    x = layers.GlobalAveragePooling2D(name="avg_pool")(model.output)
+    # x = layers.BatchNormalization()(x)
+    bn_layer = layers.BatchNormalization()
+    bn_layer.training = False
+    x = bn_layer(x)
 
-#     # top_dropout_rate = 0.2
-#     # x = layers.Dropout(top_dropout_rate, name="top_dropout")(x)
-#     outputs = layers.Dense(num_classes , activation="softmax", name="pred")(x)
+    # top_dropout_rate = 0.2
+    # x = layers.Dropout(top_dropout_rate, name="top_dropout")(x)
+    outputs = layers.Dense(num_classes , activation="softmax", name="pred")(x)
 
-#     # Compile
-#     model = Model(inputs, outputs, name="EfficientNet")
+    # Compile
+    model = Model(inputs, outputs, name="EfficientNet")
 
-#     return model
+    return model
 
 # def build_dense_net121(width, height, depth, classes):
-#     input_shape_densenet = (width, height, depth)
+    input_shape_densenet = (width, height, depth)
 
-#     densenet_model = K.applications.DenseNet121(
-#         include_top=False,
-#         weights="imagenet",
-#         input_tensor=None,
-#         input_shape=input_shape_densenet,
-#         pooling=None )
-#     densenet_model.trainable = True
+    densenet_model = K.applications.DenseNet121(
+        include_top=False,
+        weights="imagenet",
+        input_tensor=None,
+        input_shape=input_shape_densenet,
+        pooling=None )
+    densenet_model.trainable = True
 
-#     # for layer in densenet_model.layers:
-#     #     if 'conv5' in layer.name:
-#     #         layer.trainable = True
-#     #     else:
-#     #         layer.trainable = False
+    # for layer in densenet_model.layers:
+    #     if 'conv5' in layer.name:
+    #         layer.trainable = True
+    #     else:
+    #         layer.trainable = False
 
-#     # densenet_model.summary()
+    # densenet_model.summary()
 
-#     # input = K.Input(shape=(32, 32, 3))
-#     # preprocess = K.layers.Lambda(lambda x: tf.image.resize_images(x, (224, 224)), name='lamb')(input)
+    # input = K.Input(shape=(32, 32, 3))
+    # preprocess = K.layers.Lambda(lambda x: tf.image.resize_images(x, (224, 224)), name='lamb')(input)
 
-#     layer = densenet_model.output
+    layer = densenet_model.output
 
-#     layer = K.layers.Flatten()(layer)
+    layer = K.layers.Flatten()(layer)
 
-#     layer = K.layers.BatchNormalization()(layer)
+    layer = K.layers.BatchNormalization()(layer)
 
-#     layer = K.layers.Dense(units=256, activation='relu')(layer)
+    layer = K.layers.Dense(units=256, activation='relu')(layer)
 
-#     layer = K.layers.Dropout(0.2)(layer)
+    layer = K.layers.Dropout(0.2)(layer)
 
-#     layer = K.layers.BatchNormalization()(layer)
+    layer = K.layers.BatchNormalization()(layer)
 
-#     layer = K.layers.Dense(units=128, activation='relu')(layer)
+    layer = K.layers.Dense(units=128, activation='relu')(layer)
 
-#     layer = K.layers.Dropout(0.2)(layer)
+    layer = K.layers.Dropout(0.2)(layer)
 
-#     comeon = K.layers.Dense(units=classes, activation='softmax')(layer)
+    comeon = K.layers.Dense(units=classes, activation='softmax')(layer)
 
-#     model = K.models.Model(inputs=densenet_model.input, outputs=comeon)
+    model = K.models.Model(inputs=densenet_model.input, outputs=comeon)
 
-#     model.summary()
+    model.summary()
 
-#     return model
+    return model
 
 
 
 # def build_resnet50(width, height, depth, classes):
-#     # net = ResNet50(include_top=False, weights='imagenet', input_tensor=None,
-#     # 			   input_shape=(width, height, depth))
-#     # res = net.output
-#     # res = GlobalAveragePooling2D()(res)
-#     # fc = Dense(classes, activation='softmax', name='fc1000')(res)
-#     # model = Model(inputs=net.input, outputs=fc)
+    # net = ResNet50(include_top=False, weights='imagenet', input_tensor=None,
+    # 			   input_shape=(width, height, depth))
+    # res = net.output
+    # res = GlobalAveragePooling2D()(res)
+    # fc = Dense(classes, activation='softmax', name='fc1000')(res)
+    # model = Model(inputs=net.input, outputs=fc)
 
-#     net = ResNet50(include_top=False, weights='imagenet', input_tensor=None,
-#                 input_shape=(width, height, depth))
-#     res = net.output
-#     res = Flatten()(res)
-#     fc = Dense(classes, activation='softmax', name='fc2')(res)
-#     model = Model(inputs=net.input, outputs=fc)
-#     # global model_name 
-#     # model_name = 'resnet 50'
-#     return model
+    net = ResNet50(include_top=False, weights='imagenet', input_tensor=None,
+                input_shape=(width, height, depth))
+    res = net.output
+    res = Flatten()(res)
+    fc = Dense(classes, activation='softmax', name='fc2')(res)
+    model = Model(inputs=net.input, outputs=fc)
+    # global model_name 
+    # model_name = 'resnet 50'
+    return model
 
 
 # def build_efficient_net_b1(IMG_SIZE, IMG_DEPTH, num_classes):
-#     inputs = layers.Input(shape=(IMG_SIZE, IMG_SIZE, IMG_DEPTH))
-#     model = EfficientNetB1(include_top=False, input_tensor=inputs, weights="imagenet")
+    inputs = layers.Input(shape=(IMG_SIZE, IMG_SIZE, IMG_DEPTH))
+    model = EfficientNetB1(include_top=False, input_tensor=inputs, weights="imagenet")
 
-#     # Freeze the pretrained weights or not
-#     model.trainable = True
+    # Freeze the pretrained weights or not
+    model.trainable = True
 
-#     # Rebuild top
-#     x = layers.GlobalAveragePooling2D(name="avg_pool")(model.output)
-#     x = layers.BatchNormalization()(x)
+    # Rebuild top
+    x = layers.GlobalAveragePooling2D(name="avg_pool")(model.output)
+    x = layers.BatchNormalization()(x)
 
-#     # top_dropout_rate = 0.2
-#     # x = layers.Dropout(top_dropout_rate, name="top_dropout")(x)
-#     outputs = layers.Dense(num_classes , activation="softmax", name="pred")(x)
+    # top_dropout_rate = 0.2
+    # x = layers.Dropout(top_dropout_rate, name="top_dropout")(x)
+    outputs = layers.Dense(num_classes , activation="softmax", name="pred")(x)
 
-#     # Compile
-#     model = Model(inputs, outputs, name="EfficientNet")
+    # Compile
+    model = Model(inputs, outputs, name="EfficientNet")
 
-#     return model
+    return model

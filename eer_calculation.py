@@ -29,7 +29,6 @@ def cal_metric(groundTruth, predicted):
 	# print(thresholds)
 	eer_threshold = thresholds[np.argmin(h_new)]
 
-#	print('EER',eer)
 
 	FPR = {"TPR(1.%)": 0.01, "TPR(.5%)": 0.005, "TPR(5%)" : 0.05, "TPR(10%)" : 0.1}
 
@@ -42,7 +41,7 @@ def cal_metric(groundTruth, predicted):
 		score = ynew[index] 
 
 		TPRs[key] = float(np.squeeze(score))
-#	    print(key, score)
+
 	if 1:
 		plt.figure("auc")
 		plt.plot(xnew, ynew, label = "auc")
