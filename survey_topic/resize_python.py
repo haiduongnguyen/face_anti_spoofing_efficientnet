@@ -63,15 +63,15 @@ def show_diff_cv_tf(img_path='', mode_resize = 'linear', new_size=10):
 
     img = cv2.imread(img_path)
 
-    resize_cv = cv2.resize(img, (new_size, new_size), interpolation=cv_code)
+    cv_resize = cv2.resize(img, (new_size, new_size), interpolation=cv_code)
     # print(resize_cv.dtype)
 
     img_tf = tf.constant(img)
-    resize_tf = tf.image.resize(img_tf , (new_size,new_size), method=tf_code).numpy()
-    resize_tf = np.ndarray.astype(resize_tf, np.uint8)
+    tf_resize = tf.image.resize(img_tf , (new_size,new_size), method=tf_code).numpy()
+    tf_resize = np.ndarray.astype(tf_resize, np.uint8)
     # print(resize_tf.dtype)
 
-    diff_1 = np.abs(resize_cv - resize_tf)
+    diff_1 = np.abs(cv_resize - tf_resize)
     plt_display(diff_1, mode_resize)
     plt.show()
 
@@ -89,15 +89,15 @@ def show_diff_cv_pil(img_path='', mode_resize = 'linear', new_size=10):
 
     img = cv2.imread(img_path)
 
-    resize_cv = cv2.resize(img, (new_size, new_size), interpolation=cv_code)
+    cv_resize = cv2.resize(img, (new_size, new_size), interpolation=cv_code)
     # print(resize_cv.dtype)
 
-    img_pil = Image.fromarray(resize_cv)
-    resize_pil = img_pil.resize((new_size, new_size), resample=pil_code)
-    resize_pil = np.array(resize_pil)
+    img_pil = Image.fromarray(cv_resize)
+    pil_resize = img_pil.resize((new_size, new_size), resample=pil_code)
+    pil_resize = np.array(pil_resize)
     
 
-    diff_1 = np.abs(resize_cv - resize_pil)
+    diff_1 = np.abs(cv_resize - pil_resize)
     plt_display(diff_1, mode_resize)
     plt.show()
 

@@ -15,7 +15,7 @@ def cal_metric(groundTruth, predicted):
 	z = tpr +fpr
 	tpr = tpr.reshape((tpr.shape[0],1))
 	fpr = fpr.reshape((fpr.shape[0],1))
-	xnew = np.arange(0, 1, 0.0000001)
+	xnew = np.arange(0, 1, 0.00001)
 	func = interpolate.interp1d(x, y)
 
 	ynew = func(xnew)
@@ -30,23 +30,24 @@ def cal_metric(groundTruth, predicted):
 	eer_threshold = thresholds[np.argmin(h_new)]
 
 
-	FPR = {"TPR(1.%)": 0.01, "TPR(.5%)": 0.005, "TPR(5%)" : 0.05, "TPR(10%)" : 0.1}
+	FPR = {"TPR(1.%)": 0.01, "TPR(.5%)": 0.005} 		#, "TPR(5%)" : 0.05, "TPR(10%)" : 0.1, "TPR(50%)" : 0.5
 
+	TPRs = {"TPR(1.%)": 0, "TPR(.5%)": 0} 				# , "TPR(5%)" : 0, "TPR(10%)" : 0, "TPR(50%)" : 0
 
-	TPRs = {"TPR(1.%)": 0, "TPR(.5%)": 0, "TPR(5%)" : 0, "TPR(10%)" : 0}
-	for i, (key, value) in enumerate(FPR.items()):
+	for key, value in FPR.items():
 
 		index = np.argwhere(xnew == value)
+		print(index)
 
 		score = ynew[index] 
 
-		TPRs[key] = float(np.squeeze(score))
+		TPRs[key] = np.squeeze(score).astype(float)
 
 	if 1:
 		plt.figure("auc")
 		plt.plot(xnew, ynew, label = "auc")
-		plt.xlabel("spoof_threshold")
-		plt.ylabel(" ")
+		plt.xlabel("fpr")
+		plt.ylabel("tpr")
 
 		plt.figure("fnr and fpr")
 		plt.plot( thresholds, 1 - tpr, label="fnr")

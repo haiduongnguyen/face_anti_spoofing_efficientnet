@@ -25,12 +25,17 @@ from model_zoo import *
 
 
 def eval(model_path, index, result_folder):
-    image_size = 224
+    ## for new_b0, new_b1
+    # image_size = 224
+
+    ## for new_b4
+    image_size = 380
+
     checkpoint_path = os.path.join(model_path, index)
     if os.path.exists(checkpoint_path):
         model = load_model(checkpoint_path)
 
-        result_test_folder = result_folder + '/test_flow_from_directory_'  + index[:-3]
+        result_test_folder = result_folder + '/test_tf_'  + index[:-3]
         if not os.path.isdir(result_test_folder):
             os.makedirs(result_test_folder)
 
@@ -41,9 +46,9 @@ def eval(model_path, index, result_folder):
         with open(spoof_score_txt, 'w') as f:
             f.close()
         
-        wrong_sample_index = result_test_folder + '/wrong_sample_index.txt'
-        with open(wrong_sample_index, 'w') as f:
-            f.close()     
+        # wrong_sample_index = result_test_folder + '/wrong_sample_index.txt'
+        # with open(wrong_sample_index, 'w') as f:
+        #     f.close()     
 
         wrong_sample_path = result_test_folder + '/wrong_sample_path.txt'
         with open(wrong_sample_path, 'w') as f:
@@ -149,9 +154,9 @@ def eval(model_path, index, result_folder):
         avg_wrong_rate = round((wrong_live + wrong_spoof)/(count_live + count_spoof), 4)
         print(f"the average wrong rate of model is: {avg_wrong_rate}", file=open(result_txt, 'a'))
 
-        with open(wrong_sample_index, 'w') as f:
-            for item in wrong_list:
-                f.write("%s\n" % item)
+        # with open(wrong_sample_index, 'w') as f:
+        #     for item in wrong_list:
+        #         f.write("%s\n" % item)
         
         wrong_path = []
         for sample_index in wrong_list:
@@ -166,9 +171,16 @@ def eval(model_path, index, result_folder):
 
 if __name__ == '__main__':
 
-    model_name = 'new_b0_ver4'
+    # model_name = 'new_b0_ver4'
+    # result_folder = work_place + '/result_' + model_name 
+    # model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet' + '/result_' + model_name + '/train/checkpoint'
+    # index_checkpoint = ['cp_01.h5','cp_02.h5', 'cp_03.h5', 'cp_04.h5', 'cp_06.h5', 'cp_08.h5']
+    # for index in index_checkpoint:
+    #     eval(model_path, index, result_folder) 
+
+    model_name = 'new_b4_ver01'
     result_folder = work_place + '/result_' + model_name 
-    model_path = '/home/duongnh/liveness_detection_efficienetb4_20210515_ver02/face_anti_spoofing_efficientnet' + '/result_' + model_name + '/train/checkpoint'
-    index_checkpoint = ['cp_01.h5','cp_02.h5', 'cp_03.h5', 'cp_04.h5', 'cp_06.h5', 'cp_08.h5']
+    model_path = result_folder + '/train/checkpoint'
+    index_checkpoint = ['cp_01.h5','cp_02.h5', 'cp_03.h5']
     for index in index_checkpoint:
         eval(model_path, index, result_folder) 
