@@ -45,6 +45,3 @@ helper_test_json_path =  folder_save_json + '/helper_test_json.json'
 # folder of network to detect face
 detector =  work_place + '/face_detector'
 
-# image parameter
-image_size = 224
-image_depth = 3

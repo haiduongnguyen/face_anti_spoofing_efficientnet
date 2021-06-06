@@ -19,6 +19,12 @@ start = datetime.datetime.now()
 from focal_losses import categorical_focal_loss
 
 
+
+# image parameter
+# b0 = 224, b1 = 240, b4 = 380
+image_size = 240
+image_depth = 3
+
 INIT_LR = 1e-4
 batch_size = 8
 EPOCHS = 15
@@ -50,9 +56,11 @@ patience = 5
 # model_name = 'new_b0_add_convolutional_layer'
 # model = build_new_b0_add_convolutional_layer(224,224,3,2)
 
-model_name = 'new_b0_ver4'
-model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
+# model_name = 'new_b0_ver4'
+# model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
 
+model_name = 'new_b1_ver1'
+model = build_new_efficient_net_b1(image_size, image_size, image_depth, 2)
 
 result_folder = work_place + '/result_' + model_name
 if not os.path.isdir(result_folder):
@@ -71,7 +79,7 @@ train_datagen = ImageDataGenerator(
       shear_range=0.2,
       zoom_range=0.2,
       horizontal_flip=True,
-      fill_mode='nearest',
+      fill_mode='area',
       brightness_range=[0.5,1.5]
 )
 

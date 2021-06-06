@@ -78,7 +78,7 @@ def build_new_efficient_net_b1(height, width, depth, num_classes):
     x = BatchNormalization()(x)
     x = Dense(512, activation='relu')(x)
     x = BatchNormalization()(x)
-    x = Dense(64, activation='relu')(x)
+    # x = Dense(64, activation='relu')(x)
     outputs = Dense(num_classes , activation="softmax", name="pred")(x)
     # Compile
     model = Model(inputs, outputs, name="EfficientNet")
