@@ -18,6 +18,8 @@ from tqdm import tqdm
 from model_zoo import *
 from PIL import Image
 
+image_size = 224
+
 validation_dir = crop_data_test
 valid_datagen = ImageDataGenerator()   
 
@@ -35,12 +37,9 @@ fig, ax = plt.subplots(nrows=3, ncols=4, figsize=(15,15))
 
 for i in range(3):
     for j in range(4):
-
         # convert to unsigned integers for plotting
         image = next(validation_generator)[0]
-        # print(image.dtype)
         image = image.astype('uint8')
-        # print(image.dtype)
 
         # changing size from (1, 200, 200, 3) to (200, 200, 3) for plotting the image
         image = np.squeeze(image)

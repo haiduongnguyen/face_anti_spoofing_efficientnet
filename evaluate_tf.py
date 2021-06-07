@@ -29,7 +29,10 @@ def eval(model_path, index, result_folder):
     # image_size = 224
 
     ## for new_b4
-    image_size = 380
+    # image_size = 380
+
+    ## for new_b1
+    image_size = 240
 
     checkpoint_path = os.path.join(model_path, index)
     if os.path.exists(checkpoint_path):
@@ -178,9 +181,16 @@ if __name__ == '__main__':
     # for index in index_checkpoint:
     #     eval(model_path, index, result_folder) 
 
-    model_name = 'new_b4_ver01'
+    # model_name = 'new_b4_ver01'
+    # result_folder = work_place + '/result_' + model_name 
+    # model_path = result_folder + '/train/checkpoint'
+    # index_checkpoint = ['cp_01.h5','cp_02.h5', 'cp_03.h5']
+    # for index in index_checkpoint:
+    #     eval(model_path, index, result_folder) 
+
+    model_name = 'new_b1_ver1'
     result_folder = work_place + '/result_' + model_name 
     model_path = result_folder + '/train/checkpoint'
-    index_checkpoint = ['cp_01.h5','cp_02.h5', 'cp_03.h5']
+    index_checkpoint = ['cp_01.h5','cp_02.h5', 'cp_03.h5','cp_05.h5','cp_07.h5', 'cp_09.h5','cp_12.h5', 'cp_15.h5' ]
     for index in index_checkpoint:
         eval(model_path, index, result_folder) 

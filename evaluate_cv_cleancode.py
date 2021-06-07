@@ -16,7 +16,7 @@ import cv2
 #from matplotlib.image import imread
 # my packages
 from keras.preprocessing.image import ImageDataGenerator
-from config import *
+from config import work_place, crop_data_test
 from model_zoo import *
 from eer_calculation import cal_metric
 from keras.models import load_model
@@ -25,8 +25,56 @@ from model_zoo import *
 from PIL import Image
 
 
-def eval(model_name, model_path, index):
-    image_size = 224
+def load_model(model_path):
+    if not os.path.isfile(model_path):
+        print("No model at the path. Check again!")
+    model = load_model(model_path)
+    return model
+
+def load_and_predict_data(data_path, model):
+    path_live = os.path.join(data_path, 'live')
+    path_spoof = os.path.join(data_path, 'spoof')
+
+    input_shape = model.inputs.shape
+    width, height = input_shape[0], input_shape[1]
+    # print("model name and version is: " + model_path, file=open(result_txt, 'a'))
+    # print("live test folder at: " + path_live, file=open(result_txt, 'a'))
+    # print("spoof test folder at: " + path_spoof, file=open(result_txt, 'a'))
+
+    scores = []
+    count_live = 0
+    live_image_list = os.listdir(path_live)
+
+    count_spoof = 0
+    spoof_image_list = os.listdir(path_spoof)
+    image_list = live_image_list + spoof_image_list
+
+    for image_name in tqdm(live_image_list):
+      face = cv2.imread(os.path.join(path_live, image_name))
+      # use cv2.resize
+      face = cv2.resize(face, (width, height))
+      # image = np.array(image, 'float32')
+      face = np.expand_dims(face, 0)
+      score = model.predict(face)
+      scores.append(score)
+      count_live += 1
+    print(count_live)
+
+    for image_name in tqdm(spoof_image_list):
+      face = cv2.imread(os.path.join(path_spoof, image_name))
+      face = cv2.resize(face, (width, height))
+      # image = np.array(image, 'float32')
+      face = np.expand_dims(face, 0)
+      score = model.predict(face)
+      scores.append(score)
+      count_spoof += 1
+    print(count_spoof)
+
+    spoof_scores = np.array(scores)[0,:,1]
+    # print("prediction scores have shape: " + str(scores.shape), file=open(result_txt, 'a'))
+    return spoof_scores
+
+def eval(model_name, model_path, index, image_size):
     checkpoint_path = os.path.join(model_path, index)
     if os.path.exists(checkpoint_path):
       model = load_model(checkpoint_path)
@@ -38,21 +86,19 @@ def eval(model_name, model_path, index):
           os.makedirs(result_test_folder)
 
       result_txt = result_test_folder + '/result_test.txt'
-      score_txt = result_test_folder + '/score_prediction.txt'
-      # wrong_live_txt = result_test_folder + '/wrong_live_sample.txt'
-      # wrong_spoof_txt = result_test_folder + '/wrong_spoof_sample.txt'
-      wrong_sample_txt = result_test_folder + '/wrong_sample.txt'
-
-      scores = []
-
       with open(result_txt, 'w') as f:
         f.close()
+      score_txt = result_test_folder + '/score_prediction.txt'
+
+      wrong_sample_txt = result_test_folder + '/wrong_sample.txt'
+          
       path_live = os.path.join(crop_data_test, 'live')
       path_spoof = os.path.join(crop_data_test, 'spoof')
       print("model name and version is: " + model_path, file=open(result_txt, 'a'))
       print("live test folder at: " + path_live, file=open(result_txt, 'a'))
       print("spoof test folder at: " + path_spoof, file=open(result_txt, 'a'))
 
+      scores = []
       count_live = 0
       live_image_list = os.listdir(path_live)
       for image_name in tqdm(live_image_list):
@@ -70,7 +116,7 @@ def eval(model_name, model_path, index):
 
         face = Image.fromarray(face)
         face = face.resize( (image_size,image_size), Image.BILINEAR )
-        # face = keras.preprocessing.image.img_to_array(face)
+        face = keras.preprocessing.image.img_to_array(face)
         # expand dim
         face = np.array([face])
 

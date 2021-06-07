@@ -2,7 +2,7 @@ import numpy as np
 import os
 import cv2
 from keras.models import load_model as load_model
-
+import datetime
 
 detector = './face_detector'
 
@@ -66,16 +66,19 @@ def use_camera():
 
 def use_image(img_path):
     # define a video capture object
-    img = cv2.imread(img_path)
+    frame = cv2.imread(img_path)
 
-    frame = cv2.resize(img, (480,640))
+    # frame = cv2.resize(frame, (480,640))
+    # frame = img
 
     # grab the frame dimensions and convert it to a blob
     (h, w) = frame.shape[:2]
+    time_start = datetime.datetime.now()
     blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 1.0,
         (300, 300), (104.0, 177.0, 123.0))
     net.setInput(blob)
     detections = net.forward()
+    # time_end = datetime.datetime.now()
     print(type(detections))
     print(detections.shape)
     count_face = 0
@@ -93,15 +96,19 @@ def use_image(img_path):
                 face = frame[startY:endY, startX:endX]
                 if 0 not in face.shape:
                     cv2.rectangle(frame, (startX, startY), (endX, endY), (0, 0, 255), 2)
-
+                    
+    time_end = datetime.datetime.now()
     print(count_face)
+
+    time_detect = time_end - time_start
+    print(f"model detect an image in time: {int(time_detect.total_seconds()*1000)}")
     # Display the resulting frame
-    cv2.imshow('img', img)
+    # cv2.imshow('img', img)
     cv2.imshow('frame', frame)
 
     cv2.waitKey(0) 
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    img_path = '/home/duong/project/pyimage_research/version2_change_data/image_to_test/nam_1.jpg'
+    img_path = '/home/duong/project/pyimage_research/image/version_2/image_to_test/ji_hyo.jpg'
     use_image(img_path)
