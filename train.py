@@ -22,8 +22,8 @@ from focal_losses import categorical_focal_loss
 
 # image parameter
 # b0 = 224, b1 = 240, b4 = 380
-image_width = 240
-image_height = 240
+image_width = 380
+image_height = 380
 image_depth = 3
 
 INIT_LR = 1e-4
@@ -60,8 +60,12 @@ patience = 5
 # model_name = 'new_b0_ver4'
 # model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
 
-model_name = 'new_b1_ver1'
-model = build_new_efficient_net_b1(image_width,image_height, image_depth, 2)
+# model_name = 'new_b1_ver1'
+# model = build_new_efficient_net_b1(image_width,image_height, image_depth, 2)
+
+model_name = 'new_b4_ver2'
+model = build_new_efficient_net_b4(image_width, image_height, image_depth, 2)
+
 
 result_folder = work_place + '/result_' + model_name
 if not os.path.isdir(result_folder):

@@ -100,8 +100,8 @@ def build_new_efficient_net_b4(height, width, depth, num_classes):
     # top_dropout_rate = 0.2
     # x = Dropout(top_dropout_rate, name="top_dropout")(x)
     x = BatchNormalization()(x)
-    x = Dense(512, activation='relu')(x)
-    x = Dense(64, activation='relu')(x)
+    x = Dense(1024, activation='relu')(x)
+    x = Dense(128, activation='relu')(x)
     outputs = Dense(num_classes , activation="softmax", name="pred")(x)
     # Compile
     model = Model(inputs, outputs, name="EfficientNet")
