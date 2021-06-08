@@ -1,0 +1,15 @@
+prediction scores have shape: (44393,)
+labels have shape: (44393,)
+eer spoof is : 0.02492
+tpr spoof is : {'TPR(1.%)': array(0.93192359), 'TPR(.5%)': array(0.84127699)}
+auc spoof is : 0.9965931001520962
+threshold for eer is : 0.041678205
+test set has number live sample : 20955
+test set has number spoof sample : 23438
+number of spoof samples is predicted as live is 584
+model predict number of sample as live : 21016
+model has wrong live rate (BPCER) = 0.0279 
+number of live samples is predicted as spoof is 523
+model predict number of sample as spoof : 23377
+model has wrong spoof rate (APCER) = 0.0223
+the average wrong rate of model is: 0.0249
