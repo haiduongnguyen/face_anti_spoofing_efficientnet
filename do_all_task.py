@@ -46,12 +46,13 @@ def show_tpr_fpr_graph(spoof_score_txt):
     from eer_calculation import cal_metric
     with open(spoof_score_txt, 'r') as f:
         spoof_score = np.array(f.read().splitlines(), dtype=np.float)
-    print(spoof_score.shape)
+    # print(spoof_score.shape)
 
     # test set has number live sample : 20955
     # test set has number spoof sample : 23438
     count_live = 20955
-    count_spoof = 23438
+    # count_spoof = 23438
+    count_spoof = 23437
 
     labels = np.array([0]*count_live + [1]*count_spoof, dtype=np.float)
 
@@ -74,11 +75,45 @@ def show_tpr_fpr_graph(spoof_score_txt):
     acc = round(temp/labels.shape[0], 4)
     print(f"acc of model at threshold {threshold_spoof} is {acc}: ")
 
+
+def get_input_shape_model():
+    from keras.models import load_model
+    import numpy as np
+    model_path = '/home/duong/project/pyimage_research/result_model/version_2/result_new_b0_ver4/cp_01.h5'
+    my_model = load_model(model_path)
+    input_model = my_model.input_shape
+    width , height = input_model[1], input_model[2]
+    print(width, height)
+    # print(input_model.shape)
+
+
 if __name__ == '__main__':
     ## task 1: survey in image size
     # show_image_size_survey()
 
-    # task 2: show fnr, tpr, threshold graph
-    spoof_score_txt = '/home/duong/project/pyimage_research/result_model/version_2/result_new_b0_ver4/test_flow_from_directory_cp_01/score_prediction.txt'
-    # spoof_score_txt = '/home/duong/project/pyimage_research/result_model/version_2/result_new_b4_ver01/test_flow_from_directory_cp_04/score_prediction.txt'
-    show_tpr_fpr_graph(spoof_score_txt)
+    # # task 2: show fnr, tpr, threshold graph
+    # # spoof_score_txt = '/home/duong/project/pyimage_research/result_model/version_2/result_new_b0_ver4/test_flow_from_directory_cp_01/score_prediction.txt'
+    # # spoof_score_txt = '/home/duong/project/pyimage_research/result_model/version_2/result_new_b4_ver01/test_flow_from_directory_cp_04/score_prediction.txt'
+    # spoof_score_txt = '/home/duong/project/pyimage_research/result_model/version_2/old_result/result_ver04/test_flow_from_directory_cp_04/score_prediction.txt'
+    # show_tpr_fpr_graph(spoof_score_txt)
+
+
+    ## task 3: load model and get input shape of model
+    # get_input_shape_model()
+
+        
+    def is_predecessor(a,b):
+        for i in range(len(b) ):
+            del_b = b[0:i] + b[i+1:]
+            if del_b == a:
+                return True
+        return False
+        
+
+    # class Solution:
+    #     def longestStrChain(self, words: List[str]) -> int:
+
+
+
+    out = is_predecessor('abc', 'abcd')
+    print(out)

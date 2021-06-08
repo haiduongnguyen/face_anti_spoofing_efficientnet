@@ -25,18 +25,14 @@ from model_zoo import *
 
 
 def eval(model_path, index, result_folder):
-    ## for new_b0, new_b1
-    # image_size = 224
-
-    ## for new_b4
-    # image_size = 380
-
-    ## for new_b1
-    image_size = 240
 
     checkpoint_path = os.path.join(model_path, index)
     if os.path.exists(checkpoint_path):
         model = load_model(checkpoint_path)
+
+        input_model = model.input_shape
+        width , height = input_model[1], input_model[2]
+        print(width, height)
 
         result_test_folder = result_folder + '/test_tf_'  + index[:-3]
         if not os.path.isdir(result_test_folder):
@@ -61,7 +57,7 @@ def eval(model_path, index, result_folder):
         validation_dir = crop_data_test
         validation_generator = valid_datagen.flow_from_directory(
                 validation_dir,
-                target_size=(image_size, image_size),
+                target_size=(width, height),
                 batch_size=1,
                 shuffle= False,
                 class_mode='categorical',

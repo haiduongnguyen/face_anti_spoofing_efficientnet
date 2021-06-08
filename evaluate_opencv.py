@@ -26,11 +26,14 @@ from PIL import Image
 
 
 def eval(model_name, model_path, index):
-    image_size = 224
+
     checkpoint_path = os.path.join(model_path, index)
     if os.path.exists(checkpoint_path):
       model = load_model(checkpoint_path)
 
+      input_model = model.input_shape
+      width , height = input_model[1], input_model[2]
+      # print(width, height)
       result_folder = work_place + '/result_' + model_name 
 
       result_test_folder = result_folder + '/test' + '_' + index[:-3]
@@ -59,25 +62,14 @@ def eval(model_name, model_path, index):
         face = cv2.imread(os.path.join(path_live, image_name))
         
         # use cv2.resize
-        # image = cv2.resize(image, (image_size,image_size))
-        # # image = np.array(image, 'float32')
-        # image = np.expand_dims(image, 0)
-
-        # use tf.resize
-        # image = tf.constant(image)
-        # image = tf.image.resize(image, (image_size,image_size))
-        # image = tf.expand_dims(image, axis=0 )
-
-        face = Image.fromarray(face)
-        face = face.resize( (image_size,image_size), Image.BILINEAR )
-        # face = keras.preprocessing.image.img_to_array(face)
-        # expand dim
-        face = np.array([face])
+        image = cv2.resize(image, (width, height))
+        # image = np.array(image, 'float32')
+        image = np.expand_dims(image, 0)
 
         score = model.predict(face)
         scores.append(score)
         count_live += 1
-      print(count_live)
+      print('number sample live : ', count_live)
 
 
 
@@ -87,25 +79,14 @@ def eval(model_name, model_path, index):
       for image_name in tqdm(spoof_image_list):
         face = cv2.imread(os.path.join(path_spoof, image_name))
       
-        # image = cv2.resize(image, (image_size,image_size))
-        # # image = np.array(image, 'float32')
-        # image = np.expand_dims(image, 0)
-
-        # image = tf.constant(image)
-        # image = tf.image.resize(image, (image_size,image_size))
-        # image = tf.expand_dims(image, axis=0 )
-
-        # load image by cv2, resize by PIL.Image
-        face = Image.fromarray(face)
-        face = face.resize( (image_size,image_size), Image.BILINEAR )
-        face = keras.preprocessing.image.img_to_array(face)
-        # expand dim
-        face = np.array([face])
+        image = cv2.resize(image, (width, height))
+        image = np.array(image, 'float32')
+        image = np.expand_dims(image, 0)
         
         score = model.predict(face)
         scores.append(score)
         count_spoof += 1
-      print(count_spoof)
+      print('number sample spoof', count_spoof)
 
       scores = np.array(scores)
       print("prediction scores have shape: " + str(scores.shape), file=open(result_txt, 'a'))

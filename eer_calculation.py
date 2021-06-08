@@ -10,6 +10,7 @@ from sklearn.metrics import roc_auc_score
 
 def cal_metric(groundTruth, predicted):
 	fpr, tpr, thresholds = roc_curve(groundTruth, predicted)
+	print(thresholds.shape)
 	y = (tpr)
 	x = (fpr)
 	z = tpr +fpr
@@ -37,7 +38,7 @@ def cal_metric(groundTruth, predicted):
 	for key, value in FPR.items():
 
 		index = np.argwhere(xnew == value)
-		print(index)
+		# print(index)
 
 		score = ynew[index] 
 

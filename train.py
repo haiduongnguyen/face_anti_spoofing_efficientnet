@@ -22,7 +22,8 @@ from focal_losses import categorical_focal_loss
 
 # image parameter
 # b0 = 224, b1 = 240, b4 = 380
-image_size = 240
+image_width = 240
+image_height = 240
 image_depth = 3
 
 INIT_LR = 1e-4
@@ -60,7 +61,7 @@ patience = 5
 # model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
 
 model_name = 'new_b1_ver1'
-model = build_new_efficient_net_b1(image_size, image_size, image_depth, 2)
+model = build_new_efficient_net_b1(image_width,image_height, image_depth, 2)
 
 result_folder = work_place + '/result_' + model_name
 if not os.path.isdir(result_folder):
@@ -88,7 +89,7 @@ train_generator = train_datagen.flow_from_directory(
         # This is the target directory
         train_dir,
         # All images will be resized to 224x224
-        target_size=(image_size, image_size),
+        target_size=(image_width, image_height),
         batch_size=batch_size,
         # Since we use categorical_crossentropy loss, we need binary labels
         class_mode='categorical',
@@ -101,7 +102,7 @@ valid_datagen = ImageDataGenerator()
 validation_dir = crop_data_test
 validation_generator = valid_datagen.flow_from_directory(
         validation_dir,
-        target_size=(image_size, image_size),
+        target_size=(image_width, image_height),
         batch_size=batch_size,
         class_mode='categorical',
         interpolation="bilinear",
