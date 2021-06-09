@@ -2,7 +2,6 @@ import numpy as np
 import os, datetime
 import cv2
 from tensorflow.keras.models import load_model 
-from model_zoo import *
 import tensorflow as tf
 from tensorflow import keras
 from tqdm import tqdm
@@ -11,7 +10,7 @@ from PIL import Image
 
 
 class Demo_video():
-    def __init__(self, video_input, video_output, save_output, face_detect_model, face_threshold, spoof_detect_model, spoof_threshold, image_size, labels) :
+    def __init__(self, video_input, video_output, save_output, face_detect_model, face_threshold, spoof_detect_model, spoof_threshold, labels) :
         self.video_input = video_input
         self.video_output = video_output
         self.save_output = save_output
@@ -19,7 +18,6 @@ class Demo_video():
         self.face_threshold = face_threshold
         self.spoof_detect_model = spoof_detect_model
         self.spoof_threshold = spoof_threshold
-        self.image_size = image_size
         self.labels = labels
 
 
@@ -58,24 +56,14 @@ class Demo_video():
                             # try: 
                             face = frame_rgb[startY:endY, startX:endX]
 
-                            ## resize using cv2
-                            # face = cv2.resize(face, (self.image_size, self.image_size))
-                            # face = face.astype("float")
-                            # face = np.array(face)
-                            # face = np.expand_dims(face, axis=0)
+                            # resize using cv2
+                            input_model = self.spoof_detect_model.input_shape
+                            width , height = input_model[1], input_model[2]
+                            face = cv2.resize(face, (width, height))
+                            face = face.astype("float")
+                            face = np.array(face)
+                            face = np.expand_dims(face, axis=0)
                             
-                            ## resize using tensorflow
-                            # face = tf.constant(face)
-                            # face = tf.image.resize(face, (self.image_size,self.image_size))
-                            # face = tf.expand_dims(face, axis=0 )
-                            
-                            ## resize using pil, then convert back to numpy
-                            face = Image.fromarray(face)
-                            face = face.resize( (image_size,image_size), Image.BILINEAR )
-                            face = keras.preprocessing.image.img_to_array(face)
-                            # expand dim
-                            face = np.array([face])
-
                             # pass the face ROI through the trained liveness detector
                             # model to determine if the face is "real" or "fake"
 
@@ -122,26 +110,25 @@ class Demo_video():
 
 if __name__ == "__main__":
 
-    video_input = 'video/1.mp4'
-    video_output = 'video/new_b4_ver01_cp04_pil.mp4'
+    video_input = '/home/duong/project/pyimage_research/video/version_2/1.mp4'
+    video_output = '/home/duong/project/pyimage_research/video/version_2/new_b1_ver1_cp15.mp4'
     save_output = True
     
     face_threshold = 0.7
 
     # loading face detection model
-    detector = '/home/duong/project/pyimage_research/version2_change_data/face_detector'
+    detector = '/home/duong/project/pyimage_research/code/version2_change_data/face_detector'
     protoPath = os.path.join(detector, "deploy.prototxt")
     modelPath = os.path.join(detector, "res10_300x300_ssd_iter_140000.caffemodel")
     face_detect_model = cv2.dnn.readNetFromCaffe(protoPath, modelPath)
 
 
     # load full model (.h5 file)
-    model_path = '/home/duong/project/pyimage_research/version2_change_data/result_new_b4_ver01/cp_04.h5'
+    model_path = '/home/duong/project/pyimage_research/code/version2_change_data/efficient_b1.h5'
     spoof_detect_model = load_model(model_path)
-    spoof_threshold = 0.115
-    image_size = 380
+    spoof_threshold = 0.0784
     labels = ['live', 'spoof']
 
     
-    a = Demo_video(video_input, video_output, save_output, face_detect_model, face_threshold, spoof_detect_model, spoof_threshold, image_size, labels)
+    a = Demo_video(video_input, video_output, save_output, face_detect_model, face_threshold, spoof_detect_model, spoof_threshold, labels)
     a.demo_video()

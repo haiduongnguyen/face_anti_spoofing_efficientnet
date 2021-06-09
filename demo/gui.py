@@ -16,10 +16,10 @@ protoPath = os.path.join(detector, "deploy.prototxt")
 modelPath = os.path.join(detector, "res10_300x300_ssd_iter_140000.caffemodel")
 net = cv2.dnn.readNetFromCaffe(protoPath, modelPath)
 
-# labels = ['live', 'spoof']
-model_path = '/home/duong/project/pyimage_research/result_model/version_2/result_new_b0_ver4/cp_01.h5'
-# model_path = '/home/duong/project/pyimage_research/version2_change_data/result_new_b0_ver2/cp_01.h5'
+model_path = '/home/duong/project/pyimage_research/code/version2_change_data/efficient_b1.h5'
+
 model = load_model(model_path)
+
 input_model = model.input_shape
 width , height = input_model[1], input_model[2]
 
@@ -56,7 +56,6 @@ def classify_image(img_path):
     for i in range(0, detections.shape[2]):
         confidence = detections[0, 0, i, 2] 
         if confidence > face_threshold:
-            print(i)
             box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
             (startX, startY, endX, endY) = box.astype("int")
             if startX <= w and endX <= w and startY <= h and endY <= h:
@@ -88,9 +87,11 @@ def classify_image(img_path):
             label.configure(foreground='#011638', text=sign) 
         else:
             sign = count_dict
-            score_label = Label(top,background='#CDCDCD', font=('arial',15,'bold'))
-            score_label.configure(foreground='#023184', text="score = " + str(spoof_score))
-            label.configure(foreground='#011638', text=sign) 
+            # score_label = Label(top,background='#CDCDCD', font=('arial',15,'bold'))
+            # score_label.configure(foreground='#011638', text="score = " + str(spoof_score))
+            # score_label.pack(ipadx=10, ipady=10)
+            label.configure(foreground='#011638', text=sign ) 
+            # label.configure(foreground='#011638', text='\n' + "score = " + str(spoof_score))
     
 
 def show_classify_button(file_path):
