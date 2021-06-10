@@ -28,7 +28,7 @@ class Demo_video():
         # out = cv2.VideoWriter('1_result.mp4',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (480,640))
         if self.save_output == True:
             fourcc = cv2.VideoWriter_fourcc(*'MP4V')
-            out = cv2.VideoWriter(self.video_output, fourcc, 40, (640,480))
+            out = cv2.VideoWriter(self.video_output, fourcc, 30, (640,480))
         ret = True
         while ret:
             ret , frame = vid.read()
@@ -111,7 +111,7 @@ class Demo_video():
 if __name__ == "__main__":
 
     video_input = '/home/duong/project/pyimage_research/video/version_2/1.mp4'
-    video_output = '/home/duong/project/pyimage_research/video/version_2/new_b1_ver1_cp15.mp4'
+    video_output = '/home/duong/project/pyimage_research/video/version_2/new_b0_ver4_cp2.mp4'
     save_output = True
     
     face_threshold = 0.7
@@ -124,9 +124,9 @@ if __name__ == "__main__":
 
 
     # load full model (.h5 file)
-    model_path = '/home/duong/project/pyimage_research/code/version2_change_data/efficient_b1.h5'
+    model_path = '/home/duong/project/pyimage_research/result_model/version_2/result_new_b0_ver4/cp_02.h5'
     spoof_detect_model = load_model(model_path)
-    spoof_threshold = 0.0784
+    spoof_threshold = 0.191
     labels = ['live', 'spoof']
 
     
