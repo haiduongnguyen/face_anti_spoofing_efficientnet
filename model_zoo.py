@@ -36,12 +36,12 @@ def build_new_efficient_net_b0(height, width, depth, num_classes):
             layer.trainable = True
     # Rebuild top
     # ver2 and ver4
-    x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
-    x = BatchNormalization()(x)
-    x = Dense(512, activation='relu')(x)
-    x = BatchNormalization()(x)
+    # x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
+    # x = BatchNormalization()(x)
+    # x = Dense(512, activation='relu')(x)
+    # x = BatchNormalization()(x)
 
-    # ver3 + 4
+    # ver3 
     # base_output = base_model.output
     # x = Conv2D(512, kernel_size = (1,1), activation='relu' )(base_output)
     # top_dropout_rate = 0.3
@@ -53,6 +53,8 @@ def build_new_efficient_net_b0(height, width, depth, num_classes):
     # top_dropout_rate = 0.3
     # x = Dropout(top_dropout_rate, name="top_dropout")(x)
 
+    ## ver 5
+    x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
 
     outputs = Dense(num_classes , activation="softmax", name="pred")(x)
     # Compile
