@@ -22,8 +22,8 @@ from focal_losses import categorical_focal_loss
 
 # image parameter
 # b0 = 224, b1 = 240, b4 = 380
-image_width = 240
-image_height = 240
+image_width = 224
+image_height = 224
 image_depth = 3
 
 INIT_LR = 1e-4
@@ -64,11 +64,15 @@ patience = 5
 # model_name = 'new_b0_ver5'
 # model = build_new_efficient_net_b0(image_width, image_height, image_depth, 2)
 
+
+model_name = 'new_b0_ver6'
+model = build_new_efficient_net_b0(image_width, image_height, image_depth, 2)
+
 # model_name = 'new_b1_ver1'
 # model = build_new_efficient_net_b1(image_width,image_height, image_depth, 2)
 
-model_name = 'new_b1_ver2'
-model = build_new_efficient_net_b1(image_width,image_height, image_depth, 2)
+# model_name = 'new_b1_ver2'
+# model = build_new_efficient_net_b1(image_width,image_height, image_depth, 2)
 
 # model_name = 'new_b4_ver2'
 # model = build_new_efficient_net_b4(image_width, image_height, image_depth, 2)
@@ -121,7 +125,7 @@ validation_generator = valid_datagen.flow_from_directory(
 
 focal_loss = tfa.losses.SigmoidFocalCrossEntropy()
 
-opt_adam = keras.optimizers.Adam(lr=3e-4)
+opt_adam = keras.optimizers.Adam(lr=1e-4)
 opt_sgd = keras.optimizers.SGD(learning_rate=0.01, momentum=0.9)
 
 model.compile(loss="categorical_crossentropy", optimizer=opt_adam, metrics=['accuracy'])
