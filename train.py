@@ -61,11 +61,14 @@ patience = 5
 # model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
 
 
-model_name = 'new_b0_ver5'
-model = build_new_efficient_net_b0(image_width, image_height, image_depth, 2)
+# model_name = 'new_b0_ver5'
+# model = build_new_efficient_net_b0(image_width, image_height, image_depth, 2)
 
 # model_name = 'new_b1_ver1'
 # model = build_new_efficient_net_b1(image_width,image_height, image_depth, 2)
+
+model_name = 'new_b1_ver2'
+model = build_new_efficient_net_b1(image_width,image_height, image_depth, 2)
 
 # model_name = 'new_b4_ver2'
 # model = build_new_efficient_net_b4(image_width, image_height, image_depth, 2)
