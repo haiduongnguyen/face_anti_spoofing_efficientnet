@@ -2,7 +2,6 @@ import numpy as np
 import os, datetime
 import cv2
 from tensorflow.keras.models import load_model 
-from model_zoo import *
 import tensorflow as tf
 from tensorflow import keras
 from tqdm import tqdm
@@ -35,9 +34,11 @@ def demo_image(img_path):
                 if startX <= w and endX <= w and startY <= h and endY <= h:
 
                     try: 
-                        start = datetime.datetime.now()
+
+                        input_model = model.input_shape
+                        width , height = input_model[1], input_model[2]
                         face = frame[startY:endY, startX:endX]
-                        face = cv2.resize(face, (224, 224))
+                        face = cv2.resize(face, (width, height))
                         face = face.astype("float")
                         face = np.array(face)
                         face = np.expand_dims(face, axis=0)
@@ -69,33 +70,23 @@ def demo_image(img_path):
                     except:
                         print('something went wrong')
     
-    #     frame = cv2.resize(frame, (640,480))
+        frame = cv2.resize(frame, (640,480))
 
-    #     img_name = img_path.split("/")[-1]
-    #     # Display the resulting frame
-    #     cv2.imshow(img_name, frame)
+        img_name = img_path.split("/")[-1]
+        # Display the resulting frame
+        cv2.imshow(img_name, frame)
             
-    #     cv2.waitKey(0) 
-    #     cv2.destroyAllWindows()
+        cv2.waitKey(0) 
+        cv2.destroyAllWindows()
     except:
         print("Cannot read image")
-
-
-def demo_folder_image(folder_path):
-    if not os.path.exists(folder_path):
-        print("Not exits folder, check again!!")
-        return None
-    for img_name in os.listdir(folder_path):
-        img_path = os.path.join(folder_path, img_name)
-        demo_image(img_path)
-
 
 
 if __name__ == '__main__':
     face_threshold = 0.7
 
     # loading face detection model
-    detector = '/home/duong/project/pyimage_research/version2_change_data/face_detector'
+    detector = '/home/duong/project/pyimage_research/code/version2_change_data/face_detector'
     print("[INFO] loading face detector...")
     protoPath = os.path.join(detector, "deploy.prototxt")
     modelPath = os.path.join(detector, "res10_300x300_ssd_iter_140000.caffemodel")
@@ -103,7 +94,9 @@ if __name__ == '__main__':
 
     labels = ['live', 'spoof']
     # load full model (.h5 file)
-    model_path = '/home/duong/project/pyimage_research/version2_change_data/result_new_b4_ver01/cp_04.h5'
+    model_path = '/home/duong/project/pyimage_research/code/version2_change_data/efficient_b0.h5'
     model = load_model(model_path)
 
+    img_path = '/home/duong/Desktop/test_spoof_card/31.jpg'
+    demo_image(model, img_path)
 
