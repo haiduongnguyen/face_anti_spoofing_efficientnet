@@ -22,8 +22,8 @@ from focal_losses import categorical_focal_loss
 
 # image parameter
 # b0 = 224, b1 = 240, b4 = 380
-image_width = 224
-image_height = 224
+image_width = 240
+image_height = 240
 image_depth = 3
 
 INIT_LR = 1e-4
