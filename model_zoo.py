@@ -57,10 +57,13 @@ def build_new_efficient_net_b0(height, width, depth, num_classes):
     # x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
 
     ## ver 6
-    x = Flatten()(base_model.output)
-    top_dropout_rate = 0.5
-    x = Dropout(top_dropout_rate, name="top_dropout")(x)
-    x = Dense(512, activation='relu')(x)
+    # x = Flatten()(base_model.output)
+    # top_dropout_rate = 0.5
+    # x = Dropout(top_dropout_rate, name="top_dropout")(x)
+    # x = Dense(512, activation='relu')(x)
+
+    ## ver 7 = ver 5 with learning rate = 1e -4
+    x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
 
     outputs = Dense(num_classes , activation="softmax", name="pred")(x)
     # Compile
