@@ -94,11 +94,19 @@ if __name__ == '__main__':
     # task 2: show fnr, tpr, threshold graph
     # spoof_score_txt = '/home/duong/project/pyimage_research/result_model/version_2/result_new_b0_ver4/test_flow_from_directory_cp_01/score_prediction.txt'
     # spoof_score_txt = '/home/duong/project/pyimage_research/result_model/version_2/result_new_b4_ver01/test_flow_from_directory_cp_04/score_prediction.txt'
-    spoof_score_txt = '/home/duong/project/pyimage_research/result_model/version_2/result_new_b1_ver1/test_tf_cp_15/score_prediction.txt'
-    show_tpr_fpr_graph(spoof_score_txt)
+    # spoof_score_txt = '/home/duong/project/pyimage_research/result_model/version_2/result_new_b1_ver1/test_tf_cp_15/score_prediction.txt'
+    # show_tpr_fpr_graph(spoof_score_txt)
 
 
     ## task 3: load model and get input shape of model
     # get_input_shape_model()
 
-    
+
+    import os
+    folder_path = '/home/duong/Desktop/test_spoof_card'
+    count = 0
+    for img_name in os.listdir(folder_path):
+        if 'eval' in img_name:
+            os.remove(os.path.join(folder_path, img_name))
+            count += 1
+    print(count)

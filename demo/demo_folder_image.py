@@ -7,7 +7,7 @@ from tensorflow import keras
 from tqdm import tqdm
 import time
 
-def demo_image(model, img_path):
+def demo_image(model, spoof_threshold, img_path):
     """
     this function is detect one image
     """
@@ -22,6 +22,7 @@ def demo_image(model, img_path):
     detections = net.forward()
     
     count_face = 0
+
     for i in range(0, detections.shape[2]):
         
         confidence = detections[0, 0, i, 2]
@@ -34,22 +35,41 @@ def demo_image(model, img_path):
             if startX <= w and endX <= w and startY <= h and endY <= h:
                 face = frame[startY:endY, startX:endX]
                 print(face.shape)
+                if face.shape[0] + face.shape[1] > 150:
+                    input_model = model.input_shape
+                    width , height = input_model[1], input_model[2]
+                    face = frame[startY:endY, startX:endX]
+                    face = cv2.resize(face, (width, height))
 
-                input_model = model.input_shape
-                width , height = input_model[1], input_model[2]
-                face = frame[startY:endY, startX:endX]
-                face = cv2.resize(face, (width, height))
+                    face = face.astype("float")
+                    face = np.array(face)
+                    face = np.expand_dims(face, axis=0)
 
-                face = face.astype("float")
-                face = np.array(face)
-                face = np.expand_dims(face, axis=0)
-
-                # pass the face ROI through the trained liveness detector
-                # model to determine if the face is "real" or "fake"
-                preds = model.predict(face)[0]
-                j = np.argmax(preds)
-                label = labels[j]
-                return j
+                    # pass the face ROI through the trained liveness detector
+                    # model to determine if the face is "real" or "fake"
+                    preds = model.predict(face)[0]
+                    # j = np.argmax(preds)
+                    if preds[1] > spoof_threshold:
+                        j = 1
+                    else:
+                        j = 0
+                    if j == 0:
+                        cv2.rectangle(frame, (startX, startY), (endX, endY), (0, 255, 0), 3)
+                        _label = "Liveness: {:.4f}".format(preds[j])
+                        cv2.putText(frame, _label, (startX, startY - 10), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 3)
+                    else:
+                        cv2.rectangle(frame, (startX, startY), (endX, endY), (0, 0, 255), 3)
+                        _label = "Fake: {:.4f}".format(preds[j])
+                        cv2.putText(frame, _label, (startX, startY - 10), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 3)
+                else:
+                    return -1
+    if count_face > 0:
+        # try:
+        #     parts = img_path.split(".")
+        #     cv2.imwrite(parts[0] + '_eval.' + parts[1], frame)
+        # except:
+        #     print('error img: ', img_path)
+        return j
     if count_face == 0:
         print(img_path)
     
@@ -65,13 +85,13 @@ def demo_image(model, img_path):
     return -1
 
 
-def demo_folder_image(model, folder_path = '', count_live = 0, count_spoof = 0, count_error=0):
+def demo_folder_image(model,spoof_threshold,  folder_path = '', count_live = 0, count_spoof = 0, count_error=0):
     if not os.path.exists(folder_path):
         print("Not exits folder, check again!!")
         return None
     for img_name in os.listdir(folder_path):
         img_path = os.path.join(folder_path, img_name)
-        j = demo_image(model, img_path)
+        j = demo_image(model, spoof_threshold,  img_path)
         if j == 0:
             count_live += 1
         elif j == 1:
@@ -83,7 +103,7 @@ def demo_folder_image(model, folder_path = '', count_live = 0, count_spoof = 0, 
 
 
 if __name__ == '__main__':
-    face_threshold = 0.7
+    face_threshold = 0.4
 
     # loading face detection model
     detector = '/home/duong/project/pyimage_research/code/version2_change_data/face_detector'
@@ -94,11 +114,12 @@ if __name__ == '__main__':
 
     labels = ['live', 'spoof']
     # load full model (.h5 file)
-    model_path = '/home/duong/project/pyimage_research/result_model/version_2/result_new_b0_ver4/cp_02.h5'
+    model_path = '/home/duong/project/pyimage_research/code/version2_change_data/efficient_b1.h5'
+    spoof_threshold = 0.078
     model = load_model(model_path)
 
     folder_path = '/home/duong/Desktop/test_spoof_card'
-    count_live, count_spoof, count_error = demo_folder_image(model, folder_path)
+    count_live, count_spoof, count_error = demo_folder_image(model, spoof_threshold, folder_path)
     print('live : ', count_live)
     print('spoof : ', count_spoof)
     print('error : ', count_error)
