@@ -125,7 +125,7 @@ validation_generator = valid_datagen.flow_from_directory(
 
 focal_loss = tfa.losses.SigmoidFocalCrossEntropy()
 
-opt_adam = keras.optimizers.Adam(lr=1e-4)
+opt_adam = keras.optimizers.Adam(lr=INIT_LR)
 opt_sgd = keras.optimizers.SGD(learning_rate=0.01, momentum=0.9)
 
 model.compile(loss="categorical_crossentropy", optimizer=opt_adam, metrics=['accuracy'])
