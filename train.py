@@ -21,7 +21,7 @@ start = datetime.datetime.now()
 
 
 class config_to_train():
-    def __init__(self,model_name='b0', buiil_model=build_b0_gap(), 
+    def __init__(self,model_name='b0', buiil_model=build_b0_gap, 
                     img_width=224, img_height=224, img_depth=3, classes=2, INIT_LR=1e-4, batch_size=8, EPOCHS=20, patience=5):
         self.model_name = model_name
         self.build_model = buiil_model
