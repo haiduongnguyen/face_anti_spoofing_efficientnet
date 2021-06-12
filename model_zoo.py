@@ -57,7 +57,7 @@ def build_b0_fully_connected(height, width, depth, num_classes):
     x = Flatten()(base_model.output)
     drop_rate = 0.5
     x = Dropout(drop_rate, name='dropout')(x)
-    x = Dense(512, activation='relu', name='hidden layer 1')(x)
+    x = Dense(512, activation='relu', name='hidden_layer_1')(x)
 
     outputs = Dense(num_classes , activation="softmax", name="prediction")(x)
     # Compile
