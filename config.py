@@ -22,7 +22,6 @@ crop_data_test = crop_folder + '/test'
 result_all_model = '/home/duongnh/project_f19/photo_attack/result'
 
 
-
 # folder of network to detect face
 detector =  work_place + '/face_detector'
 

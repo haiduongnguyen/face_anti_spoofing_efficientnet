@@ -100,8 +100,4 @@ if __name__ == '__main__':
 
     ## task 3: load model and get input shape of model
     # get_input_shape_model()
-
-    ## task 4: show model summary
-    from model_zoo import *
-    model = build_new_efficient_net_b0(224,224,3,2)
     

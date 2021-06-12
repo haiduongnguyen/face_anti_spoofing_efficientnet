@@ -26,7 +26,7 @@ import tensorflow_addons as tfa
 import tensorflow_lattice as tfl
 
 
-def build_efficient_net_b0(height, width, depth, num_classes):
+def build_b0_gap(height, width, depth, num_classes):
     inputs = layers.Input(shape=(height, width, depth))
     base_model = EfficientNetB0(include_top=False, input_tensor=inputs, weights="imagenet")
     # Freeze the pretrained weights or not
@@ -45,9 +45,28 @@ def build_efficient_net_b0(height, width, depth, num_classes):
 
     return model
 
+def build_b0_fully_connected(height, width, depth, num_classes):
+    inputs = layers.Input(shape=(height, width, depth))
+    base_model = EfficientNetB0(include_top=False, input_tensor=inputs, weights="imagenet")
+    # Freeze the pretrained weights or not
+    # model.trainable = True
+    for layer in base_model.layers:
+        if not isinstance(layer, layers.BatchNormalization):
+            layer.trainable = True
 
+    x = Flatten()(base_model.output)
+    drop_rate = 0.5
+    x = Dropout(drop_rate, name='dropout')(x)
+    x = Dense(512, activation='relu', name='hidden layer 1')
 
-def build_efficient_net_b1(height, width, depth, num_classes):
+    outputs = Dense(num_classes , activation="softmax", name="prediction")(x)
+    # Compile
+    model = Model(inputs, outputs, name="EfficientNet")
+    print(model.summary())
+
+    return model
+
+def build_b1_gap(height, width, depth, num_classes):
     inputs = layers.Input(shape=(height, width, depth))
     base_model = EfficientNetB1(include_top=False, input_tensor=inputs, weights="imagenet")
     # Freeze the pretrained weights or not
@@ -55,18 +74,8 @@ def build_efficient_net_b1(height, width, depth, num_classes):
     for layer in base_model.layers:
         if not isinstance(layer, layers.BatchNormalization):
             layer.trainable = True
-    # Rebuild top ver 1
-    # x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
-    # # top_dropout_rate = 0.2
-    # # x = Dropout(top_dropout_rate, name="top_dropout")(x)
-    # x = BatchNormalization()(x)
-    # x = Dense(512, activation='relu')(x)
-    # x = BatchNormalization()(x)
-    # # x = Dense(64, activation='relu')(x)
 
-    # rebuild top ver 2
     x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
-    x = BatchNormalization()(x)
 
     outputs = Dense(num_classes , activation="softmax", name="pred")(x)
     # Compile
@@ -76,7 +85,7 @@ def build_efficient_net_b1(height, width, depth, num_classes):
     return model
 
 
-def build_efficient_net_b4(height, width, depth, num_classes):
+def build_b4_gap(height, width, depth, num_classes):
     inputs = layers.Input(shape=(height, width, depth))
     base_model = EfficientNetB4(include_top=False, input_tensor=inputs, weights="imagenet")
     # Freeze the pretrained weights or not
@@ -86,11 +95,7 @@ def build_efficient_net_b4(height, width, depth, num_classes):
             layer.trainable = True
     # Rebuild top
     x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
-    # top_dropout_rate = 0.2
-    # x = Dropout(top_dropout_rate, name="top_dropout")(x)
-    x = BatchNormalization()(x)
-    x = Dense(1024, activation='relu')(x)
-    x = Dense(128, activation='relu')(x)
+
     outputs = Dense(num_classes , activation="softmax", name="pred")(x)
     # Compile
     model = Model(inputs, outputs, name="EfficientNet")
@@ -100,10 +105,10 @@ def build_efficient_net_b4(height, width, depth, num_classes):
 
 
 # def unfreeze_model_some_layers(model):
-#     # We unfreeze the top 20 layers while leaving BatchNorm layers frozen
-#     for layer in model.layers[-25:]:
-#         if not isinstance(layer, layers.BatchNormalization):
-#             layer.trainable = True
+    # We unfreeze the top 20 layers while leaving BatchNorm layers frozen
+    for layer in model.layers[-25:]:
+        if not isinstance(layer, layers.BatchNormalization):
+            layer.trainable = True
 
 # def build_efficient_net_b4(IMG_SIZE, IMG_DEPTH, num_classes):
     inputs = layers.Input(shape=(IMG_SIZE, IMG_SIZE, IMG_DEPTH))
@@ -174,8 +179,6 @@ def build_efficient_net_b4(height, width, depth, num_classes):
 
     return model
 
-
-
 # def build_resnet50(width, height, depth, classes):
     # net = ResNet50(include_top=False, weights='imagenet', input_tensor=None,
     # 			   input_shape=(width, height, depth))
@@ -193,7 +196,6 @@ def build_efficient_net_b4(height, width, depth, num_classes):
     # global model_name 
     # model_name = 'resnet 50'
     return model
-
 
 # def build_efficient_net_b1(IMG_SIZE, IMG_DEPTH, num_classes):
     inputs = layers.Input(shape=(IMG_SIZE, IMG_SIZE, IMG_DEPTH))
