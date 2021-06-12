@@ -25,13 +25,13 @@ image_width = 224
 image_height = 224
 image_depth = 3
 
-INIT_LR = 1e-4
+INIT_LR = 3e-4
 batch_size = 8
 EPOCHS = 20
 patience = 5
 
 
-model_name = 'b0_ver_1'
+model_name = 'b0_ver_2'
 model = build_efficient_net_b0(image_width, image_height, image_depth, 2)
 
 
