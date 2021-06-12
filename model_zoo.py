@@ -26,7 +26,7 @@ import tensorflow_addons as tfa
 import tensorflow_lattice as tfl
 
 
-def build_new_efficient_net_b0(height, width, depth, num_classes):
+def build_efficient_net_b0(height, width, depth, num_classes):
     inputs = layers.Input(shape=(height, width, depth))
     base_model = EfficientNetB0(include_top=False, input_tensor=inputs, weights="imagenet")
     # Freeze the pretrained weights or not
@@ -34,37 +34,9 @@ def build_new_efficient_net_b0(height, width, depth, num_classes):
     for layer in base_model.layers:
         if not isinstance(layer, layers.BatchNormalization):
             layer.trainable = True
-    # Rebuild top
-    # ver2 and ver4
-    # x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
-    # # x = BatchNormalization()(x)
-    # x = Dense(512, activation='relu', name='hidden_layer')(x)
-    # x = BatchNormalization()(x)
 
-    # ver3 
-    # base_output = base_model.output
-    # x = Conv2D(512, kernel_size = (1,1), activation='relu' )(base_output)
-    # top_dropout_rate = 0.3
-    # x = Dropout(top_dropout_rate)(x)
-    # x = Flatten()(x)
-    # x = BatchNormalization()(x)
-    # x = Dense(512, activation='relu')(x)
-    # x = BatchNormalization()(x)
-    # top_dropout_rate = 0.3
-    # x = Dropout(top_dropout_rate, name="top_dropout")(x)
-
-    ## ver 5
-    # x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
-
-    # ver 6
-    # x = Flatten()(base_model.output)
-    # top_dropout_rate = 0.3
-    # x = Dropout(top_dropout_rate, name="dropout")(x)
-    # x = Dense(512, activation='relu', name='hidden_layer_1')(x)
-
-    ## ver 7 = ver 5 with learning rate = 1e -4
+    ## buil top ver 1
     x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
-    # x = BatchNormalization()(x)
 
     outputs = Dense(num_classes , activation="softmax", name="prediction")(x)
     # Compile
@@ -75,7 +47,7 @@ def build_new_efficient_net_b0(height, width, depth, num_classes):
 
 
 
-def build_new_efficient_net_b1(height, width, depth, num_classes):
+def build_efficient_net_b1(height, width, depth, num_classes):
     inputs = layers.Input(shape=(height, width, depth))
     base_model = EfficientNetB1(include_top=False, input_tensor=inputs, weights="imagenet")
     # Freeze the pretrained weights or not
@@ -104,7 +76,7 @@ def build_new_efficient_net_b1(height, width, depth, num_classes):
     return model
 
 
-def build_new_efficient_net_b4(height, width, depth, num_classes):
+def build_efficient_net_b4(height, width, depth, num_classes):
     inputs = layers.Input(shape=(height, width, depth))
     base_model = EfficientNetB4(include_top=False, input_tensor=inputs, weights="imagenet")
     # Freeze the pretrained weights or not

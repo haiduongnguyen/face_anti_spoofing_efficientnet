@@ -19,7 +19,6 @@ start = datetime.datetime.now()
 from focal_losses import categorical_focal_loss
 
 
-
 # image parameter
 # b0 = 224, b1 = 240, b4 = 380
 image_width = 224
@@ -31,60 +30,12 @@ batch_size = 8
 EPOCHS = 20
 patience = 5
 
-# model_name = 'efficient_net_b1_ver03'
-# model = build_efficient_net_b1(image_size, image_depth, 2)
 
-# model_name = 'efficient_net_b4_ver06'
-# model = build_efficient_net_b4(image_size, image_depth, 2)
-
-# model_name = 'new_b4_ver01'
-# image_size = 380
-# model = build_new_efficient_net_b4(380, 380, 3, 2)
-
-# model_name = 'densenet121_ver01'
-# model = build_dense_net121(image_size, image_size, image_depth, 2)
-
-# model_name = 'lam_resnet_ver02'
-# model = build_lamresnet50(image_size, image_size, image_depth, 2)
+model_name = 'b0_ver_1'
+model = build_efficient_net_b0(image_width, image_height, image_depth, 2)
 
 
-# model_name = 'new_efficient_b0_ver01'
-# model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
-
-# model_name = 'new_b0_ver0'
-# model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
-
-# model_name = 'new_b0_add_convolutional_layer'
-# model = build_new_b0_add_convolutional_layer(224,224,3,2)
-
-# model_name = 'new_b0_ver4'
-# model = build_new_efficient_net_b0(image_size, image_size, image_depth, 2)
-
-
-# model_name = 'new_b0_ver5'
-# model = build_new_efficient_net_b0(image_width, image_height, image_depth, 2)
-
-
-# model_name = 'new_b0_ver6'
-# model = build_new_efficient_net_b0(image_width, image_height, image_depth, 2)
-
-# model_name = 'new_b0_ver7'
-# model = build_new_efficient_net_b0(image_width, image_height, image_depth, 2)
-
-model_name = 'new_b0_ver8'
-model = build_new_efficient_net_b0(image_width, image_height, image_depth, 2)
-
-# model_name = 'new_b1_ver1'
-# model = build_new_efficient_net_b1(image_width,image_height, image_depth, 2)
-
-# model_name = 'new_b1_ver2'
-# model = build_new_efficient_net_b1(image_width,image_height, image_depth, 2)
-
-# model_name = 'new_b4_ver2'
-# model = build_new_efficient_net_b4(image_width, image_height, image_depth, 2)
-
-
-result_folder = work_place + '/result_' + model_name
+result_folder = result_all_model + '/' + model_name
 if not os.path.isdir(result_folder):
     os.makedirs(result_folder)
 result_train_folder = result_folder + '/train'
@@ -96,10 +47,6 @@ training_output_txt = result_train_folder + '/result_training_output.txt'
 
 train_datagen = ImageDataGenerator(
       rotation_range=20,
-    # #   width_shift_range=0.2,
-    # #   height_shift_range=0.2,
-    #   shear_range=0.2,
-    #   zoom_range=0.2,
       horizontal_flip=True,
       fill_mode='nearest',
       brightness_range=[0.75,1.25]
@@ -140,7 +87,7 @@ log_dir = result_train_folder + '/' + 'log_'  +  model_name
 if not os.path.exists(log_dir):
     os.makedirs(log_dir)
 
-checkpoint_dir = os.path.join(result_train_folder , "checkpoint")
+checkpoint_dir = os.path.join(result_train_folder , "checkpoint_" + model_name)
 if not os.path.exists(checkpoint_dir):
     os.makedirs(checkpoint_dir)
 checkpoint_path = checkpoint_dir + "/cp_{epoch:02d}.h5"
