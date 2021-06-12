@@ -64,7 +64,7 @@ def build_new_efficient_net_b0(height, width, depth, num_classes):
 
     ## ver 7 = ver 5 with learning rate = 1e -4
     x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
-    x = BatchNormalization()(x)
+    # x = BatchNormalization()(x)
 
     outputs = Dense(num_classes , activation="softmax", name="prediction")(x)
     # Compile
