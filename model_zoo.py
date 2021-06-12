@@ -37,8 +37,8 @@ def build_new_efficient_net_b0(height, width, depth, num_classes):
     # Rebuild top
     # ver2 and ver4
     # x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
-    # x = BatchNormalization()(x)
-    # x = Dense(512, activation='relu')(x)
+    # # x = BatchNormalization()(x)
+    # x = Dense(512, activation='relu', name='hidden_layer')(x)
     # x = BatchNormalization()(x)
 
     # ver3 
@@ -56,16 +56,16 @@ def build_new_efficient_net_b0(height, width, depth, num_classes):
     ## ver 5
     # x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
 
-    ## ver 6
+    # ver 6
     # x = Flatten()(base_model.output)
-    # top_dropout_rate = 0.5
-    # x = Dropout(top_dropout_rate, name="top_dropout")(x)
-    # x = Dense(512, activation='relu')(x)
+    # top_dropout_rate = 0.3
+    # x = Dropout(top_dropout_rate, name="dropout")(x)
+    # x = Dense(512, activation='relu', name='hidden_layer_1')(x)
 
     ## ver 7 = ver 5 with learning rate = 1e -4
     x = GlobalAveragePooling2D(name="avg_pool")(base_model.output)
 
-    outputs = Dense(num_classes , activation="softmax", name="pred")(x)
+    outputs = Dense(num_classes , activation="softmax", name="prediction")(x)
     # Compile
     model = Model(inputs, outputs, name="EfficientNet")
     print(model.summary())

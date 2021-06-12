@@ -92,14 +92,14 @@ training_output_txt = result_train_folder + '/result_training_output.txt'
 
 
 train_datagen = ImageDataGenerator(
-      rotation_range=45,
-      width_shift_range=0.2,
-      height_shift_range=0.2,
-      shear_range=0.2,
-      zoom_range=0.2,
+    #   rotation_range=20,
+    # #   width_shift_range=0.2,
+    # #   height_shift_range=0.2,
+    #   shear_range=0.2,
+    #   zoom_range=0.2,
       horizontal_flip=True,
-      fill_mode='nearest',
-      brightness_range=[0.5,1.5]
+    #   fill_mode='nearest',
+      brightness_range=[0.75,1.25]
 )
 
 train_dir = crop_data_train
