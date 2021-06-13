@@ -57,12 +57,12 @@ def eval(model_name, model_path, index):
     count_live = 0
     live_image_list = os.listdir(path_live)
     for image_name in tqdm(live_image_list):
-      face = cv2.imread(os.path.join(path_live, image_name))
+      image = cv2.imread(os.path.join(path_live, image_name))
       
       # use cv2.resize
       image = cv2.resize(image, (width, height))
       image = np.expand_dims(image, 0)
-      score = model.predict(face)
+      score = model.predict(image)
       scores.append(score)
       count_live += 1
     print('number sample live : ', count_live)
@@ -71,13 +71,13 @@ def eval(model_name, model_path, index):
     spoof_image_list = os.listdir(path_spoof)
     image_list = live_image_list + spoof_image_list
     for image_name in tqdm(spoof_image_list):
-      face = cv2.imread(os.path.join(path_spoof, image_name))
+      image = cv2.imread(os.path.join(path_spoof, image_name))
     
       image = cv2.resize(image, (width, height))
       image = np.array(image, 'float32')
       image = np.expand_dims(image, 0)
       
-      score = model.predict(face)
+      score = model.predict(image)
       scores.append(score)
       count_spoof += 1
     print('number sample spoof', count_spoof)
