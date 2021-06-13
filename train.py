@@ -33,6 +33,8 @@ class config_to_train():
         self.batch_size = batch_size
         self.EPOCHS = EPOCHS
         self.patience = patience
+        self.checkpoint_dir = None
+        self.result_folder = None
     
     def train(self):
         model = self.build_model(self.img_width, self.img_height, self.img_depth, self.classes)
