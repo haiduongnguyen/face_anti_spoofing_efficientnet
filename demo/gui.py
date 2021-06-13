@@ -16,7 +16,7 @@ protoPath = os.path.join(detector, "deploy.prototxt")
 modelPath = os.path.join(detector, "res10_300x300_ssd_iter_140000.caffemodel")
 net = cv2.dnn.readNetFromCaffe(protoPath, modelPath)
 
-model_path = '/home/duong/project/pyimage_research/code/version2_change_data/efficient_b1.h5'
+model_path = '/home/duong/project/pyimage_research/result_model/version_2/result_new_b0_ver4/cp_02.h5'
 
 model = load_model(model_path)
 

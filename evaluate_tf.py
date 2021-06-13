@@ -34,7 +34,7 @@ def eval(model_path, index, result_folder):
         width , height = input_model[1], input_model[2]
         print(width, height)
 
-        result_test_folder = result_folder + '/test_tf_'  + index[:-3]
+        result_test_folder = result_folder + '/test_'  + index[:-3]
         if not os.path.isdir(result_test_folder):
             os.makedirs(result_test_folder)
 
@@ -220,9 +220,16 @@ if __name__ == '__main__':
     #     eval(model_path, index, result_folder) 
 
     
-    model_name = 'new_b1_ver2'
-    result_folder = work_place + '/result_' + model_name 
+    # model_name = 'new_b1_ver2'
+    # result_folder = work_place + '/result_' + model_name 
+    # model_path = result_folder + '/train/checkpoint'
+    # index_checkpoint = ['cp_01.h5', 'cp_02.h5', 'cp_03.h5', 'cp_06.h5' ]
+    # for index in index_checkpoint:
+    #     eval(model_path, index, result_folder) 
+
+    model_name = 'b0_ver_3'
+    result_folder = result_all_model + '/result_' + model_name 
     model_path = result_folder + '/train/checkpoint'
-    index_checkpoint = ['cp_01.h5', 'cp_02.h5', 'cp_03.h5', 'cp_06.h5' ]
+    index_checkpoint = ['cp_01.h5', 'cp_03.h5', 'cp_05.h5', 'cp_06.h5', 'cp_07.h5', 'cp_08.h5', 'cp_011.h5' ]
     for index in index_checkpoint:
         eval(model_path, index, result_folder) 

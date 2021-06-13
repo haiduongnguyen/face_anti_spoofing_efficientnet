@@ -98,15 +98,15 @@ class config_to_train():
             print("============================================")
             print("\n Time taken (h/m/s): %s" %delta[:7], file=f)
             print("============================================", file=f)
-            print("\n Loss       " + ' '.join(str(e) for e in loss) , file=f)
-            print("\n Val. Loss  " + ' '.join(str(e) for e in val_loss) , file=f)
+            print("\n Loss       " + ' '.join(str(round(e,4)) for e in loss) , file=f)
+            print("\n Val. Loss  " + ' '.join(str(round(e,4)) for e in val_loss) , file=f)
             print("--------------------------------------------", file=f)
-            print("\n Acc.       " + ' '.join(str(e) for e in acc) , file=f)
-            print("\n Val. Acc.  " + ' '.join(str(e) for e in val_acc) , file=f)
+            print("\n Acc.       " + ' '.join(str(round(e,4)) for e in acc) , file=f)
+            print("\n Val. Acc.  " + ' '.join(str(round(e,4)) for e in val_acc) , file=f)
             print("============================================", file=f)
         return checkpoint_dir, result_folder
 
-    def eval(checkpoint_dir, result_folder):
+    def eval(self, checkpoint_dir, result_folder):
         if os.path.exists(checkpoint_dir):
             for cp_index in os.listdir(checkpoint_dir):
                 checkpoint_path = os.path.join(checkpoint_dir, cp_index)
