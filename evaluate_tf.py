@@ -227,9 +227,16 @@ if __name__ == '__main__':
     # for index in index_checkpoint:
     #     eval(model_path, index, result_folder) 
 
-    model_name = 'b0_ver_3'
+    # model_name = 'b0_ver_3'
+    # result_folder = result_all_model + '/' + model_name 
+    # model_path = result_folder + '/train/checkpoint_' + model_name 
+    # index_checkpoint = ['cp_01.h5', 'cp_03.h5', 'cp_05.h5', 'cp_06.h5', 'cp_07.h5', 'cp_08.h5', 'cp_011.h5' ]
+    # for index in index_checkpoint:
+    #     eval(model_path, index, result_folder) 
+
+    model_name = 'b0_ver_1'
     result_folder = result_all_model + '/' + model_name 
     model_path = result_folder + '/train/checkpoint_' + model_name 
-    index_checkpoint = ['cp_01.h5', 'cp_03.h5', 'cp_05.h5', 'cp_06.h5', 'cp_07.h5', 'cp_08.h5', 'cp_011.h5' ]
+    index_checkpoint = ['cp_01.h5', 'cp_03.h5', 'cp_05.h5', 'cp_06.h5', 'cp_07.h5', 'cp_08.h5', 'cp_011.h5', 'cp_13.h5' ]
     for index in index_checkpoint:
         eval(model_path, index, result_folder) 
