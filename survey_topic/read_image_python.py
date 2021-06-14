@@ -22,11 +22,12 @@ def plt_display(image, title):
 
 
 img_path = '/home/duong/project/pyimage_research/code/version2_change_data/survey_topic/bk.jpg'
-img_path = '/home/duong/project/pyimage_research/Data/version_2/small_data_to_test/crop_data/test/live/KH_16085067860121620065249.jpg'
+# img_path = '/home/duong/project/pyimage_research/Data/version_2/small_data_to_test/crop_data/test/live/KH_16085067860121620065249.jpg'
 
 # read by open cv
 img_cv = cv2.imread(img_path)
 img_cv = cv2.cvtColor(img_cv, cv2.COLOR_BGR2RGB)
+plt_display(img_cv, 'origin image')
 
 # read by tensorflow
 img_tf = tf.io.read_file(img_path)
