@@ -22,6 +22,7 @@ def plt_display(image, title):
 
 
 img_path = '/home/duong/project/pyimage_research/code/version2_change_data/survey_topic/bk.jpg'
+img_path = '/home/duong/project/pyimage_research/Data/version_2/small_data_to_test/crop_data/test/live/KH_16085067860121620065249.jpg'
 
 # read by open cv
 img_cv = cv2.imread(img_path)
@@ -56,3 +57,4 @@ img_diff4 = np.abs(img_pil - img_tf)
 plt_display(img_diff4, 'PIL - TF')
 
 plt.show()
+

@@ -222,6 +222,14 @@ if __name__ == '__main__':
     # b1_ver_1.train()
     # b1_ver_1.eval()
 
-    b1_ver_2 = config_to_train(model_name='b1_ver_2', build_model=build_b1_gap, INIT_LR=3e-4, img_height=240, img_width=240, EPOCHS=15 )
-    b1_ver_2.train()
-    b1_ver_2.eval()
+    # b1_ver_2 = config_to_train(model_name='b1_ver_2', build_model=build_b1_gap, INIT_LR=3e-4, img_height=240, img_width=240, EPOCHS=15 )
+    # b1_ver_2.train()
+    # b1_ver_2.eval()
+
+    b4_ver_1 = config_to_train(model_name='b4_ver_1', build_model=build_b4_gap, INIT_LR=1e-4, img_height=380, img_width=380, EPOCHS=15 )
+    b4_ver_1.train()
+    b4_ver_1.eval()
+
+    b4_ver_2 = config_to_train(model_name='b4_ver_2', build_model=build_b4_gap, INIT_LR=3e-4, img_height=380, img_width=380, EPOCHS=15 )
+    b4_ver_2.train()
+    b4_ver_2.eval()
