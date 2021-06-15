@@ -16,7 +16,8 @@ pip install -r requirements.txt
 # Usage
 1. Config and train models
  - Go to **config.py** , change **work_place** to your workplace, **result_all_model** that all model checkpoint after training will be saved at. Note that Result and Data should be saved outside of workplace for easy maintainance.
- - Data saved like this norm: ![Data folder tree](https://github.com/haiduongnguyen/face_anti_spoofing_efficientnet/blob/master/images/data_tree.png)
+ - Data saved like this norm:         
+  ![Data folder tree](https://github.com/haiduongnguyen/face_anti_spoofing_efficientnet/blob/master/images/data_tree.png)     
  - Go to **model_zoo.py** to see my initial models or add some of yours
  - Go to **train.py** to see training process, one important thing is the model_name is very importancce, all the code will recognize models by their name.
  - Change model attributes and then run **CUDA_VISIBLE_DEVICES=0 python train.py** if you have gpu
