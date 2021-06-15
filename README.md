@@ -1,6 +1,6 @@
 # Topic
 Using Efficient Net to solve problem:      
-Face anti spoofing
+Face anti spoofing      
 Phase 1: photo attack
 
 # Description
@@ -23,8 +23,8 @@ pip install -r requirements.txt
 2. Evaluate models
  - Now **evaluate is in train.py**. After training, checkpoint will be save at ../result/_model_name_/train/checkpoint, then each checkpoint will be evaluate by tensorflow function      
  - Another way to evaluate a checkpoint is run **evaluate_tf** (use tf function) or **evaluate_cv** (use opencv function), you need to change 2 parameters in main():
- 	- **model_name**: the code recognize model by name, please remember exactly it    
- 	- **index_checkpoint**: list of checkpoint want to be evaluated
+ 	- **model_name**: the code recognize model by name, please remember it exactly      
+ 	- **index_cp_list**: list of checkpoint want to be evaluated
 3. Demo
 In demo folder, you can see some files:
 - **demo_face_detector.py**: read an image and show image with face detection only
