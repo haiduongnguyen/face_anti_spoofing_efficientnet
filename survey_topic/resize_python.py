@@ -26,28 +26,27 @@ def plt_display(image, title):
 
 def show_diff_interpolation(img_path='', new_size=100):
     img_cv = cv2.imread(img_path)
+    img_cv = cv2.cvtColor(img_cv, cv2.COLOR_BGR2RGB)
+    plt_display(img_cv, 'origin')
     origin_width, origin_height , _ = img_cv.shape
     print("origin image has shape: (%d , %d)" % (origin_width, origin_height))
 
     bilinear_resize_cv = cv2.resize(img_cv, (new_size, new_size), interpolation=cv2.INTER_LINEAR)
-
+    plt_display(bilinear_resize_cv, 'bilinear')
     nearest_resize_cv = cv2.resize(img_cv, (new_size, new_size), interpolation=cv2.INTER_NEAREST)
-
-    area_resize_cv = cv2.resize(img_cv, (new_size, new_size), interpolation=cv2.INTER_AREA)
+    plt_display(nearest_resize_cv, 'nearest')
+    # area_resize_cv = cv2.resize(img_cv, (new_size, new_size), interpolation=cv2.INTER_AREA)
 
     diff_1 = np.abs(bilinear_resize_cv - nearest_resize_cv)
-    plt_display(diff_1, "linear - nearest")
+    plt_display(diff_1, "bilinear - nearest")
 
-    diff_2 = np.abs(bilinear_resize_cv - area_resize_cv)
-    plt_display(diff_2, "linear - area")
+    # diff_2 = np.abs(bilinear_resize_cv - area_resize_cv)
+    # plt_display(diff_2, "linear - area")
 
-    diff_3 = np.abs(area_resize_cv - nearest_resize_cv)
-    plt_display(diff_3, "area - nearest")
+    # diff_3 = np.abs(area_resize_cv - nearest_resize_cv)
+    # plt_display(diff_3, "area - nearest")
 
-    # print(diff_1[0,:,0])
-    # print(diff_2[0,:,0])
 
-    # plt.show()
 
 
 def show_diff_cv_tf(img_path='', new_size=10):
@@ -105,10 +104,10 @@ def show_diff_cv_pil(img_path='', new_size=10):
 
 if __name__ == '__main__':
 
-    img_path = '/home/duong/project/pyimage_research/code/version2_change_data/survey_topic/bk.jpg'
-    show_diff_interpolation(img_path, new_size = 100)
-    show_diff_cv_tf(img_path, new_size=1000)
-    show_diff_cv_pil(img_path, new_size=1000)
+    img_path = '/home/duong/project/pyimage_research/code/version2_change_data/survey_topic/1.jpg'
+    show_diff_interpolation(img_path, new_size = 1000)
+    # show_diff_cv_tf(img_path, new_size=1000)
+    # show_diff_cv_pil(img_path, new_size=1000)
 
 
 

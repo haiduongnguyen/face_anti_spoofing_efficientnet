@@ -50,6 +50,35 @@ def count_by_size(folder_image_path):
     return size_dict
 
 
+def count_size_wrong_image(wrong_sample_path):
+    with open(wrong_sample_path) as f:
+        path_img_list = f.read().splitlines()
+    
+    size_dict = {100:0, 200:0, 300:0, 400:0, 500:0, 600:0, 700:0, 800:0}
+    for img_tail_path in path_img_list:
+        img_path = os.path.join(crop_data_test, img_tail_path)
+        img = cv2.imread(img_path)
+        h, w , _ = img.shape
+        s = h + w
+        if s < 100:
+            size_dict[100] += 1
+        elif s < 200:
+            size_dict[200] += 1
+        elif s < 300:
+            size_dict[300] += 1
+        elif s < 400:
+            size_dict[400] += 1
+        elif s < 500:
+            size_dict[500] += 1
+        elif s < 600:
+            size_dict[600] += 1
+        elif s < 700:
+            size_dict[700] += 1
+        else:
+            size_dict[800] += 1
+    print(size_dict)
+    return size_dict
+
 def show_graph(d:dict):
     """
     this function read data from a python dict
@@ -70,20 +99,27 @@ def show_graph(d:dict):
     plt.xticks(x_pos, x)
 
 
+if __name__ == '__main__':
+    ## this is the result after run:
+    ## size_train= {100: 1077, 200: 17298, 300: 36400, 400: 42121, 500: 39558, 600: 34338, 700: 19799, 800: 33470}
+    ## size_test = {100: 219, 200: 3483, 300: 6772, 400: 6289, 500: 7343, 600: 5800, 700: 4109, 800: 10378}
+    
+    # train_path = crop_data_train
+    # d1 = count_by_size(train_path)
+    # show_graph(d1)
 
-train_path = crop_data_train
-d1 = count_by_size(train_path)
-show_graph(d1)
-
-test_path = crop_data_test
-d2 = count_by_size(test_path)
-show_graph(d2)
-
-plt.show()
+    # test_path = crop_data_test
+    # d2 = count_by_size(test_path)
+    # show_graph(d2)
 
 
-# this is the result after run:
-# size_train= {100: 1077, 200: 17298, 300: 36400, 400: 42121, 500: 39558, 600: 34338, 700: 19799, 800: 33470}
-# size_test = {100: 219, 200: 3483, 300: 6772, 400: 6289, 500: 7343, 600: 5800, 700: 4109, 800: 10378}
-#
+    wrong_sample_path = '/home/duongnh/project_f19/photo_attack/result/b0_ver_2/test_cp_16/wrong_sample_path.txt'
+    d3 = count_size_wrong_image(wrong_sample_path)
+    show_graph(d3)
+
+
+    plt.show()
+
+
+
 

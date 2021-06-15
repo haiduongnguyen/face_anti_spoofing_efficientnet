@@ -31,7 +31,7 @@ def show_image_size_survey():
     size_train= {100: 1077, 200: 17298, 300: 36400, 400: 42121, 500: 39558, 600: 34338, 700: 19799, 800: 33470}
     size_test = {100: 219, 200: 3483, 300: 6772, 400: 6289, 500: 7343, 600: 5800, 700: 4109, 800: 10378}
 
-    show_graph(size_train)
+    # show_graph(size_train)
     show_graph(size_test)
     plt.show()
 
@@ -88,8 +88,8 @@ def get_input_shape_model():
 
 
 if __name__ == '__main__':
-    ## task 1: survey in image size
-    # show_image_size_survey()
+    # task 1: survey in image size
+    show_image_size_survey()
 
     # task 2: show fnr, tpr, threshold graph
     # spoof_score_txt = '/home/duong/project/pyimage_research/result_model/version_2/result_new_b0_ver4/test_flow_from_directory_cp_01/score_prediction.txt'
