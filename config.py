@@ -12,6 +12,7 @@ work_place = '/home/duongnh/project_f19/photo_attack/code/face_anti_spoofing_eff
 
 
 data_path = '/home/duongnh/project_f19/photo_attack/data'
+
 crop_folder = data_path + '/data_crop'
 
 crop_data_train = crop_folder + '/train'
@@ -20,10 +21,12 @@ crop_data_test = crop_folder + '/test'
 
 
 result_all_model = '/home/duongnh/project_f19/photo_attack/result'
-
+if not os.path.exists(result_all_model):
+    make_dir(result_all_model)
 
 # folder of network to detect face
 detector =  work_place + '/face_detector'
+
 
 
 
