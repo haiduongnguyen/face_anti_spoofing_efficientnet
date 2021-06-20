@@ -171,12 +171,43 @@ def eval_opencv(all_checkpoint_path, index_cp, result_folder):
 
 if __name__ == '__main__':
 
-  # change model name
-  model_name = 'b0_ver_3'
+  # # change model name
+  # model_name = 'b0_ver_3'
+  # result_folder = result_all_model + '/' + model_name 
+  # all_checkpoint_path = result_folder + '/train/checkpoint_' + model_name
+  # # change list of cp will be evaluated
+  # index_cp_list = ['cp_06.h5' , 'cp_08.h5']
+  # for index_cp in index_cp_list:
+  #   eval_opencv(all_checkpoint_path, index_cp, result_folder)  
+
+  model_name = 'b4_ver_1'
   result_folder = result_all_model + '/' + model_name 
   all_checkpoint_path = result_folder + '/train/checkpoint_' + model_name
-
   # change list of cp will be evaluated
-  index_cp_list = ['cp_06.h5' , 'cp_08.h5']
+  index_cp_list = ['cp_02.h5' , 'cp_04.h5']
   for index_cp in index_cp_list:
     eval_opencv(all_checkpoint_path, index_cp, result_folder)  
+
+  model_name = 'b0_ver_2'
+  result_folder = result_all_model + '/' + model_name 
+  all_checkpoint_path = result_folder + '/train/checkpoint_' + model_name
+  # change list of cp will be evaluated
+  index_cp_list = ['cp_16.h5']
+  for index_cp in index_cp_list:
+    eval_opencv(all_checkpoint_path, index_cp, result_folder)  
+
+  model_name = 'b0_ver_1'
+  result_folder = result_all_model + '/' + model_name 
+  all_checkpoint_path = result_folder + '/train/checkpoint_' + model_name
+  # change list of cp will be evaluated
+  index_cp_list = ['cp_12.h5']
+  for index_cp in index_cp_list:
+    eval_opencv(all_checkpoint_path, index_cp, result_folder) 
+
+  model_name = 'b1_ver_1'
+  result_folder = result_all_model + '/' + model_name 
+  all_checkpoint_path = result_folder + '/train/checkpoint_' + model_name
+  # change list of cp will be evaluated
+  index_cp_list = ['cp_04.h5']
+  for index_cp in index_cp_list:
+    eval_opencv(all_checkpoint_path, index_cp, result_folder) 
