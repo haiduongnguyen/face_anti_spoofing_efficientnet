@@ -93,9 +93,15 @@ if __name__ == '__main__':
 
     # task 2: show fnr, tpr, threshold graph
     # spoof_score_txt = '/home/duong/project/pyimage_research/result_model/version_2/result_new_b0_ver4/test_flow_from_directory_cp_01/score_prediction.txt'
-    # spoof_score_txt = '/home/duong/project/pyimage_research/result_model/version_2/result_new_b4_ver01/test_flow_from_directory_cp_04/score_prediction.txt'
-    # spoof_score_txt = '/home/duong/project/pyimage_research/result_model/version_2/result_new_b1_ver1/test_tf_cp_15/score_prediction.txt'
+    # spoof_score_txt = '/home/duong/project/pyimage_research/result_model/version_2/result_photo_attack_f19_project/b4_ver_1/test_cp_02/score_prediction.txt'
+    
     # show_tpr_fpr_graph(spoof_score_txt)
+
+    import tensorflow as tf
+    import keras 
+
+    print(tensorflow.__version__)
+    print(keras.__version__)
 
 
     ## task 3: load model and get input shape of model
