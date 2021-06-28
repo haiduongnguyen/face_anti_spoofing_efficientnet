@@ -18,66 +18,65 @@ from tqdm import tqdm
 from model_zoo import *
 from PIL import Image
 
-image_size = 224
+def show_data_processing_keras(image_size, train_data_path):
+        valid_datagen = ImageDataGenerator()   
 
-validation_dir = '/home/duong/project/pyimage_research/Data/version_2/small_data_to_test/crop_data/test'
-valid_datagen = ImageDataGenerator()   
+        validation_generator = valid_datagen.flow_from_directory(
+                train_data_path,
+                target_size=(image_size, image_size),
+                batch_size=1,
+                shuffle= False,
+                class_mode='categorical',
+                interpolation="bilinear")
 
-validation_generator = valid_datagen.flow_from_directory(
-        validation_dir,
-        target_size=(image_size, image_size),
-        batch_size=1,
-        shuffle= False,
-        class_mode='categorical',
-        interpolation="bilinear")
+        fig, ax = plt.subplots(nrows=3, ncols=4, figsize=(15,15))
+        for i in range(3):
+                for j in range(4):
+                        # convert to unsigned integers for plotting
+                        image = next(validation_generator)[0]
+                        image = image.astype('uint8')
 
-# print(validation_generator.dtype)
+                        # changing size from (1, 200, 200, 3) to (200, 200, 3) for plotting the image
+                        image = np.squeeze(image)
 
-fig, ax = plt.subplots(nrows=3, ncols=4, figsize=(15,15))
+                        # plot raw pixel data
+                        ax[i][j].imshow(image)
+                        ax[i][j].axis('off')
 
-for i in range(3):
-    for j in range(4):
-        # convert to unsigned integers for plotting
-        image = next(validation_generator)[0]
-        image = image.astype('uint8')
+        ## data augmentation
+        valid_aug = ImageDataGenerator( rotation_range=20,
+        width_shift_range=0.2,
+        height_shift_range=0.2,
+        shear_range=0.2,
+        zoom_range=0.2,
+        horizontal_flip=True,
+        fill_mode='nearest',
+        brightness_range=[0.5,1.5])
+        valid_aug_generator = valid_aug.flow_from_directory(
+                train_data_path,
+                target_size=(image_size, image_size),
+                batch_size=1,
+                shuffle= False,
+                class_mode='categorical',
+                interpolation="bilinear")
+        fig, ax = plt.subplots(nrows=3, ncols=4, figsize=(15,15))
+        for i in range(3):
+                for j in range(4):
+                        # convert to unsigned integers for plotting
+                        image = next(valid_aug_generator)[0]
+                        image = image.astype('uint8')
+                        # changing size from (1, 200, 200, 3) to (200, 200, 3) for plotting the image
+                        image = np.squeeze(image)
+                        # plot raw pixel data
+                        ax[i][j].imshow(image)
+                        ax[i][j].axis('off')
 
-        # changing size from (1, 200, 200, 3) to (200, 200, 3) for plotting the image
-        image = np.squeeze(image)
-
-        # plot raw pixel data
-        ax[i][j].imshow(image)
-        ax[i][j].axis('off')
+        plt.show()
 
 
-## data augmentation
-valid_aug = ImageDataGenerator( rotation_range=20,
-      width_shift_range=0.2,
-      height_shift_range=0.2,
-      shear_range=0.2,
-      zoom_range=0.2,
-      horizontal_flip=True,
-      fill_mode='nearest',
-      brightness_range=[0.5,1.5])
-valid_aug_generator = valid_aug.flow_from_directory(
-        validation_dir,
-        target_size=(image_size, image_size),
-        batch_size=1,
-        shuffle= False,
-        class_mode='categorical',
-        interpolation="bilinear")
-fig, ax = plt.subplots(nrows=3, ncols=4, figsize=(15,15))
 
-for i in range(3):
-    for j in range(4):
-        # convert to unsigned integers for plotting
-        image = next(valid_aug_generator)[0]
-        image = image.astype('uint8')
-
-        # changing size from (1, 200, 200, 3) to (200, 200, 3) for plotting the image
-        image = np.squeeze(image)
-
-        # plot raw pixel data
-        ax[i][j].imshow(image)
-        ax[i][j].axis('off')
-
-plt.show()
+if __name__ == '__main__':
+        image_size = 224
+        train_data_path = '/home/duong/project/pyimage_research/Data/version_2/small_data_to_test/crop_data/test'
+        
+        show_data_processing_keras(image_size, train_data_path)

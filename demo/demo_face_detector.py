@@ -78,9 +78,7 @@ def use_image(img_path):
         (300, 300), (104.0, 177.0, 123.0))
     net.setInput(blob)
     detections = net.forward()
-    # time_end = datetime.datetime.now()
-    print(type(detections))
-    print(detections.shape)
+
     count_face = 0
     for i in range(0, detections.shape[2]):
         confidence = detections[0, 0, i, 2]
@@ -94,9 +92,12 @@ def use_image(img_path):
             if startX <= w and endX <= w and startY <= h and endY <= h:
                 # filter out weak detections
                 face = frame[startY:endY, startX:endX]
+                # expand face for presentation 
+                pad_face = 10
+                expand_face = frame[(startY - pad_face): (endY + pad_face) , (startX-pad_face): (endX + pad_face)]
+                cv2.imshow('face', expand_face)
                 if 0 not in face.shape:
-                    cv2.rectangle(frame, (startX, startY), (endX, endY), (0, 0, 255), 2)
-                    
+                    cv2.rectangle(frame, (startX, startY), (endX, endY), (0, 0, 255), 2)    
     time_end = datetime.datetime.now()
     print(count_face)
 
@@ -105,10 +106,12 @@ def use_image(img_path):
     # Display the resulting frame
     # cv2.imshow('img', img)
     cv2.imshow('frame', frame)
+    
 
     cv2.waitKey(0) 
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    img_path = '/home/duong/project/pyimage_research/image/version_2/image_to_test/ji_hyo.jpg'
+    # img_path = '/home/duong/project/pyimage_research/image/version_2/image_to_test/ji_hyo.jpg'
+    img_path = '/home/duong/Pictures/do an/kang_hana_1.png'
     use_image(img_path)

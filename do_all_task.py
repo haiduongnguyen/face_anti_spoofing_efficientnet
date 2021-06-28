@@ -79,8 +79,9 @@ def show_tpr_fpr_graph(spoof_score_txt):
 def get_input_shape_model():
     from keras.models import load_model
     import numpy as np
-    model_path = '/home/duong/project/pyimage_research/result_model/version_2/result_new_b0_ver4/cp_01.h5'
+    model_path = '/home/duong/project/pyimage_research/result_model/version_2/fail_augmentation/result_new_b4_ver01/cp_02.h5'
     my_model = load_model(model_path)
+    print(my_model.summary())
     input_model = my_model.input_shape
     width , height = input_model[1], input_model[2]
     print(width, height)
@@ -89,7 +90,7 @@ def get_input_shape_model():
 
 if __name__ == '__main__':
     # task 1: survey in image size
-    show_image_size_survey()
+    # show_image_size_survey()
 
     # task 2: show fnr, tpr, threshold graph
     # spoof_score_txt = '/home/duong/project/pyimage_research/result_model/version_2/result_new_b0_ver4/test_flow_from_directory_cp_01/score_prediction.txt'
@@ -97,15 +98,9 @@ if __name__ == '__main__':
     
     # show_tpr_fpr_graph(spoof_score_txt)
 
-    import tensorflow as tf
-    import keras 
 
-    print(tensorflow.__version__)
-    print(keras.__version__)
-
-
-    ## task 3: load model and get input shape of model
-    # get_input_shape_model()
+    # task 3: load model and get input shape of model
+    get_input_shape_model()
     
     ## u dont know shit
     # {"installed":{"client_id":"617384173899-lhsd59eokdd9aj4f7h8g60ch4v215c6u.apps.googleusercontent.com","project_id":"movefile-10122020","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"SWDgjfo66O7gkj0OS-zHfhJs","redirect_uris":["urn:ietf:wg:oauth:2.0:oob","http://localhost"]}}

@@ -21,19 +21,6 @@ crop_data_test = crop_folder + '/test'
 
 
 result_all_model = '/home/duongnh/project_f19/photo_attack/result'
-if not os.path.exists(result_all_model):
-    make_dir(result_all_model)
 
 # folder of network to detect face
 detector =  work_place + '/face_detector'
-
-
-
-
-original_metas = work_place + '/make_json/metas' 
-
-# json here is original label 43 attribute
-folder_save_json =  work_place + '/folder_save_json'
-# make_dir(folder_save_json)
-helper_train_json_path = folder_save_json + '/helper_train_json.json'
-helper_test_json_path =  folder_save_json + '/helper_test_json.json'

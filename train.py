@@ -12,8 +12,6 @@ import statistics
 from config import *
 from model_zoo import *
 from eer_calculation import cal_metric
-from focal_losses import categorical_focal_loss
-# from focal_loss import BinaryFocalLoss, SparseCategoricalFocalLoss
 from PIL import Image, ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
