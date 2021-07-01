@@ -100,7 +100,14 @@ if __name__ == '__main__':
 
 
     # task 3: load model and get input shape of model
-    get_input_shape_model()
+    # get_input_shape_model()
     
-    ## u dont know shit
-    # {"installed":{"client_id":"617384173899-lhsd59eokdd9aj4f7h8g60ch4v215c6u.apps.googleusercontent.com","project_id":"movefile-10122020","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"SWDgjfo66O7gkj0OS-zHfhJs","redirect_uris":["urn:ietf:wg:oauth:2.0:oob","http://localhost"]}}
+    # task 4:
+    import os
+    img_folder =  '/home/duong/project/pyimage_research/image/version_2/image_to_test'
+    count = 0
+    for img_name in os.listdir(img_folder):
+        if 'predict' in img_name:
+            os.remove(os.path.join(img_folder, img_name))
+        count += 1
+    print(count)

@@ -53,22 +53,28 @@ def demo_image(model, spoof_threshold, img_path):
                         j = 1
                     else:
                         j = 0
+                    if w < 800:
+                        font_rate = 1
+                        font_size = 1
+                    else:
+                        font_rate = 4
+                        font_size = 3
                     if j == 0:
                         cv2.rectangle(frame, (startX, startY), (endX, endY), (0, 255, 0), 3)
-                        _label = "Liveness: {:.4f}".format(preds[j])
-                        cv2.putText(frame, _label, (startX, startY - 10), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 3)
+                        _label = "Live-Score: {:.4f}".format(preds[j])
+                        cv2.putText(frame, _label, (startX, startY - 10), cv2.FONT_HERSHEY_SIMPLEX, font_rate, (0, 255, 0), font_size)
                     else:
                         cv2.rectangle(frame, (startX, startY), (endX, endY), (0, 0, 255), 3)
-                        _label = "Fake: {:.4f}".format(preds[j])
-                        cv2.putText(frame, _label, (startX, startY - 10), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 3)
+                        _label = "Spoof-Score: {:.4f}".format(preds[j])
+                        cv2.putText(frame, _label, (startX, startY - 10), cv2.FONT_HERSHEY_SIMPLEX, font_rate, (0, 0, 255), font_size)
                 else:
                     return -1
     if count_face > 0:
-        # try:
-        #     parts = img_path.split(".")
-        #     cv2.imwrite(parts[0] + '_eval.' + parts[1], frame)
-        # except:
-        #     print('error img: ', img_path)
+        try:
+            parts = img_path.split(".")
+            cv2.imwrite(parts[0] + '_predict.' + parts[1], frame)
+        except:
+            print('error img: ', img_path)
         return j
     if count_face == 0:
         print(img_path)
@@ -114,11 +120,11 @@ if __name__ == '__main__':
 
     labels = ['live', 'spoof']
     # load full model (.h5 file)
-    model_path = '/home/duong/project/pyimage_research/code/version2_change_data/efficient_b1.h5'
-    spoof_threshold = 0.078
+    model_path = '/home/duong/project/pyimage_research/result_model/version_2/fail_augmentation/result_new_b0_ver4/cp_02.h5'
+    spoof_threshold = 0.1918
     model = load_model(model_path)
 
-    folder_path = '/home/duong/Desktop/test_spoof_card'
+    folder_path = '/home/duong/project/pyimage_research/image/version_2/image_to_test'
     count_live, count_spoof, count_error = demo_folder_image(model, spoof_threshold, folder_path)
     print('live : ', count_live)
     print('spoof : ', count_spoof)

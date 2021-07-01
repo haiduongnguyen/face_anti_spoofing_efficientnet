@@ -1,12 +1,12 @@
 import numpy as np
 import os
 import cv2
-from keras.models import load_model as load_model
+from tensorflow.keras.models import load_model 
 import datetime
 
-detector = './face_detector'
+detector = '/home/duong/project/pyimage_research/code/version2_change_data/face_detector'
 
-face_threshold = 0.7
+face_threshold = 0.5
 
 
 # loading models
@@ -112,6 +112,7 @@ def use_image(img_path):
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    # img_path = '/home/duong/project/pyimage_research/image/version_2/image_to_test/ji_hyo.jpg'
-    img_path = '/home/duong/Pictures/do an/kang_hana_1.png'
-    use_image(img_path)
+    # # img_path = '/home/duong/project/pyimage_research/image/version_2/image_to_test/ji_hyo.jpg'
+    # img_path = '/home/duong/Pictures/do an/kang_hana_1.png'
+    # use_image(img_path)
+    use_camera()
