@@ -92,10 +92,10 @@ if __name__ == '__main__':
     # task 1: survey in image size
     # show_image_size_survey()
 
-    # task 2: show fnr, tpr, threshold graph
-    # spoof_score_txt = '/home/duong/project/pyimage_research/result_model/version_2/result_new_b0_ver4/test_flow_from_directory_cp_01/score_prediction.txt'
+    ## task 2: show fnr, tpr, threshold graph
+    # # spoof_score_txt = '/home/duong/project/pyimage_research/result_model/version_2/result_photo_attack_f19_project/b0_ver_2/test_cp_16/score_prediction.txt'
     # spoof_score_txt = '/home/duong/project/pyimage_research/result_model/version_2/result_photo_attack_f19_project/b4_ver_1/test_cp_02/score_prediction.txt'
-    
+
     # show_tpr_fpr_graph(spoof_score_txt)
 
 
@@ -103,11 +103,11 @@ if __name__ == '__main__':
     # get_input_shape_model()
     
     # task 4:
-    import os
-    img_folder =  '/home/duong/project/pyimage_research/image/version_2/image_to_test'
-    count = 0
-    for img_name in os.listdir(img_folder):
-        if 'predict' in img_name:
-            os.remove(os.path.join(img_folder, img_name))
-        count += 1
-    print(count)
+    # import os
+    # img_folder =  '/home/duong/project/pyimage_research/image/version_2/image_to_test'
+    # count = 0
+    # for img_name in os.listdir(img_folder):
+    #     if 'predict' in img_name:
+    #         os.remove(os.path.join(img_folder, img_name))
+    #     count += 1
+    # print(count)
